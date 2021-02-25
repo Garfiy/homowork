@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="num">
+        <button @click='jian'>-</button>
+        <input type="number" name="" id="" v-model="n">
+        <button @click='jia'>+</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#num',
+            data:{
+                n:0
+            },
+            methods:{
+                jia:function(){
+                    this.n++;
+                    if(this.n>=10){
+                        this.n=10;
+                    }
+                },
+                jian:function(){
+                    this.n--;
+                    if(this.n<=0){
+                        this.n=0;
+                    }
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
