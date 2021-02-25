@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="dec">-</button><input type="text" v-model="num" @blur="blur"><button @click="pro">+</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                num: 0,
+            },
+            methods: {
+                dec: function() {
+                    this.num--;
+                    this.judgeNum();
+                },
+                pro: function() {
+                    this.num++;
+                    this.judgeNum();
+                },
+                blur: function() {
+                    this.num = document.querySelector('input').value;
+                    this.judgeNum();
+                },
+                judgeNum: function() {
+                    if (this.num < 0) {
+                        this.num = 0;
+                    } else if (this.num > 10) {
+                        this.num = 10
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
