@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <!-- 插值语句 插入msg对象对应的值 -->
+        <b>{{msg}}</b>
+        <!-- v-pre 忽略替换，保持html原生的渲染逻辑 -->
+        <p v-pre></p>
+        <!-- v-text 以文本的形式插入内容 -->
+        <p v-text="msg+html"></p>
+        <p v-html="html"></p>
+        <p v-once>{{msg}}</p>
+        <input type="text" v-model="msg">
+        <input type="text" v-model="html">
+        <button @click="showMsg">showMsg</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello vue',
+                html: '<b>hellow vue</b>',
+            },
+            methods: {
+                showMsg: function() {
+                    console.log(this.msg);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
