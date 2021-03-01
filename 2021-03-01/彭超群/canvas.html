@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+    <script>
+        class Circle {
+            constructor(obj, data) {
+                this.myCanvas = document.querySelector(obj);
+                this.ctx = this.myCanvas.getContext('2d');
+                //圆心点
+                this.x0 = this.ctx.canvas.width / 2;
+                this.y0 = this.ctx.canvas.height / 2;
+                //半径
+                this.r = 100;
+                //每份的份数
+                this.data1 = [];
+                //每份的标题
+                this.data2 = [];
+                data.forEach(v => {
+                    this.data1.push(v.num);
+                    this.data2.push(v.title);
+                });
+                //总份数
+                this.sum1 = 0;
+                this.data1.forEach(v => {
+                    this.sum1 += v;
+                });
+                //总弧度
+                this.sum2 = 2 * Math.PI / this.sum1;
+                //每份的弧度
+                this.data3 = [];
+                this.data1.forEach(v => {
+                    this.data3.push(this.sum2 * v);
+                });
+                //开始位置
+                this.start = 0;
+                //结束位置
+                this.end = 0;
+                this.init(data);
+            };
+            //初始化
+            init(data) {
+                this.copies(data);
+            };
+            //随机颜色
+            getBg() {
+                var r = Math.floor(Math.random() * 256);
+                var g = Math.floor(Math.random() * 256);
+                var b = Math.floor(Math.random() * 256);
+                return `rgb(${r},${g},${b})`;
+            };
+            //份数 画圆
+            copies(data) {
+                this.data3.forEach((v, i) => {
+                    this.end = v + this.start;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(this.x0, this.y0);
+                    this.ctx.arc(this.x0, this.y0, this.r, this.start, this.end);
+                    this.bg = this.getBg(); //保存随机颜色
+                    this.ctx.fillStyle = this.bg;
+                    this.ctx.fill();
+                    this.strings(i);
+                    this.start += v;
+                });
+            };
+            //线
+            strings(i) {
+                let r1 = (this.end + this.start) / 2;
+                this.x1 = this.x0 + Math.cos(r1) * (this.r + 30);
+                this.y1 = this.y0 + Math.sin(r1) * (this.r + 30);
+                //字
+                this.ctx.beginPath();
+                this.ctx.font = '16px s';
+                this.ctx.textAlign = this.x1 >= this.x0 ? 'left' : 'right';
+                this.ctx.fillText(this.data2[i], this.x1, this.y1 - 5);
+                this.fontW = this.ctx.measureText(this.data2[i]).width;
+                //线
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.x0, this.y0);
+                this.ctx.lineTo(this.x1, this.y1);
+                this.ctx.lineTo(this.x1 + (this.x1 >= this.x0 ? this.fontW : -this.fontW), this.y1);
+                this.ctx.strokeStyle = this.bg;
+                this.ctx.stroke();
+                this.rectangle(i);
+            };
+            rectangle(i) { //矩形 文字
+                this.ctx.beginPath();
+                this.ctx.rect(20, i * 30 + 20, 40, 20);
+                this.ctx.fill();
+                this.ctx.beginPath();
+                this.ctx.font = '16px s';
+                this.ctx.textAlign = 'left';
+                this.ctx.textBaseline = 'bottom';
+                this.ctx.fillText(this.data2[i], 20 + 40 + 10, i * 30 + 20 * 2);
+            };
+        };
+        var data = [{
+            num: 30,
+            title: '2万'
+        }, {
+            num: 20,
+            title: '10万'
+        }, {
+            num: 15,
+            title: '30万'
+        }, {
+            num: 5,
+            title: '100万'
+        }, {
+            num: 2,
+            title: '200万'
+        }];
+        new Circle('canvas', data);
+    </script>
+</body>
+
+</html>
