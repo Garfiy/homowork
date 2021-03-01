@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯</title>
+    <style>
+        h3 {
+            width: 40%;
+            border: 1px solid red;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3 v-text="message"></h3>
+        <button @click="show">开始</button>
+        <button @click="stop">暂停</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                message: "《春晓》 作者：孟浩然 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少",
+                timer: null
+            },
+            methods: {
+                show() {
+                    if (this.timer != null) return;
+                    this.timer = setInterval(() => {
+                        let start = this.message.substring(0, 1);
+                        let end = this.message.substring(1);
+                        this.message = end + start;
+                    }, 100)
+                },
+                stop() {
+                    clearInterval(this.timer)
+                    this.timer = null
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
