@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+    <script>
+
+        var can=document.querySelector('canvas');
+        this.ctx = can.getContext('2d');
+        var getColor=function() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        };
+
+
+var canW=ctx.canvas.width/2;
+var canH=ctx.canvas.height/2;
+
+        var data = [40, 50, 20, 15, 50];
+        // 数据转换 弧度
+        var sum = 0;
+
+        data.forEach(v => {
+            sum += v; // 总数
+        })
+
+        var arr = [];
+        data.forEach(v => {
+            arr.push(2 * Math.PI / sum * v);// 每一份的弧度
+        })
+        var start = 0;
+        var end = 0;
+        for (let i = 0; i < arr.length; i++) {
+            var color = getColor();
+            end = arr[i] + start;  // 结束的位置 等于 开始的位置 加下一次的位置
+            ctx.beginPath();
+            ctx.moveTo(canW, canH);
+            ctx.arc(canW, canH, 100, start, end);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+
+            // 一半的弧度是多少
+            // 自身的所占的弧度 再算出一半  
+            // 再加上开始的弧度 = 需要的弧度
+            let r1 = (end - start) / 2 + start;  // 一个弧的 一半   
+            // (end+start)/2
+            let x1, y1;
+
+            y1 = canH + Math.sin(r1) * (100 + 30);
+            // y轴的坐标是 sin(弧度)* 半径
+            // x轴的坐标是 cos(弧度) *半径
+            x1 = canW + Math.cos(r1) * (100 + 30);
+            ctx.beginPath();
+            ctx.moveTo(canW, canH);
+            ctx.lineTo(x1, y1);
+            ctx.lineTo(x1 + (x1 >= canW ? 40 : -40), y1);
+            ctx.strokeStyle = color;
+            ctx.stroke();
+
+            start += arr[i];   // 开始的位置  累加上次结束的位置
+            ctx.beginPath();
+            ctx.font = '20px s';
+            ctx.textAlign = x1 >= canW ? 'left' : 'right';
+            ctx.fillText(data[i] + '万', x1, y1 - 5);
+
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.rect(20, i * 50 + 50, 50, 30);
+            ctx.textAlign = 'left';
+            ctx.fillText(data[i] + '万', 80, i * 50 + 75);
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+
+    </script>
+</body>
+
+</html>
