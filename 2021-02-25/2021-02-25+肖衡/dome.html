@@ -24,18 +24,24 @@
             },
             methods:{
                 jian:function(){
-                    if(this.num <= 0){
-                        this.num =0;
-                    }else{
-                        this.num--;
-                    }
+                    // if(this.num <= 0){
+                    //     this.num =0;
+                    // }else{
+                    //     this.num--;
+                    // }
+                    this.num > 0? this.num--:this.num =0;
+                    
                 },
                 jia:function(){
-                    if(this.num >= 10){
-                        this.num =10;
-                    }else{
-                        this.num++;
-                    }
+                    // if(this.num >= 10){
+                    //     this.num =10;
+                    // }else{
+                    //     this.num++;
+                    // }
+                    //1.num 是否需要增加
+                    //2.如果小于0 进行操作
+                    //3.如果大于10 依然为10
+                    this.num < 10? this.num++:this.num =10;
                 }
             }
         })
