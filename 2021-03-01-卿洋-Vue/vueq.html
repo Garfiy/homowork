@@ -1,0 +1,48 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯</title>
+ 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show">应援</button>
+        <button @click="stop">暂停</button>
+        <h3 v-text="message"></h3>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                message: "《春晓》 作者： 孟浩然 春眠不觉晓， 处处闻啼鸟。 夜来风雨声， 花落知多少",
+                timer: null //在data上定义定时器timer，默认为null
+            },
+            methods: {
+                show() {
+                    if (this.timer != null) return;
+                    this.timer = setInterval(() => {
+                        //获取到头的第一个字符
+                        let start = this.message.substring(0, 1);
+                        //获取到后面的所有字符
+                        let end = this.message.substring(1);
+                        //重新拼接得到新的字符串，并赋值给this.message
+                        this.message = end + start;
+                    }, 300)
+                },
+                stop() {
+                    //清除定时器
+                    clearInterval(this.timer)
+                    //清除定时器之后，需要重新将定时器置为null
+                    this.timer = null
+                }
+            }
+        })
+    </script>
+</body>
+
+</html> -->
