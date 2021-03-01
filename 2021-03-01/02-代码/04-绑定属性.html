@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .div1 {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .div_active {
+            width: 100px;
+            height: 100px;
+            background-color: sandybrown;
+        }
+        
+        .color1 {
+            background-color: sandybrown;
+        }
+        
+        .color2 {
+            background-color: seagreen;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 1:绑定对应类型的参数 -->
+        <!-- 2:修改类名参数对象 -->
+        <!-- 3:类名可以直接进行字符串拼接 但是加空格 -->
+        <!-- 4:{className:boolear} className 对应样式表的类名 boolear:是对应vue.data里的数据对象-->
+        <div v-bind:class="{div1:classDiv1,color1:classActive,color2:!classActive}"></div>
+        <button @click="changeClass">改变类名</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                className: 'div1',
+                classActive: true,
+                classDiv1: true,
+            },
+            methods: {
+                changeClass: function() {
+                    // this.className += ' div_active';
+                    this.classActive = !this.classActive;
+
+                    // !=
+                    // 判断表达式,判断是否 不等于
+
+                    // =!
+                    // 赋值表达式,把值取反并赋值
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
