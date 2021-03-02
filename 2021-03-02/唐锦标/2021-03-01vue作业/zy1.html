@@ -14,11 +14,8 @@
 
 <body>
     <canvas width="1000" height="600"></canvas>
-<<<<<<< HEAD
-=======
     <br>
     <div style="color: green;">优</div>
->>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
     <script>
         var mycanvas = document.querySelector("canvas");
         var ctx = mycanvas.getContext("2d");
@@ -29,15 +26,9 @@
         })
         var angleList = [];
         data.forEach(val => {
-<<<<<<< HEAD
-                angleList.push((val / total) * Math.PI * 2);
-            })
-            /* 3. 根据弧度绘制 扇形 */
-=======
             angleList.push((val / total) * Math.PI * 2);
         })
         /* 3. 根据弧度绘制 扇形 */
->>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
         var w = mycanvas.width;
         var h = mycanvas.height;
         var x0 = w / 2;
@@ -84,10 +75,6 @@
             ctx.textBaseline = "top";
             ctx.fillText(data1[i], 100, 14 + (i * 20));
             ctx.fillText(data1[i], (x2 += x2 > x0 ? -34 : +10), y2 - 12)
-<<<<<<< HEAD
-
-=======
->>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
         }
     </script>
 </body>

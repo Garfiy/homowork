@@ -12,6 +12,11 @@
 
 <body>
     <canvas width="600" height="400"></canvas>
+<<<<<<< HEAD
+=======
+    <br>
+    <div style="color: green;">优</div>
+>>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
     <script>
         var data = [{
             num: 30,
@@ -28,7 +33,11 @@
         }, {
             num: 2,
             title: "200万"
+<<<<<<< HEAD
         }, ];
+=======
+        },];
+>>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
         var canvas = document.querySelector('canvas');
         var ctx = canvas.getContext('2d');
         var space = 20;
@@ -67,7 +76,11 @@
             ctx.arc(x0, y0, r, startAngle, endAngle);
             ctx.closePath();
             ctx.fill();
+<<<<<<< HEAD
             ctx.stroke();
+=======
+            // ctx.stroke();
+>>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
 
             var r1 = (endAngle + startAngle) / 2;
             var x3 = x0 + Math.cos(r1) * (r + 20);

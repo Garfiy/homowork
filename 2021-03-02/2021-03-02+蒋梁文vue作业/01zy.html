@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="num1">
+        <select v-model="select">
+        <option >+</option>
+        <option >-</option>
+        <option >*</option>
+        <option >/</option>
+    </select>
+        <input type="text" v-model="num2">
+        <button @click="sum">=</button>
+        <span v-text="result"></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                num1: 0,
+                num2: 0,
+                select: '+',
+                result: null
+            },
+            methods: {
+                sum: function() {
+                    if (this.select == '+') {
+                        this.result = parseInt(this.num1) + parseInt(this.num2);
+                    } else if (this.select == '-') {
+                        this.result = parseInt(this.num1) - parseInt(this.num2);
+                    } else if (this.select == '*') {
+                        this.result = parseInt(this.num1) * parseInt(this.num2);
+                    } else if (this.select == '/') {
+                        this.result = parseInt(this.num1) / parseInt(this.num2);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

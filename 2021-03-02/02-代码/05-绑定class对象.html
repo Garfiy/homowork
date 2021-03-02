@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .textColor {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        
+        .textSize {
+            width: 200px;
+            height: 200px;
+            background-color: hotpink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <div id="div1" v-bind:class="classObjs"></div> -->
+        <!-- <div v-bind:class="classArray"></div> -->
+        <!-- <div :class="classObjsAndArray"></div> -->
+        <div :class="classArrayAndObj"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const vw = new Vue({
+            el: '#app',
+            data: {
+                // 类的绑定可以直接绑定一个对象
+                // 表对象的 属性名 表示样式单类名
+                // 对象的 属性值 表示是否使用该样式
+                classObjs: {
+                    textColor: true,
+                    textSize: true,
+                },
+
+                // 类的绑定可以绑定一个数组
+                // 数组的每个值 就是一个类名
+                classArray: ['', 'textColor'],
+
+                // 对象里是不能用数组的
+                classObjsAndArray: {
+                    textColor: true,
+                    array: ['textColor'],
+                },
+
+                // 数组里面 是可以嵌套对象的
+                // 数组里有对象时 按照对象的解析逻辑进行解析
+                classArrayAndObj: [
+                    'textColor', {
+                        textSize: true,
+                    }
+                ]
+            }
+        })
+
+        // 根据类型名获取元素  参数不选要加#号
+        // let div1 = document.getElementById('div1');
+        // console.log(div1);
+        // 获取去元素的类名字符串 会包含所有类名
+        // console.log(div1.className);
+        // 获取元素类名的数组对象 每个值都是一个类名
+        // console.log(div1.classList);
+    </script>
+</body>
+
+</html>
