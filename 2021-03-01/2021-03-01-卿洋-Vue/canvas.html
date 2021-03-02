@@ -55,10 +55,11 @@
         var startAngle = 0;
         for (var i = 0; i < angleList.length; i++) {
             var color = getRandom();
+            ctx.fillStyle = color;
+
             ctx.beginPath();
             var y2 = y1 + space * i;
             ctx.rect(x1, y2, rectW, rectH);
-            ctx.fillStyle = color;
             ctx.fill();
             ctx.textAlign = 'right';
             ctx.fillText(data[i].title, x1 + 80, y2 + 15);
@@ -69,10 +70,10 @@
             ctx.arc(x0, y0, r, startAngle, endAngle);
             ctx.closePath();
             ctx.fill();
-            ctx.stroke();
+            // ctx.stroke();
 
             var r1 = (endAngle + startAngle) / 2;
-            var x3 = x0 + Math.cos(r1) * (r + 20);
+            var x3 = x0 + Math.sin(r1) * (r + 20);
             var y3 = y0 + Math.cos(r1) * (r + 20);
             ctx.textAlign = 'center';
             ctx.fillText(data[i].title, x3 + (x3 > x0 ? 20 : -20), y3);
@@ -83,6 +84,7 @@
             ctx.lineTo(x3 + (x3 > x0 ? 50 : -50), y3);
             ctx.strokeStyle = color;
             ctx.stroke();
+
             startAngle += angleList[i];
         }
 

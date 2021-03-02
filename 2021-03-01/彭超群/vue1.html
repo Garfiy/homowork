@@ -16,6 +16,12 @@
         <button @click="itme1">开始</button>
         <button @click="itme2">停止</button>
     </div>
+
+    <br>
+    <div style="color: green;">
+        优
+    </div>
+
     <script>
         var v = new Vue({
             el: '#app',
@@ -26,7 +32,7 @@
                 text1: ''
             },
             methods: {
-                itme1: function() {
+                itme1: function () {
                     if (this.flag) {
                         this.flag = false;
                         this.itme = setInterval(() => {
@@ -35,11 +41,11 @@
                         }, this.speed);
                     }
                 },
-                itme2: function() {
+                itme2: function () {
                     clearInterval(this.itme);
                     this.flag = true;
                 },
-                keyup: function() {
+                keyup: function () {
                     if (!this.flag) {
                         clearInterval(this.itme);
                         this.flag = true;
