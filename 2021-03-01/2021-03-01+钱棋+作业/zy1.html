@@ -15,6 +15,15 @@
         <button @click='start(speed)'>开始</button>
         <button @click='pause'>暂停</button>
     </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>在vue用不要使用获取dom元素的相关操作</li>
+            <li>连点开始按钮的时候 跑马等效果会卡住 特别是速度在 500 ms 以上时，会直接不移动了</li>
+        </ol>
+    </div>
+
     <script src="js/vue.js"></script>
     <script>
         var vm = new Vue({
