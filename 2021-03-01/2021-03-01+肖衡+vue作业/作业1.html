@@ -11,7 +11,7 @@
 <body>
     <div id="app">
         <div v-text="msg">{</div>
-        速度: <input type="text" v-model="times"><br>
+        速度: <input type="text" v-model="times" v-on:keyup="inputKeyUp"><br>
         <button @click="startTiming(times,$event)">开始</button> <button @click="stopTiming">停止</button>
     </div>
 
@@ -49,6 +49,10 @@
                     clearInterval(time);
                     time = null;
                     this.flag = true;
+                },
+                inputKeyUp:function(){
+                    this.stopTiming();
+                    this.startTiming();
                 }
             }
         })
