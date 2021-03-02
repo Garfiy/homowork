@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="500"></canvas>
+    <script>
+        var data = [{
+            num: 30,
+            title: '2万'
+        }, {
+            num: 20,
+            title: '10万'
+        }, {
+            num: 15,
+            title: '30万'
+        }, {
+            num: 5,
+            title: '100万'
+        }, {
+            num: 2,
+            title: '200万'
+        }]
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+        var space = 20;
+        var x1 = space;
+        var y1 = space;
+        var rectW = 30;
+        var rectH = 15;
+        ctx.font = '16px red';
+
+        var x0 = canvas.width / 2;
+        var y0 = canvas.height / 2;
+        var r = 100
+        var num = 0;
+        data.forEach(val => {
+            num += val.num;
+        })
+        var angle = 2 * Math.PI / num;
+        var angleList = [];
+        data.forEach((val, i) => {
+            angleList.push(val.num * angle);
+        });
+        var startAngle = 0;
+        for (var i = 0; i < angleList.length; i++) {
+            var color = getRandom();
+            ctx.fillStyle = color;
+
+            ctx.beginPath();
+            var y2 = y1 + space * i;
+            ctx.rect(x1, y2, rectW, rectH);
+            ctx.fill();
+            ctx.textAlign = 'right';
+            ctx.fillText(data[i].title, x1 + 80, y2 + 15);
+
+            var endAngle = startAngle + angleList[i];
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.arc(x0, y0, r, startAngle, endAngle);
+            ctx.closePath();
+            ctx.fill();
+            // ctx.stroke();
+
+            var r1 = (endAngle + startAngle) / 2;
+            var x3 = x0 + Math.sin(r1) * (r + 20);
+            var y3 = y0 + Math.cos(r1) * (r + 20);
+            ctx.textAlign = 'center';
+            ctx.fillText(data[i].title, x3 + (x3 > x0 ? 20 : -20), y3);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.lineTo(x0, y0);
+            ctx.lineTo(x3, y3);
+            ctx.lineTo(x3 + (x3 > x0 ? 50 : -50), y3);
+            ctx.strokeStyle = color;
+            ctx.stroke();
+
+            startAngle += angleList[i];
+        }
+
+        function getRandom() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return`rgb(${r},${g},${b})`;
+        }
+    </script>
+</body>
+
+</html>

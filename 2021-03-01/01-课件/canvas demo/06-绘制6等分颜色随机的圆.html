@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+    <script>
+        var mycanvas = document.querySelector("canvas");
+        var ctx = mycanvas.getContext("2d");
+
+        var w = mycanvas.width;
+        var h = mycanvas.height;
+
+        /* 分成几等分 */
+        var num = 2;
+        /* 一份占多少弧度 */
+        var angle = Math.PI * 2 / num;
+
+        /* 设置圆弧的中心位置 */
+        var x0 = w / 2;
+        var y0 = h / 2;
+
+        /* 获取随机的颜色 */
+        function getRandomColor() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        /* 上一次的结束位置 是下一次的起点位置 */
+        /* 画圆弧 */
+        // for (var i = 0; i < num; i++) {
+        //     var startAngle = i * angle;  // 0 60 120
+        //     var endAngle = (i + 1) * angle; // 60 120 180
+
+        //     ctx.beginPath();
+        //     ctx.moveTo(x0,y0);
+        //     ctx.arc(x0, y0, 150, startAngle, endAngle);
+        //     ctx.fillStyle = getRandomColor();
+        //     ctx.fill();
+        // }
+
+        /* 统计存款额度 */
+        /* 2w 30个 */
+        /* 10w 20个 */
+        /* 30w 15个 */
+        /* 100w 5个 */
+        /* 200w 2个 */
+
+        var data = [30, 20, 15, 5, 2];
+        num = eval(data.join("+"));
+        angle = Math.PI * 2 / num;
+        let j = 0;
+        for (var i = 0; i < num; i = i + data[j], j++) {
+            console.log(i, j);
+            var startAngle = i * angle;  // 0 60 120
+            var endAngle = (i + data[j]) * angle; // 60 120 180
+            console.log(startAngle, endAngle);
+
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.arc(x0, y0, 150, startAngle, endAngle);
+            ctx.fillStyle = getRandomColor();
+            ctx.fill();
+        }
+    </script>
+
+
+
+</body>
+
+</html>

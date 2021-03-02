@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <p ref="msg" v-text="text"></p><br>
+        速度
+        <input @keyup="keyup" v-model="speed" type="text" name="" id="">
+        <button @click="start">开始</button>
+        <button @click="finish">停止</button>
+    </div>
+
+    <br>
+    <div style="color: green;">
+        优
+    </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>写完代码记得格式化</li>
+        </ol>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                speed: 1000,
+                text: '《春晓》作者：孟浩然春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。',
+                flag: true,
+
+            },
+            methods: {
+                start: function () {
+                    // clearInterval(this.time);
+
+                    // 速度转型
+                    this.speed = parseInt(this.speed);
+                    // 判断点击一次
+                    if (this.flag) {
+                        this.flag = false;
+                        // 设定定时器
+                        this.timer = setInterval(() => {
+                            // 处理字符串
+                            let msg = this.text.substr(0, 1);
+                            let msg1 = this.text.substr(1);
+                            this.text = msg1 + msg;
+
+
+                        }, this.speed)
+                        console.log(this.timer);
+                    }
+                },
+                finish: function () {
+                    console.log(this.timer);
+                    clearInterval(this.timer);
+                    // 结束 停止 定时 改变flag
+                    this.flag = true;
+
+                },
+                keyup: function () {
+                    if (!this.flag) {
+                        clearInterval(this.timer);
+                        this.flag = true;
+                        this.start();
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

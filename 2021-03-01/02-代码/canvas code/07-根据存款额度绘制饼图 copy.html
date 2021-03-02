@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+    <script>
+        var mycanvas = document.querySelector("canvas");
+        var ctx = mycanvas.getContext("2d");
+
+        /* 统计存款额度 72个*/
+        /* 2w 30个 */
+        /* 10w 20个 */
+        /* 30w 15个 */
+        /* 100w 5个 */
+        /* 200w 2个 */
+        // 30/72 * 360
+        var data = [30, 20, 30, 20, 10];
+        /* 1. 首先 得将数据转换成弧度  */
+        /* 记录数据的总数 */
+        var total = 0;
+        data.forEach((v) => {
+            // total += v;
+            total = total + v;
+        })
+        console.log(total);
+
+        /* 声明一个数组 存计算好的弧度 */
+        var angleList = [];
+        /* 2. 再次 取到数组中的每一个数 计算他占总数的多少 从而计算出占圆的份数 */
+        data.forEach(v => {
+            angleList.push(2 * Math.PI / total * v);
+        })
+        console.log(angleList);
+
+        /* 3. 根据弧度绘制 扇形 */
+        var w = mycanvas.width;
+        var h = mycanvas.height;
+        var r = 100;
+        var x0 = w / 2;
+        var y0 = h / 2;
+
+        /* 获取随机的颜色 */
+        function getRandomColor() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        /* 最开始的弧度 0 */
+        let stratAngle = 0;
+        /* 结束的弧度 item */
+        for (let i = 0; i < angleList.length; i++) {
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.arc(x0, y0, r, stratAngle, stratAngle + angleList[i]);
+            ctx.closePath();
+            ctx.stroke();
+
+            stratAngle += angleList[i];
+        }
+    </script>
+</body>
+
+</html>

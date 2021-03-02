@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p class="msg">《春晓》 作者：孟浩然 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。</p>
+        速度: <input type="text" v-model="speed" v-on:keyup="start(speed)"><br>
+        <button @click='start(speed)'>开始</button>
+        <button @click='pause'>暂停</button>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                speed: 100,
+                time: '',
+            },
+            methods: {
+                start: function() {
+                    clearInterval(this.time);
+                    let msg = document.querySelector('.msg');
+                    this.time = setInterval(function() {
+                        let msgValue = msg.innerText;
+                        let start = msgValue.substring(0, 1);
+                        let end = msgValue.substring(1);
+                        msg.innerText = end + start;
+                    }, this.speed);
+                },
+                pause: function() {
+                    clearInterval(this.time);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

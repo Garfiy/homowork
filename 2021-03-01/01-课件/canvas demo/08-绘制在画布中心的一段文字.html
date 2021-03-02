@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+    <script>
+        var mycanvas = document.querySelector("canvas");
+        var ctx = mycanvas.getContext("2d");
+
+        /* 在画布的中心画一段文字 */
+        var str = "今天,是个好日子";
+
+        /* 确定画布的中心点 */
+        var w = mycanvas.width;
+        var h = mycanvas.height;
+
+        /* 画一个十字架在画布中间 */
+        ctx.moveTo(0, h / 2);
+        ctx.lineTo(w, h / 2);
+        ctx.moveTo(w / 2, 0);
+        ctx.lineTo(w / 2, h);
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+
+        /* 绘制文本 */
+        /* 计算画布中心点的位置 */
+        var x0 = w / 2;
+        var y0 = h / 2;
+        /* 设置文本的样式 倾斜 粗细 字号 字体*/
+        ctx.font = "30px 微软雅黑";
+        /* 设置文本左右对齐方式 [start end left center right]*/
+        ctx.textAlign = "center";
+        /* 垂直对齐方式 [top bottom middle]*/
+        ctx.textBaseline = "middle";
+
+        ctx.strokeStyle = "green";
+        ctx.strokeText(str, x0, y0);
+        // ctx.fillText(str,x0,y0);
+
+        /* 获取文本信息对象 */
+        console.log(ctx.measureText(str));
+        var fontW = ctx.measureText(str).width;
+        ctx.moveTo(x0 - fontW / 2, y0 + 15);
+        ctx.lineTo(x0 + fontW / 2, y0 + 15);
+        ctx.stroke();
+
+    </script>
+
+</body>
+
+</html>

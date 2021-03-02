@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- keyup.num  解释为keycode编码 -->
+        <input type="text" @keyup.num1="keyup">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        console.log(Vue.config.keyCodes);
+        Vue.config.keyCodes.num1 = 97;
+        // 1: 自定义按键修饰符是设置在Vue.config.keyCodes;
+        // 2: 自定义修饰符命名规范:以英文小写字符开头
+        console.log(Vue.config.keyCodes);
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            methods: {
+                keyup: function() {
+                    console.log('keyup');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
