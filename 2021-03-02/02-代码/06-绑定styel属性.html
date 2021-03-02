@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 绑定样式 直接传一个参数
+        参数值为一个对象
+        对象的 属性名 样式的属性
+        对象的 属性值 样式的属性值
+        -->
+        <div v-bind:style="style1">
+            测试字体
+        </div>
+
+        <!-- 注意：
+            以横杆分割的样式名称在写在对象里时，"-" 横杠要省略，
+            并将单词改为驼峰命名规范
+            首字母 依然是小写
+        -->
+        <div v-bind:style="{color: 'red'}">测试字体</div>
+
+        <!-- 样式绑定 可以绑定数组
+            数组里的每个值 都是一个对象
+        -->
+        <div v-bind:style="[{color: 'red'}]">测试字体</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                style1: {
+                    color: 'red',
+                    backgroundColor: 'indianred',
+                    // 有横杆的样式名
+                    // 可以直接写字符串 
+                    'background-color': 'indianred',
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

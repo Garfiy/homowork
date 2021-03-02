@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-if 控制元素是否显示
+        如果为true 则显示
+        如果为false 则隐藏
+        本质是 对booles 值的判断
+        -->
+        <!-- <h1 v-if="state">v-if的是使用</h1>
+        <h1 v-else-if="!state">v-else-if的使用</h1> -->
+
+        <!-- v-else-if必须在v-if后面 -->
+        <!-- 当有多个状态时 可以用 number 类型代替 -->
+        <h1 v-if="num==0">v-if的是使用</h1>
+        <h1 v-else-if="num==1">v-else-if的使用1</h1>
+        <h1 v-else-if="num==2">v-else-if的使用2</h1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                state: true,
+                num: 0,
+            }
+        })
+    </script>
+</body>
+
+</html>
