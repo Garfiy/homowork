@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        ul {
+            width: 300px;
+            height: 40px;
+            border: 1px solid gold;
+        }
+        
+        ul li {
+            list-style: none;
+            float: left;
+            width: 98px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border: solid 1px pink;
+            color: pink;
+        }
+        
+        .list {
+            background-color: skyblue;
+        }
+        
+        .box {
+            width: 500px;
+            height: 500px;
+        }
+        
+        .box img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li @click="cut(index)" :class="num==index?oneChange:''" v-for="(item,index) in datas" :key="item.id">{{item.name}}</li>
+        </ul>
+        <div class="box">
+            <img src="" alt="" v-show="num==item.id-1" v-for="(item,index) in datas" :src="item.src">
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                datas: [{
+                    id: 1,
+                    name: 'pig',
+                    src: 'img/02.jpg'
+                }, {
+                    id: 2,
+                    name: 'dog',
+                    src: 'img/03.jpg'
+                }, {
+                    id: 3,
+                    name: 'cat',
+                    src: 'img/2.jpg'
+                }, ],
+                num: 2,
+                oneChange: {
+                    list: true
+                },
+            },
+            methods: {
+                cut(i) {
+                    this.num = i
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
