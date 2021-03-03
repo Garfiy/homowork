@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue</title>
+    <style>
+        .select {
+            display: inline-block;
+            border: 1px solid beige;
+            padding: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vm">
+        <div class="select" v-for="item in arrs" @click="selectIndex=selectIndex!=item.id?item.id:0">{{item.title}}
+        </div>
+        <div v-for="item in arrs" v-show="selectIndex==item.id">
+            <p>{{item.msg}}</p>
+            <img :src="'../04-资源/'+item.src" :scr='item.src' alt="">
+        </div>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#vm",
+            data: {
+                selectIndex: 0,
+                arrs: [
+                    {
+                        id: 1,
+                        title: '标题一',
+                        msg: '描述一',
+                        src: 'apple.png',
+                    }, {
+                        id: 2,
+                        title: '标题二',
+                        msg: '描述二',
+                        src: 'lemon.png',
+                    }, {
+                        id: 3,
+                        title: '标题三',
+                        msg: '描述三',
+                        src: 'orange.png',
+                    }, {
+                        id: 4,
+                        title: '标题四',
+                        msg: '描述四',
+                        src: 'apple.png',
+                    }
+                ]
+            },
+        })
+    </script>
+</body>
+
+</html>

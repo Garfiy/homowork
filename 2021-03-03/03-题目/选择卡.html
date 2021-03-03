@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            outline-style: none;
+        }
+
+        .select_item {
+            font-size: 30px;
+            margin-right: 10px;
+            border: 1px solid blue;
+        }
+
+        .select_item_acitve {
+            background-color: goldenrod;
+        }
+
+        .content_item {
+            border: 1px solid pink;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>实现选择卡的功能</h1>
+    <ol>
+        <li>实现点击选项切换下面的内容</li>
+        <li>点击同一个选项卡时：二次点击可以取消点击</li>
+        <li>点击同一个选项卡时：三次点击可以再选中</li>
+        <li>实现 选中的选项高亮显示</li>
+        <li>切换的时候不要让图片闪烁</li>
+        <li>思考 以下 两个内容</li>
+        <li>实现选项卡内容的新增</li>
+        <li>实现选项卡内容的删除</li>
+    </ol>
+
+    <button onclick="addSelectBox()">新增一个选项</button>
+    <button onclick="removeSelectBox()">删除一个选项</button>
+    <br><br>
+    <div class="select_box"></div>
+
+    <div class="content_box"></div>
+
+    <script>
+        let data = [
+            {
+                title: "apple",
+                src: '../04-资源/apple.png'
+            },
+            {
+                title: "lemon",
+                src: '../04-资源/lemon.png'
+            },
+            {
+                title: "orange",
+                src: '../04-资源/orange.png'
+            },
+            {
+                title: "orange",
+                src: '../04-资源/orange.png'
+            },
+        ];
+
+        let select_box = document.querySelector('.select_box');
+        let content_box = document.querySelector('.content_box');
+
+        function refSelectBox(data) {
+            let select_box_str = '';
+            data.forEach(function (value, index) {
+                select_box_str += '<button class="select_item" onclick=onClickChangeState(' + index + ')>' + value.title + '</button>';
+
+            })
+            select_box.innerHTML = select_box_str;
+        }
+        refSelectBox(data);
+        function addSelectBox() {
+            data.push({ title: '新增' + data.length, src: '../04-资源/orange.png' });
+            refSelectBox(data);
+        }
+
+        function removeSelectBox() {
+            data.pop();
+            refSelectBox(data);
+        }
+
+        let curIndex;
+        function onClickChangeState(index) {
+            let children = select_box.children;
+            for (let i = 0; i < children.length; i++) {
+                let value = children[i];
+                if (i == index) {
+                    value.classList.add('select_item_acitve');
+                } else {
+                    value.classList.remove('select_item_acitve');
+                }
+            }
+
+            let content_box_str = '';
+            if (curIndex == index) {
+                children[index].classList.remove('select_item_acitve');
+                curIndex = null;
+            } else {
+                curIndex = index;
+                let value = data[index];
+                content_box_str += '<div class="content_item"><p>' + value.title + '</p><img src="' + value.src + '"></div>';
+            }
+            content_box.innerHTML = content_box_str;
+        }
+    </script>
+</body>
+
+</html>
