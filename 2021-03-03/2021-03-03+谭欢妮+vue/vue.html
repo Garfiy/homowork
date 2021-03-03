@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div{
+            margin: 0 auto;
+        }
+
+        .item {
+            width: 520px;
+            height: 52px;
+            margin: auto 815px;
+        }
+
+        .item li {
+            list-style: none;
+            text-align: center;
+            line-height: 40px;
+            width: 60px;
+            height: 40px;
+            border: solid 2px turquoise;
+            float: left;
+        }
+
+        .item .lis {
+            background-color: teal;
+        }
+
+        .text {
+            width: 500px;
+            height: 500px;
+        }
+
+        .text img {
+            display: none;
+        }
+
+        .text .blick {
+            display: block;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul class="item">
+            <li :class="num==index ?addclass:''" v-for="(value,index) in datas" :key="datas.id" @click="setLis(index)">
+                {{value.name}}
+            </li>
+        </ul>
+        <div class="text">
+            <img :class="num==index ?blick:''" v-for="(value,index) in datas" :src="value.src">
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                datas: [
+                    {
+                        id: 1,
+                        name: '二爷',
+                        src: 'img/01.jpg'
+                    }, {
+                        id: 2,
+                        name: '辫儿哥',
+                        src: 'img/02.jpg'
+                    }, {
+                        id: 3,
+                        name: '磊磊',
+                        src: 'img/03.jpg'
+                    }, {
+                        id: 4,
+                        name: '张云雷',
+                        src: 'img/04.jpg'
+                    }
+                ],
+                num: 2,
+                addclass: {
+                    lis: true,
+                },
+                blick: {
+                    blick: true,
+                }
+            },
+            methods: {
+                setLis: function (i) {
+                    this.num = i;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
