@@ -18,10 +18,18 @@
             <option>*</option>
             <option>/</option>
         </select>
-        <input type="text" class="input" v-model="add2" @keyup.enter="keyup2">
+        <input type="text" class="input" v-model="add2" @keyup.enter="keyup2" :autofocus="autofocus">
         <button @click="sum">=</button>
         <span v-text="sum1"></span>
     </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>在用vue框架时,不要再自己主动获取dom元素</li>
+        </ol>
+    </div>
+
     <script>
         var v = new Vue({
             el: '#app',
@@ -29,7 +37,8 @@
                 add1: '',
                 add2: '',
                 select: '+',
-                sum1: null
+                sum1: null,
+                autofocus: false,
             },
             methods: {
                 sum: function () {
@@ -44,7 +53,9 @@
                     }
                 },
                 keyup1: function (e) {
-                    document.querySelector('.input').focus();
+                    console.log(this.autofocus);
+                    // document.querySelector('.input').focus();
+                    this.autofocus = true;
                 },
                 keyup2: function () {
                     this.sum();

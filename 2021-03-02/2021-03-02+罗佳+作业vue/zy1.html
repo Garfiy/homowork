@@ -20,6 +20,14 @@
         <input type="text" v-model="figure2" class="bt1" v-on:keyup.enter="board2">=
         <span>{{ result }}</span>
     </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>在用vue框架时,不要再自己主动获取dom元素</li>
+        </ol>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         new Vue({
@@ -31,24 +39,24 @@
                 result: '',
             },
             methods: {
-                board1: function() {
+                board1: function () {
                     document.querySelector(".bt1").focus();
                 },
-                board2: function() {
-                    if(this.opt == '+'){
+                board2: function () {
+                    if (this.opt == '+') {
                         this.result = parseInt(this.figure1) + parseInt(this.figure2);
-                    }else if(this.opt == '-') {
+                    } else if (this.opt == '-') {
                         this.result = parseInt(this.figure1) - parseInt(this.figure2);
-                    }else if(this.opt == '*'){
+                    } else if (this.opt == '*') {
                         this.result = parseInt(this.figure1) * parseInt(this.figure2);
-                    }else {
+                    } else {
                         this.result = parseInt(this.figure1) / parseInt(this.figure2);
                     }
                 },
 
             }
         });
-        
+
     </script>
 </body>
 

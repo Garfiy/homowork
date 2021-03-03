@@ -21,6 +21,14 @@
         <button @click="calc">=</button>
         <span v-text="result"></span>
     </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>在用vue框架时,不要再自己主动获取dom元素</li>
+        </ol>
+    </div>
+
     <script src="js/vue.js"></script>
     <script>
         var vm = new Vue({
@@ -32,7 +40,7 @@
                 result: ''
             },
             methods: {
-                calc: function() {
+                calc: function () {
                     if (this.select == '+') {
                         this.result = parseInt(this.num1) + parseInt(this.num2);
                     }
@@ -46,10 +54,10 @@
                         this.result = this.num1 / this.num2;
                     }
                 },
-                keyup1: function(e) {
+                keyup1: function (e) {
                     document.querySelector('.num2').focus();
                 },
-                keyup2: function() {
+                keyup2: function () {
                     this.calc();
                 }
             }

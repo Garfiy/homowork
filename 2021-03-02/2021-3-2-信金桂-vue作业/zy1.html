@@ -21,15 +21,18 @@
         </ol>
         <input type="text" v-model='num1' @keyup.enter.space="one">
         <select v-model='way'>
-        <option value='+'>+</option>
-        <option value='-'>-</option>
-        <option value='*'>*</option>
-        <option value='/'>/</option>
-    </select>
+            <option value='+'>+</option>
+            <option value='-'>-</option>
+            <option value='*'>*</option>
+            <option value='/'>/</option>
+        </select>
         <input type="text" v-model='num2' @keyup.enter.space="two" ref="jjd">
         <button @click="equal">=</button>
         <span v-text="result"></span>
     </div>
+
+    
+
     <script>
         var vm = new Vue({
             el: '#app',
@@ -40,7 +43,7 @@
                 result: 0,
             },
             methods: {
-                equal: function() {
+                equal: function () {
                     if (this.way == '+') {
                         this.result = parseInt(this.num1) + parseInt(this.num2);
                     } else if (this.way == '-') {
@@ -51,10 +54,10 @@
                         this.result = this.num1 / this.num2;
                     }
                 },
-                one: function() {
+                one: function () {
                     this.two();
                 },
-                two: function() {
+                two: function () {
                     this.$refs.jjd.focus();
                     this.equal();
                 }
