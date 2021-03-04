@@ -26,6 +26,7 @@
             text-align: center;
             border: solid 1px pink;
             color: pink;
+            cursor: pointer;
         }
         
         .list {
@@ -50,10 +51,10 @@
             <li @click="cut(index)" :class="num==index?oneChange:''" v-for="(item,index) in datas" :key="item.id">{{item.name}}</li>
         </ul>
         <div class="box">
-            <img src="" alt="" v-show="num==item.id-1" v-for="(item,index) in datas" :src="item.src">
+            <img src="" alt="" v-show="num==index" v-for="(item,index) in datas" :src="item.src">
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
     <script>
         new Vue({
             el: '#app',
@@ -71,15 +72,19 @@
                     name: 'cat',
                     src: 'img/2.jpg'
                 }, ],
-                num: 2,
+                num: 0,
                 oneChange: {
                     list: true
                 },
             },
             methods: {
                 cut(i) {
-                    this.num = i
-                }
+                    if (i == this.num) {
+                        this.num = -1;
+                    } else {
+                        this.num = i
+                    }
+                },
             }
         })
     </script>
