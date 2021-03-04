@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="layer/layer.js"></script>
+    <!-- <link rel="stylesheet" href="layer/mobile/need/layer.css"> -->
+</head>
+
+<body>
+    <div id="box">
+        <p>账户：<input type="text" v-model="userName" ref="userName"></p>
+        <p>密码：<input type="password" v-model="pwd" ref="pwd"></p>
+        <button @click="verify()">登录</button>
+    </div>
+    <script>
+        // layer.msg('hello');
+        new Vue({
+            el: '#box',
+            data: {
+                userName: '',
+                pwd: ''
+            },
+            methods: {
+                verify: function() {
+                    if (this.userName == 'admin') {
+                        if (this.pwd == 'admin') {
+                            layer.msg('登录成功');
+                        } else {
+                            layer.msg('密码错误');
+                            this.$refs.pwd.focus();
+                        }
+                    } else {
+                        layer.msg('账号错误');
+                        this.$refs.userName.focus();
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
