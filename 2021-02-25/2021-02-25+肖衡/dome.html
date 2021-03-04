@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-bloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <button class="jian" @click="jian">-</button> <input type="text" v-model= "num"> <button @click="jia">+</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el:"#app",
+            data:{
+                num:0
+            },
+            methods:{
+                jian:function(){
+                    // if(this.num <= 0){
+                    //     this.num =0;
+                    // }else{
+                    //     this.num--;
+                    // }
+                    this.num > 0? this.num--:this.num =0;
+                    
+                },
+                jia:function(){
+                    // if(this.num >= 10){
+                    //     this.num =10;
+                    // }else{
+                    //     this.num++;
+                    // }
+                    //1.num 是否需要增加
+                    //2.如果小于0 进行操作
+                    //3.如果大于10 依然为10
+                    this.num < 10? this.num++:this.num =10;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

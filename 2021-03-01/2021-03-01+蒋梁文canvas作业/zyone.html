@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+<<<<<<< HEAD
+=======
+    <br>
+    <div style="color: green;">优</div>
+
+>>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
+    <script>
+        var mycanvas = document.querySelector("canvas");
+        var ctx = mycanvas.getContext("2d");
+        var data = [30, 20, 30, 20, 10];
+        var data1 = ['10万', '12万', '20万', '30万', '50万'];
+        var data2 = ['10万', '12万', '20万', '30万', '50万'];
+        /* 记录数据的总数 */
+        var total = 0;
+        data.forEach((v) => {
+            total = total + v;
+        })
+        console.log(total);
+
+        var angleList = [];
+        data.forEach(v => {
+            angleList.push(2 * Math.PI / total * v);
+        })
+        console.log(angleList);
+
+        /* 扇形 */
+        var w = mycanvas.width;
+        var h = mycanvas.height;
+        var r = 100;
+        var x0 = w / 2;
+        var y0 = h / 2;
+
+        /* 获取随机的颜色 */
+        function getRandomColor() {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            return `rgb(${r},${g},${b})`;
+        }
+        let stratAngle = 0;
+        for (let i = 0; i < angleList.length; i++) {
+            let endAngle = stratAngle + angleList[i];
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.arc(x0, y0, r, stratAngle, endAngle);
+            ctx.fillStyle = getRandomColor();
+            ctx.fill();
+            ctx.closePath();
+
+            // 线
+
+            let r1 = (endAngle + stratAngle) / 2;
+            let x1, y1;
+            y1 = y0 + Math.sin(r1) * (r + 50);
+            x1 = x0 + Math.cos(r1) * (r + 50);
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.lineTo(x1, y1);
+            ctx.lineTo(
+                x1 + (x1 >= x0 ? 50 : -50), y1);
+            ctx.strokeStyle = ctx.fillStyle
+            ctx.stroke();
+            stratAngle += angleList[i];
+
+            // 随机方块
+
+            ctx.beginPath();
+            ctx.moveTo(20, 10 + (i * 14));
+            ctx.lineTo(60, 10 + (i * 14));
+            ctx.lineTo(60, 20 + (i * 14));
+            ctx.lineTo(20, 20 + (i * 14));
+            ctx.fill();
+
+            // 数字
+            ctx.beginPath();
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText(data1[i], 120, 10 + (i * 14));
+
+            // 圆的数字
+            ctx.beginPath();
+            ctx.fillText(data1[i], x1 + (x1 >= x0 ? 10 : -50), y1 - 10)
+        }
+    </script>
+</body>
+
+</html>

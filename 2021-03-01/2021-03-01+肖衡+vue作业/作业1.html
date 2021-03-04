@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div v-text="msg">{</div>
+<<<<<<< HEAD
+        速度: <input type="text" v-model="times"><br>
+=======
+        速度: <input type="text" v-model="times" v-on:keyup="inputKeyUp"><br>
+>>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
+        <button @click="startTiming(times,$event)">开始</button> <button @click="stopTiming">停止</button>
+    </div>
+
+    <br>
+    <div style="color: red;">
+        问题：
+        <ol>
+            <li>代码写完后记得格式话一下~</li>
+        </ol>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var time;
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                msg: "《春晓》 作者：孟浩然 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。",
+                times: 100,
+                flag: true
+            },
+            methods: {
+                startTiming: function (times, e) {
+                    if (this.flag) {
+                        time = setInterval(() => {
+                            let start = this.msg.substring(0, 1);
+                            let end = this.msg.substring(1);
+                            this.msg = end + start;
+                        }, times)
+                        this.flag = false;
+                    }
+                },
+                stopTiming: function () {
+                    clearInterval(time);
+                    time = null;
+                    this.flag = true;
+<<<<<<< HEAD
+=======
+                },
+                inputKeyUp:function(){
+                    this.stopTiming();
+                    this.startTiming();
+>>>>>>> 0ac58f107667b2dfb7279145d626fa55fbf2f113
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

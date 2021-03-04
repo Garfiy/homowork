@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="600" height="400"></canvas>
+
+    <!-- 1、先创建画布 -->
+    <!-- 2、获取画布中心点 -->
+    <!-- 3、设置圆的半径，均分几份 -->
+    <!-- 4、绘制第一份弧度 -->
+    <!-- 5、第二份弧度的起点是第一份弧度的终点 -->
+    <script>
+        let canvas = document.querySelector('canvas');
+        let ctx = canvas.getContext('2d');
+
+        let x0 = canvas.width / 2;
+        let y0 = canvas.height / 2;
+        let r = 100;
+        let num = 6;
+        let anlge = 2 * Math.PI / num;
+
+        for (let i = 0; i < num; i++) {
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            ctx.arc(x0, y0, r, i * anlge, (i + 1) * anlge);
+            ctx.closePath();
+            ctx.stroke();
+        }
+    </script>
+</body>
+
+</html>

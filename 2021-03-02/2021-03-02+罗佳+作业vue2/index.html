@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{ msg }}</div>
+        速度: <input type="text" v-model="speed" v-on:keyup="inputKeyUP">
+        <button @click="btn1(speed,$event)">开始</button>
+        <button @click="btn2">停止</button>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                speed: "100",
+                tiem: '',
+                msg: '《春晓》 作者：孟浩然 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。',
+            },
+            methods: {
+                btn1: function (speed,e) {
+                    clearInterval(this.tiem);
+                    this.tiem = setInterval(() => {
+                        let start = this.msg.substring(0, 1);
+                        let end = this.msg.substring(1);
+                        this.msg = end + start;
+                        console.log(this.msg);
+                    }, speed);
+                },
+                btn2: function () {
+                    clearInterval(this.tiem);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

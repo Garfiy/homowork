@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="num1" class="num1" v-on:keyup.Enter="jump">
+        <select v-model="type">
+            <option value='+'>+</option>
+            <option value='-'>-</option>
+            <option value='*'>*</option>
+            <option value='/'>/</option>
+        </select>
+        <input type="text" v-model="num2" class="num2" v-on:keyup.Enter="count">
+        <button @click="count">=</button>
+        <span v-text="sum"></span>
+    </div>
+    
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>在用vue框架时,不要再自己主动获取dom元素</li>
+        </ol>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                sum: null,
+                num1: null,
+                num2: null,
+                type: '+'
+            },
+            methods: {
+                jump: function() {
+                    document.querySelector('.num2').focus();
+                },
+                count: function() {
+                    switch (this.type) {
+                        case '+':
+                            this.sum = parseInt(this.num1) + parseInt(this.num2);
+                            break;
+                        case '-':
+                            this.sum = parseInt(this.num1) - parseInt(this.num2);
+                            break;
+                        case '*':
+                            this.sum = parseInt(this.num1) * parseInt(this.num2);
+                            break;
+                        case '/':
+                            this.sum = parseInt(this.num1) / parseInt(this.num2);
+                            break;
+                    }
+                    document.querySelector('.num2').blur();
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

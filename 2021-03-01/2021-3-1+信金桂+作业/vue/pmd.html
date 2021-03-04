@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>跑马灯效果</h1>
+        <ol>
+            <li>点击开始按钮就开始滚动</li>
+            <li>点击停止按钮就停止滚动</li>
+            <li>通过速度输入框：修改跑马灯的速度</li>
+        </ol>
+        <div v-text="msg"></div>
+        <br>
+        <span>速度：</span> <input type="text" v-model="speed"><br>
+        <button @click="start(speed,$event)">开始</button>
+        <button @click="stop">停止</button>
+    </div>
+
+    <br>
+    <div style="color: green;">
+        良
+    </div>
+    
+    <script>
+        const count = new Vue({
+            el: "#app",
+            data: {
+                msg: '《春晓》 作者：孟浩然 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。',
+                intervalId: null,
+                speed: 100,
+            },
+            methods: {
+                start: function(speed, e) {
+                    if (this.intervalId) return;
+                    this.intervalId = setInterval(() => {
+                        var msgValue = this.msg;
+                        var start = msgValue.substring(0, 1);
+                        var end = msgValue.substring(1);
+                        this.msg = end + start;
+                    }, speed);
+                },
+
+                stop: function() {
+                    // alert(1);
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                },
+
+
+            }
+        });
+    </script>
+</body>
+
+</html>
