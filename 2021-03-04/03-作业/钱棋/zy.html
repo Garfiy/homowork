@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .green {
+            color: green;
+        }
+        
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>账号：<input type="text" v-model="userName"> <span ref="userName" :class="[{green:flag},{red:!flag}]"></span></p>
+        <p>密码：<input type="password" v-model="password"> <span ref="password" :class="[{green:flag1},{red:!flag1}]"></span></p>
+        <button @click="judge">登录</button> <span ref="hint" :class="[{green:flag1},{red:!flag1}]"></span>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                userName: '',
+                password: '',
+                flag: true,
+                flag1: true,
+                obj: {
+                    userName: 'admin',
+                    password: 'admin'
+                }
+            },
+            methods: {
+                judge: function() {
+                    if (this.userName == this.obj.userName) {
+                        this.flag = true;
+                        this.$refs.userName.innerText = '账号正确';
+                        if (this.password == this.obj.password) {
+                            this.flag1 = true;
+                            this.$refs.password.innerText = '密码正确';
+                            this.$refs.hint.innerText = '登录成功';
+                        } else {
+                            this.flag1 = false;
+                            this.$refs.password.innerText = '密码错误';
+                            this.$refs.hint.innerText = '';
+                        }
+                    } else {
+                        this.flag = false;
+                        this.$refs.userName.innerText = '账号错误';
+                        this.$refs.hint.innerText = '';
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
