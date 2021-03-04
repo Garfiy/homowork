@@ -14,6 +14,9 @@
         <p>密码：<input type="password" v-model="userPwd" ref="pwd"></p>
         <button @click="onClickInput">登录</button>
     </div>
+
+    <br>
+    <div style="color:green;">优</div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <script>
@@ -24,7 +27,7 @@
                 userPwd: '',
             },
             methods: {
-                onClickInput: function() {
+                onClickInput: function () {
                     if (this.uesrName == 'admin') {
                         if (this.userPwd == 'admin') {
                             alert('用户登录成功');

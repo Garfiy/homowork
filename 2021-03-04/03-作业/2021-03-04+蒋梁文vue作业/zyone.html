@@ -14,6 +14,8 @@
         <p>密码：<input type="password" v-model="upwd"></p>
         <button @click="login">登录</button>
     </div>
+    <br>
+    <div style="color:green;">优</div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         new Vue({
@@ -24,7 +26,7 @@
             },
             methods: {
 
-                login: function() {
+                login: function () {
                     if (this.name != 'admin') {
                         alert('账户错误');
                     } else if (this.upwd != 'admin') {
