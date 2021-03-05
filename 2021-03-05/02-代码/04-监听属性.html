@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>姓：<input type="text" v-model="firstName"></p>
+        <p>名：<input type="text" v-model="lastName"></p>
+        <p>{{userName}}</p>
+        <p>{{userName2}}</p>
+
+        姓名：
+        <input type="text" v-model="name.first">
+        <input type="text" v-model="name.last">
+        <P>{{name.user}}</P>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                // 声明属性
+                firstName: '', //姓
+                lastName: '', //名
+                userName: '', //用户名称
+                name: {
+                    first: '', //姓
+                    last: '', //名
+                    user: '',
+                }
+            },
+            // 计算属性
+            computed: {
+                userName2: function() {
+                    // console.log(arguments);
+                    return this.firstName + '' + this.lastName;
+                }
+            },
+            // 监听属性
+            // wathc属性在computed前调用
+            watch: {
+                // 键值对 中的
+                // 键 是和data中的数据同名的 和谁同名就监听谁
+                // 值 是当键对应的属性发生变化时 需要执行的逻辑
+                // value 是会返回监听的属性改变后的值
+                firstName: function(velue) {
+                    // console.log(arguments);
+                    // 写 当firstName的值发生变化时
+                    // 需要执行的逻辑
+                    this.userName = velue + ' ' + this.lastName;
+                },
+                lastName: function(value) {
+                    // console.log(arguments);
+                    this.userName = this.firstName + ' ' + value;
+                },
+                // 当需要监听对象内部值发生改变时
+                // 需要修改成下面的注册形式
+                name: {
+                    // 回调函数需要写到 handler关键词上
+                    handler: function(value) {
+                        console.log(value);
+                        console.log(this.name);
+                    },
+                    // 当需要监听一个对象的改变时，普通的watch方法无法监听到对象内部属性的改变，只有data中的数据才能够监听到变化，此时就需要deep属性对对象进行深度监听
+                    deep: true,
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

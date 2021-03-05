@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 计算属性 调用的时 是做为属性使用的  不用加小括号 -->
+        <p>{{sum}}</p>
+        <p>{{sum}}</p>
+        <p>{{sum}}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                value1: 1,
+                value2: 1,
+            },
+            // 计算属性
+            // 只会调用一次
+            // 当所使用的值发生变化时，才会重新计算一次
+            computed: {
+                sum: function() {
+                    console.log('sum');
+
+                    let num = this.value1 + this.value2;
+
+                    // 结尾处 return 返回要显示的值
+                    return num;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
