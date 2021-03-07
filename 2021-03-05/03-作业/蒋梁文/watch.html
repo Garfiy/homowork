@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <input type="text" v-model="calculate3.num1">
+            <select name="" id="" v-model="calculate3.select">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+            <input type="text" v-model="calculate3.num2">
+            <button @click="calculate3.sum=sum3">=</button>
+            <span v-text="calculate3.sum"></span>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                calculate3: {
+                    num1: null,
+                    num2: null,
+                    select: '+',
+                    sum: null
+                },
+                sum3: null
+            },
+            watch: {
+                calculate3: {
+                    handler: function(v) {
+                        switch (v.select) {
+                            case '+':
+                                this.sum3 = parseInt(v.num1) + parseInt(v.num2);
+                                break;
+                            case '-':
+                                this.sum3 = parseInt(v.num1) - parseInt(v.num2);
+                                break;
+                            case '*':
+                                this.sum3 = parseInt(v.num1) * parseInt(v.num2);
+                                break;
+                            default:
+                                this.sum3 = parseInt(v.num1) / parseInt(v.num2);
+                                break;
+                        }
+                    },
+                    deep: true
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

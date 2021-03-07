@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="inputval">
+        <select v-model="select">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+            <input type="text" v-model="inputvalone">
+            <button @click="sumclick">=</button>
+            <span>{{result}}</span>
+        </select>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                inputval: null,
+                inputvalone: null,
+                select: '+',
+                result: null
+            },
+            computed: {
+                sum: function() {
+                    if (this.select == '+') {
+                        return this.result = parseInt(this.inputval) + parseInt(this.inputvalone);
+                    } else if (this.select == '-') {
+                        return this.result = parseInt(this.inputval) - parseInt(this.inputvalone);
+                    } else if (this.select == '*') {
+                        return this.result = parseInt(this.inputval) * parseInt(this.inputvalone);
+                    } else if (this.select == '/') {
+                        return this.result = parseInt(this.inputval) / parseInt(this.inputvalone);
+                    }
+                }
+            },
+            methods: {
+                sumclick: function() {
+                    this.sum
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
