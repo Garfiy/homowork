@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods：</p>
+        <input type="text" v-model="val1">
+        <select ref="fuHao">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
+        <input type="text"  v-model="val2">
+        <button @click="sums">=</button>
+        <span v-text = "sum"></span>
+    </div>
+
+    <script src="vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data:{
+                val1:null,
+                val2:null,
+                sum:null,
+            },
+            methods:{
+                sums:function(){
+                    console.log(this.$refs.fuHao.value);
+                    if(this.$refs.fuHao.value == "+"){
+                        this.sum = parseInt(this.val1) + parseInt(this.val2);
+                    }
+                    if(this.$refs.fuHao.value == "-"){
+                        this.sum = parseInt(this.val1) - parseInt(this.val2);
+                    }
+                    if(this.$refs.fuHao.value == "*"){
+                        this.sum = parseInt(this.val1) * parseInt(this.val2);
+                    }
+                    if(this.$refs.fuHao.value == "/"){
+                        this.sum = parseInt(this.val1) / parseInt(this.val2);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
