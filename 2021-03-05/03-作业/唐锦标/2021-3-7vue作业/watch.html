@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="watchMsg.value1">
+        <select name="" id="" v-model="watchMsg.select">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+            <input type="text" v-model="watchMsg.value2">
+            <button @click="num=watchMsg.result">=</button>
+            <span v-text="num"></span>
+        </select>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                watchMsg: {
+                    value1: 0,
+                    value2: 0,
+                    select: '+',
+                    result: 0
+                },
+                num: null
+            },
+
+            watch: {
+                watchMsg: {
+                    handler: function(v) {
+                        console.log(v);
+                        if (v.select == '+') {
+                            v.result = parseInt(v.value1) + parseInt(v.value2);
+                        } else if (v.select == '-') {
+                            v.result = parseInt(v.value1) - parseInt(v.value2);
+                        } else if (v.select == '*') {
+                            v.result = parseInt(v.value1) * parseInt(v.value2);
+                        } else if (v.select == '/') {
+                            v.result = parseInt(v.value1) / parseInt(v.value2);
+                        }
+                    },
+                    deep: true
+                }
+            },
+
+        })
+    </script>
+</body>
+
+</html>
