@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <p>methods:</p>
+            <input type="text" v-model="methods.num1">
+            <select ref="methodsOption">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="methods.num2" @keyup.enter="methodsFn">
+            <button @click="methodsFn">=</button>
+            <span v-text="methods.sum"></span>
+        </div>
+
+        <div>
+            <p>watch:</p>
+            <input type="text" v-model="watch.num1">
+            <select v-model="watch.select">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="watch.num2">
+            <button @click="watch.sum=sum">=</button>
+            <span v-text="watch.sum"></span>
+        </div>
+
+        <div>
+            <p>computed:</p>
+            <input type="text" v-model="computed.num1">
+            <select v-model="computed.select">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="computed.num2" @keyup.enter="computed.sum=sum">
+            <button @click="computed.sum=computedSum">=</button>
+            <span> {{computed.sum}}</span>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                methods: {
+                    num1: null,
+                    num2: null,
+                    sum: null,
+                },
+                watch: {
+                    num1: null,
+                    num2: null,
+                    sum: null,
+                    select: '+'
+                },
+                computed: {
+                    num1: null,
+                    num2: null,
+                    sum: null,
+                    select: '+'
+                },
+                sum: null,
+            },
+            methods: {
+                methodsFn: function() {
+                    let num1 = parseInt(this.methods.num1);
+                    let num2 = parseInt(this.methods.num2);
+                    let sum = this.methods.sum;
+                    let select = this.$refs.methodsOption.value;
+                    switch (select) {
+                        case '+':
+                            sum = num1 + num2;
+                            break;
+                        case '-':
+                            sum = num1 - num2;
+                            break;
+                        case '*':
+                            sum = num1 * num2;
+                            break;
+                        case '/':
+                            sum = num1 / num2;
+                            break;
+                    }
+                    this.methods.sum = sum;
+                },
+            },
+            watch: {
+                watch: {
+                    handler: function(val) {
+                        let select = val.select;
+                        console.log(select);
+                        let num1 = parseInt(val.num1);
+                        let num2 = parseInt(val.num2);
+                        switch (select) {
+                            case '+':
+                                this.sum = num1 + num2;
+                                break;
+                            case '-':
+                                this.sum = num1 - num2;
+                                break;
+                            case '*':
+                                this.sum = num1 * num2;
+                                break;
+                            case '/':
+                                this.sum = num1 / num2;
+                                break;
+                        }
+                    },
+                    deep: true,
+                }
+            },
+            computed: {
+                computedSum: function() {
+                    let select = this.computed.select;
+                    let num1 = parseInt(this.computed.num1);
+                    let num2 = parseInt(this.computed.num2);
+                    let sum = 0;
+                    switch (select) {
+                        case '+':
+                            sum = num1 + num2;
+                            break;
+                        case '-':
+                            sum = num1 - num2;
+                            break;
+                        case '*':
+                            sum = num1 * num2;
+                            break;
+                        case '/':
+                            sum = num1 / num2;
+                            break;
+                    }
+                    return sum;
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>
