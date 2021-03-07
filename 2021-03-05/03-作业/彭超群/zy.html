@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <input type="text" v-model="calculate1.num1">
+            <select name="" id="" v-model="calculate1.select">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="calculate1.num2">
+            <button @click="clickSum">=</button>
+            <span v-text="calculate1.sum"></span>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div>
+            <input type="text" v-model="calculate2.num1">
+            <select name="" id="" v-model="calculate2.select">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="calculate2.num2">
+            <button @click="calculate2.sum=computedSum">=</button>
+            <span v-text="calculate2.sum"></span>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div>
+            <input type="text" v-model="calculate3.num1">
+            <select name="" id="" v-model="calculate3.select">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="calculate3.num2">
+            <button @click="calculate3.sum=sum3">=</button>
+            <span v-text="calculate3.sum"></span>
+        </div>
+    </div>
+    <script>
+        var v = new Vue({
+            el: '#app',
+            data: {
+                calculate1: {
+                    num1: null,
+                    num2: null,
+                    select: '+',
+                    sum: null
+                },
+                calculate2: {
+                    num1: null,
+                    num2: null,
+                    select: '+',
+                    sum: null
+                },
+                calculate3: {
+                    num1: null,
+                    num2: null,
+                    select: '+',
+                    sum: null
+                },
+                sum3: null
+            },
+            methods: {
+                clickSum: function() {
+                    switch (this.calculate1.select) {
+                        case '+':
+                            this.calculate1.sum = parseInt(this.calculate1.num1) + parseInt(this.calculate1.num2);
+                            break;
+                        case '-':
+                            this.calculate1.sum = parseInt(this.calculate1.num1) - parseInt(this.calculate1.num2);
+                            break;
+                        case '*':
+                            this.calculate1.sum = parseInt(this.calculate1.num1) * parseInt(this.calculate1.num2);
+                            break;
+                        default:
+                            this.calculate1.sum = parseInt(this.calculate1.num1) / parseInt(this.calculate1.num2);
+                            break;
+                    }
+                }
+            },
+            computed: {
+                computedSum: function() {
+                    var sum = 0;
+                    switch (this.calculate2.select) {
+                        case '+':
+                            sum = parseInt(this.calculate2.num1) + parseInt(this.calculate2.num2);
+                            break;
+                        case '-':
+                            sum = parseInt(this.calculate2.num1) - parseInt(this.calculate2.num2);
+                            break;
+                        case '*':
+                            sum = parseInt(this.calculate2.num1) * parseInt(this.calculate2.num2);
+                            break;
+                        default:
+                            sum = parseInt(this.calculate2.num1) / parseInt(this.calculate2.num2);
+                            break;
+                    }
+                    return sum;
+                }
+            },
+            watch: {
+                calculate3: {
+                    handler: function(v) {
+                        switch (v.select) {
+                            case '+':
+                                this.sum3 = parseInt(v.num1) + parseInt(v.num2);
+                                break;
+                            case '-':
+                                this.sum3 = parseInt(v.num1) - parseInt(v.num2);
+                                break;
+                            case '*':
+                                this.sum3 = parseInt(v.num1) * parseInt(v.num2);
+                                break;
+                            default:
+                                this.sum3 = parseInt(v.num1) / parseInt(v.num2);
+                                break;
+                        }
+                    },
+                    deep: true
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
