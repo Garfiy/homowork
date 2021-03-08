@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div class="app1">
+        <p>methods:</p>
+        <select name="省" id="" @change="change1" v-model="provinceValue" v-cloak>
+            <option v-for="(k,i) in datas[china]" :value="i">{{k}}</option>
+        </select>
+        <select name="市" id="" v-model="cityValue" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue]" :value="i" ref="select1">{{k}}</option>
+        </select>
+        <select name="区" id="" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue+','+cityValue]" :value="i">{{k}}</option>
+        </select>
+    </div>
+
+    <div class="app2">
+        <p>computed:</p>
+        <select name="省" id="" v-model="provinceValue" v-cloak>
+            <option v-for="(k,i) in datas[china]" :value="i">{{k}}</option>
+        </select>
+        <select name="市" id="" v-model="cityValue" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue]" :value="i" ref="select1">{{k}}</option>
+        </select>
+        <select name="区" id="" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue+','+cityValue]" :value="i">{{k}}</option>
+        </select>
+    </div>
+
+    <div class="app3">
+        <p>watch:</p>
+        <select name="省" id="" v-model="provinceValue" v-cloak>
+            <option v-for="(k,i) in datas[china]" :value="i">{{k}}</option>
+        </select>
+        <select name="市" id="" v-model="cityValue" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue]" :value="i" ref="select1">{{k}}</option>
+        </select>
+        <select name="区" id="" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue+','+cityValue]" :value="i">{{k}}</option>
+        </select>
+    </div>
+
+    <div class="app4">
+        <p>filters:</p>
+        <select name="省" id="" v-model="provinceValue" v-cloak>
+            <option v-for="(k,i) in datas[china]" :value="i">{{k}}</option>
+        </select>
+        <select name="市" id="" v-model="cityValue" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue]" :value="i" ref="select1">{{k}}</option>
+        </select>
+        <select name="区" id="" v-cloak>
+            <option v-for="(k,i) in datas[china+','+provinceValue+','+cityValue]" :value="i">{{k}}</option>
+        </select>
+    </div>
+    <script src="js/data.js"></script>
+    <script>
+        var app1 = new Vue({
+            el: '.app1',
+            data: {
+                datas: data,
+                china: '0',
+                provinceValue: '110000',
+                cityValue: '110100',
+                // districtValue: '110100',
+            },
+            methods: {
+                change1: function() {
+                    console.log(this.$refs.select1[0]);
+                    console.log(this.provinceValue);
+                    this.cityValue = this.$refs.select1[0].value;
+                    console.log(this.cityValue);
+                    console.log(this.$refs.select1[0].value);
+                }
+            }
+        });
+        var app2 = new Vue({
+            el: '.app2',
+            data: {
+                datas: data,
+                china: '0',
+                provinceValue: '110000',
+                cityValue: '110100',
+                // districtValue: '110100',
+            },
+            methods: {
+                change1: function() {
+                    console.log(this.$refs.select1[0]);
+                    console.log(this.provinceValue);
+                    this.cityValue = this.$refs.select1[0].value;
+                    console.log(this.cityValue);
+                    console.log(this.$refs.select1[0].value);
+                }
+            },
+            computed: {
+                change2: function() {
+                    return this.change1();
+                }
+            }
+        });
+        var app3 = new Vue({
+            el: '.app3',
+            data: {
+                datas: data,
+                china: '0',
+                provinceValue: '110000',
+                cityValue: '110100',
+                // districtValue: '110100',
+            },
+            methods: {
+                change1: function() {
+                    console.log(this.$refs.select1[0]);
+                    console.log(this.provinceValue);
+                    this.cityValue = this.$refs.select1[0].value;
+                    console.log(this.cityValue);
+                    console.log(this.$refs.select1[0].value);
+                }
+            },
+            watch: {
+                provinceValue: function() {
+                    this.change1();
+                }
+            }
+        });
+        var app4 = new Vue({
+            el: '.app4',
+            data: {
+                datas: data,
+                china: '0',
+                provinceValue: '110000',
+                cityValue: '110100',
+                // districtValue: '110100',
+            },
+            methods: {
+                change1: function() {
+                    console.log(this.$refs.select1[0]);
+                    console.log(this.provinceValue);
+                    this.cityValue = this.$refs.select1[0].value;
+                    console.log(this.cityValue);
+                    console.log(this.$refs.select1[0].value);
+                }
+            },
+            filters: {
+                change2: function() {
+                    this.change1();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
