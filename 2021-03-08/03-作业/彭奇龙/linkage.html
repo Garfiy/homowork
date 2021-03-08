@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/data.js"></script>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <select @change="getPro($event)">
+            <option v-for="(item,index) in datas[proIndex]" :value="index">{{item}}</option>
+        </select>
+        <select @change="getCity($event)">
+            <option v-for="(item,index) in datas[cityIndex]" :value="index">{{item}}</option>
+        </select>
+        <select>
+            <option v-for="(item,index) in datas[districtIndex]" :value="index">{{item}}</option>
+        </select>
+    </div>
+    <script>
+        new Vue({
+            el: '#box',
+            data: {
+                proIndex: '0',
+                cityIndex: '',
+                districtIndex: '',
+                datas: data,
+            },
+            methods: {
+                getPro: function(e) {
+                    this.cityIndex = this.proIndex + ',' + e.target.value;
+                },
+                getCity: function(e) {
+                    console.log(this.districtIndex);
+                    this.districtIndex = this.cityIndex + ',' + e.target.value;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
