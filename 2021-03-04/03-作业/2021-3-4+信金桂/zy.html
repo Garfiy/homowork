@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>实现简单的登录系统</h1>
+        <ol>
+            <li>账号 admin</li>
+            <li>密码 admin</li>
+            <li>密码输入时 要用密文显示</li>
+            <li>点击登录按钮 实现登录</li>
+            <li>当账户不对时 提示账户错误</li>
+            <li>当密码不对的时候 提示密码错误</li>
+            <li>当账户密码都对是时候，提示登录成功</li>
+        </ol>
+        <br>
+        <p>参考样式：</p>
+        <p>账户：<input type="text" v-model="userName" ref="one"></p>
+        <p>密码：<input type="password" v-model="psd" ref="two"></p>
+        <button @click="onClickRegister">登录</button>
+    </div>
+    <br>
+    <div style="color:green;">优+</div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                userName: '',
+                psd: '',
+                // value: 'admin',
+            },
+            methods: {
+                onClickRegister: function() {
+                    if (this.userName == 'admin') {
+                        if (this.psd == 'admin') {
+                            alert('yes');
+
+                        } else {
+                            alert('密码错误');
+                            this.$refs.two.focus();
+                        }
+                    } else {
+                        alert('账户错误');
+                        this.$refs.one.focus();
+                    }
+                    // console.log(this.value);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

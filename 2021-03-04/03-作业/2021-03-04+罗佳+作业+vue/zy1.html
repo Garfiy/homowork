@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+        .cont {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        账户：<span><input type="text" v-model="account"></span>
+        <span :class="[{green:judge},{red:!judge}]">{{name}}</span>
+        <br>
+        密码：<span><input type="password" v-model="password"></span>
+        <span :class="[{green:judge1},{red:!judge1}]">{{name2}}</span>
+        <br>
+        <button @click="onClickregister">登录</button>
+        <span :class="{green:judge1}">{{ register }}</span>
+    </div>
+    <br>
+    <div style="color:green;">优</div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                account: '',
+                password: '',
+                name: '',
+                name2: '',
+                register: '',
+                judge: true,
+                judge1: true,
+                
+            },
+            methods: {
+                onClickregister: function () {
+                    if (this.account == "admin") {
+                        this.judge = true;
+                        this.name = '用户名正确';
+                        if (this.password == "admin") {
+                            this.judge1 = true;
+                            this.name2 = '密码正确';
+                            this.register = "登录成功"
+                        } else {
+                            this.judge1 = false;
+                            this.name2 = '密码不正确';
+                            this.register = ""
+                        }
+                    } else {
+                        this.judge = false;
+                        this.name = '用户名错误';
+                        this.register = ""
+                    }
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

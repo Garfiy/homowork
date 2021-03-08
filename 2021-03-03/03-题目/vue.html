@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue</title>
+    <style>
+        .select {
+            display: inline-block;
+            border: 1px solid beige;
+            padding: 6px;
+        }
+        
+        .select_active {
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vm">
+        <!-- <div class="select_box">
+            <div class="select" v-for="(item,index) in list" :key="item.id" @click="onClickSelect(index)" :class="{select_active:curSelectIndex == index}">
+                {{item.title}}
+            </div>
+        </div>
+
+        <div class="content_box">
+            <img class="content" :src="one.imgSrc" v-for="(one,index) in list" :key="one.id" v-show="curSelectIndex == index">
+        </div> -->
+
+        <div class="select_box">
+            <div class="select" v-for="(item,index) in list" :key="item.id" @click="onClickSelectObj(index)" :class="{select_active:curSelectObj.index == index}">
+                {{item.title}}
+            </div>
+        </div>
+
+        <div class="content_box">
+            <img class="content" :src="one.imgSrc" v-for="(one,index) in list" :key="one.id" v-show="curSelectObj.index == index">
+        </div>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#vm",
+            data: {
+                curSelectIndex: 0,
+                curSelectObj: {
+                    index: 0,
+                },
+                list: [{
+                    id: 1,
+                    title: '选项一',
+                    imgSrc: '../04-资源/apple.png',
+                }, {
+                    id: 2,
+                    title: '选项二',
+                    imgSrc: '../04-资源/lemon.png',
+                }, {
+                    id: 3,
+                    title: '选项三',
+                    imgSrc: '../04-资源/orange.png',
+                }, {
+                    id: 4,
+                    title: '选项四',
+                    imgSrc: '../04-资源/apple.png',
+                }],
+            },
+            methods: {
+                onClickSelect: function(index) {
+                    // (index == curSelectIndex) ? curSelectIndex = -1: curSelectIndex = index;
+
+                    let curSelectIndex = this.curSelectIndex;
+                    if (index == curSelectIndex) {
+                        curSelectIndex = -1;
+                    } else {
+                        curSelectIndex = index;
+                    }
+
+                    this.curSelectIndex = curSelectIndex;
+                },
+                onClickSelectObj: function(index) {
+                    // 值变量 和 引用变量
+
+                    let curSelectIndex = this.curSelectObj;
+                    if (index == curSelectIndex.index) {
+                        curSelectIndex.index = -1;
+                    } else {
+                        curSelectIndex.index = index;
+                    }
+
+                    // this.curSelectObj.index = curSelectIndex.index;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

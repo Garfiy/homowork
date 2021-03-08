@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        用户名: <input type="text" v-model="uname"><br>
+        密码: <input type="password" v-model="psd"><br>
+        <button @click="onClickBtn">登录</button>
+    </div>
+    <br>
+    <div style="color:green;">优</div>
+    <script src="vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                uname: "",
+                psd: "",
+            },
+            methods:{
+                onClickBtn:function(){
+                    if(this.uname == "admin"){
+                        if(this.psd == "admin"){
+                            alert("登录成功");
+                        }else{
+                            alert("登录失败");
+                        }
+                    }else{
+                        alert("登录失败");
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

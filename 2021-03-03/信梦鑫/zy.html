@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        li {
+            float: left;
+            cursor: pointer;
+            list-style: none;
+            width: 100px;
+            height: 50px;
+            text-align: center;
+            border: 1px solid pink;
+            line-height: 50px;
+            margin-right: 5px;
+        }
+        
+        .lis {
+            background-color: pink;
+            color: #fff;
+        }
+        
+        img {
+            width: 500px;
+            height: 400px;
+        }
+        
+        .photo {
+            width: 600px;
+            height: 500px;
+        }
+    </style>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <ul>
+                <li v-for="da in datas" :class="{'lis':num==da.id}" @click="num=da.id">{{da.imgName}}</li>
+            </ul>
+            <div class="photo">
+                <img v-for="ta in datas" :src="ta.url" v-show="num==ta.id">
+            </div>
+        </div>
+    </div>
+    <script>
+        var v = new Vue({
+            el: '#app',
+            data: {
+                num: 0,
+                datas: [{
+                    id: 1,
+                    url: 'img/dg.png',
+                    imgName: '蛋糕'
+                }, {
+                    id: 2,
+                    url: 'img/hg.png',
+                    imgName: '火锅'
+                }, {
+                    id: 3,
+                    url: 'img/kr.png',
+                    imgName: '烤肉'
+                }],
+            }
+        });
+    </script>
+</body>
+
+</html>

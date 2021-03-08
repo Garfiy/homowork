@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        {{msg}}
+        <h1 v-cloak>{{msg}}</h1>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        //v-cloak: 给标签添加一个隐藏属性，默认标签为隐藏状态，当vue数据加载完成后，vue会自动把v-cloak属性给移除
+        var vm = new Vue({
+            el: '#app',
+            data: { //把data中的属性当作vue中的变量来使用
+                msg: '今天又在上vue',
+                count: 1,
+                flag: true
+            }
+        })
+    </script>
+</body>
+
+</html>

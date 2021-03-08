@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-for 是循环当前元素 -->
+        <!-- arrs 是对应的数据源对象名 -->
+        <!-- one 是自定义的单个元素对象名 -->
+        <!-- <div v-for="one in arrs">
+            {{one}}
+        </div> -->
+
+        <!-- 要获取对象的值可以直接通过 . 操作符获取 -->
+        <!-- <div v-for="one in arrObjs">
+            id : {{one.id}} name : {{one.name}}
+        </div> -->
+
+
+        <!-- value 表示单条数据源 -->
+        <!-- index 表示数据源的下标 -->
+        <!-- v-if 不要和 v-for 一起使用 -->
+        <div v-for='(value,index) in obj'>{{value.uname + '---' + value.age + '---' + value.gender}}</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                arrs: [
+                    'a', 'b', 'c', 'd'
+                ],
+                arrObjs: [{
+                    id: 1,
+                    name: 'a',
+                }, {
+                    id: 1,
+                    name: 'b',
+                }, {
+                    id: 1,
+                    name: 'c',
+                }, {
+                    id: 1,
+                    name: 'd',
+                }],
+                obj: [{
+                    uname: 'zhangsan',
+                    age: 13,
+                    gender: 'female'
+                }, {
+                    uname: 'zhangsan',
+                    age: 10,
+                    gender: 'female'
+                }, {
+                    uname: 'zhangsan',
+                    age: 20,
+                    gender: 'female'
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>

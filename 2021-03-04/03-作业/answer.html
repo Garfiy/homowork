@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>实现简单的登录系统</h1>
+    <ol>
+        <li>账号 admin</li>
+        <li>密码 admin</li>
+        <li>密码输入时 要用密文显示</li>
+        <li>点击登录按钮 实现登录</li>
+        <li>当账户不对时 提示账户错误</li>
+        <li>当密码不对的时候 提示密码错误</li>
+        <li>当账户密码都对是时候，提示登录成功</li>
+    </ol>
+
+    <br>
+    <p>参考样式：</p>
+    <div id="app">
+        <!-- 绑定用户输入的内容 用 v-model 指令 -->
+        <p>账户：<input type="text" v-model="userInputName"></p>
+        <!-- type="password"  是密码输入框 不会显示输入的内容-->
+        <p>密码：<input type="password" v-model="userInputPassword"></p>
+        <button @click="login">登录</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                // 正确的账户号码
+                userName: 'admin',
+                // 正确的账户面
+                userPassword: 'admin',
+                // 保存用户输入的账户
+                userInputName: '',
+                // 保存用户输入的密码
+                userInputPassword: '',
+            },
+            methods: {
+                // 登录的方法
+                login: function() {
+                    switch (true) {
+                        case this.userInputName != this.userName:
+                            // 当用户输入名称不等于正确的名称时 执行这里
+                            alert("账户不存在！");
+                            break;
+                        case this.userInputPassword != this.userPassword:
+                            // 当用户输入密码不正确时 执行这里
+                            alert("密码输入错误！");
+                            break;
+                        default:
+                            // 上面条件都不成立时 执行这里
+                            alert("登录成功！");
+                            break;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

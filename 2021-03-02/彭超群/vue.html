@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="num1" @keyup.enter="keyup1">
+        <select name="" id="" v-model="select">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
+        <input type="text" class="input" v-model="num2" @keyup.enter="keyup2">
+        <button @click="sum">=</button>
+        <span v-text="sum1"></span>
+    </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>在用vue框架时,不要再自己主动获取dom元素</li>
+        </ol>
+    </div>
+
+    <script>
+        var v = new Vue({
+            el: '#app',
+            data: {
+                num1: '',
+                num2: '',
+                select: '+',
+                sum1: null
+            },
+            methods: {
+                sum: function() {
+                    if (this.select == '+') {
+                        this.sum1 = parseInt(this.num1) + parseInt(this.num2);
+                    } else if (this.select == '-') {
+                        this.sum1 = parseInt(this.num1) - parseInt(this.num2);
+                    } else if (this.select == '*') {
+                        this.sum1 = parseInt(this.num1) * parseInt(this.num2);
+                    } else {
+                        this.sum1 = parseInt(this.num1) / parseInt(this.num2);
+                    }
+                },
+                keyup1: function(e) {
+                    document.querySelector('.input').focus();
+                },
+                keyup2: function() {
+                    this.sum();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

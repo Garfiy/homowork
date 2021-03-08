@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .item {
+            width: 300px;
+            height: 30px;
+            border: 1px solid #ccc;
+        }
+        
+        .item li {
+            list-style: none;
+            text-align: center;
+            line-height: 30px;
+            width: 50px;
+            height: 30px;
+            border: solid 1px tomato;
+            float: left;
+        }
+        
+        .item .lis {
+            background-color: teal;
+        }
+        
+        .view {
+            width: 500px;
+            height: 500px;
+        }
+        
+        .view img {
+            display: none;
+        }
+        
+        .view .blick {
+            display: block;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="tab">
+        <ul class="item">
+            <li :class="num==index ?addclass:''" v-for="(value,index) in datas" :key="datas.id" @click="setLis(index)">
+                <!-- 循环创建 -->
+                {{value.name}}
+            </li>
+        </ul>
+        <div class="view">
+            <img :class="num==index ?blick:''" v-for="(value,index) in datas" :src="value.src" alt="">
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#tab',
+            data: {
+                datas: [{
+                    id: 1,
+                    name: '月亮',
+                    src: 'img/img1.jpg'
+                }, {
+                    id: 2,
+                    name: '红线',
+                    src: 'img/img2.jpg'
+                }, {
+                    id: 3,
+                    name: '书本',
+                    src: 'img/img3.jpg'
+                }],
+                // 切换li
+                num: 2,
+                // 类名
+                addclass: {
+                    lis: true,
+                },
+                blick: {
+                    blick: true
+                }
+            },
+            methods: {
+                // 点击改变索引
+                setLis: function(i) {
+                    this.num = i;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

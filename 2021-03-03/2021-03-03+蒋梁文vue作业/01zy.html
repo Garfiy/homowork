@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        #app {
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        li {
+            width: 200px;
+            height: 100px;
+            border: 1px solid greenyellow;
+            text-align: center;
+            line-height: 100px;
+            list-style: none;
+            cursor: pointer;
+        }
+        
+        .tab-li {
+            background-color: pink;
+            color: black;
+        }
+        
+        ul {
+            display: flex;
+        }
+        
+        .box {
+            width: 600px;
+            height: 400px;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="k in datas" @click="num=k.id" :class="{'tab-li':num==k.id}">{{k.name}}</li>
+        </ul>
+        <div class="box">
+            <img v-for="image in datas" :src="image.url" v-show="num==image.id">
+        </div>
+    </div>
+    <br>
+    <div style="color: green;">
+        优
+    </div>
+    <script>
+        var v = new Vue({
+            el: '#app',
+            data: {
+                num: 1,
+                datas: [{
+                    id: 1,
+                    name: '帅狗狗',
+                    url: 'img/01.jpg',
+                }, {
+                    id: 2,
+                    name: '小狗狗',
+                    url: 'img/02.jpg',
+                }, {
+                    id: 3,
+                    name: '肥猪猪',
+                    url: 'img/03.jpg',
+                }]
+            }
+        });
+    </script>
+</body>
+
+</html>

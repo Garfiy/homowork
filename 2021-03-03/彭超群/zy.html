@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        li {
+            list-style: none;
+            width: 100px;
+            height: 50px;
+            border: 1px solid red;
+            text-align: center;
+            line-height: 50px;
+        }
+        
+        .tab-li {
+            background-color: pink;
+            color: red;
+        }
+        
+        ul {
+            display: flex;
+        }
+        
+        .img {
+            width: 600px;
+            height: 400px;
+            border: 1px solid red;
+        }
+        
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="tab">
+        <div>
+            <ul>
+                <li v-for="k in datas" @click="num=k.id" :class="{'tab-li':num==k.id}">{{k.name}}</li>
+            </ul>
+            <div class="img">
+                <img v-for="v in datas" :src="v.url" v-show="num==v.id">
+            </div>
+        </div>
+    </div>
+    <script>
+        var v = new Vue({
+            el: '#tab',
+            data: {
+                num: 1,
+                datas: [{
+                    id: 1,
+                    url: 'img/1.jpg',
+                    name: 'list1'
+                }, {
+                    id: 2,
+                    url: 'img/2.jpeg',
+                    name: 'list2'
+                }, {
+                    id: 3,
+                    url: 'img/3.jpg',
+                    name: 'list3'
+                }]
+            }
+        });
+    </script>
+</body>
+
+</html>

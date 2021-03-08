@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        #box {
+            position: relative;
+            width: 600px;
+        }
+        
+        .tab_list {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+        
+        .tab_list li {
+            width: 33.3%;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            color: pink;
+            border: 1px solid skyblue;
+            cursor: pointer;
+        }
+        
+        .tab_list .point {
+            background-color: hotpink;
+        }
+        
+        .item {
+            width: 100%;
+            border: 1px solid skyblue;
+            margin-top: -1px;
+        }
+        
+        .item_box div {
+            display: none;
+        }
+        
+        .item_box .item {
+            display: block;
+        }
+        
+        .jlw {
+            position: absolute;
+            right: 20px;
+            top: 80px;
+            width: 80px;
+            height: 80px;
+            background-color: red;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 80px;
+            border: 1px solid green;
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <ul class="tab_list">
+            <li v-for="(item,index) in tabList" :key="item.id" @click="getImg(index)" :class="pointNew==index?'point':''">{{item.title}}</li>
+        </ul>
+        <div class="item_box">
+            <div v-for="(item,index) in tabList" :key="item.id" :class="pointNew==index?'item':''">
+                <img :src="item.path">
+            </div>
+        </div>
+        <div class="jlw">
+            将梁文认证
+        </div>
+    </div>
+
+    <br>
+    <div style="color: green;">
+        <ol>
+            <li>加的标致很不错</li>
+        </ol>
+    </div>
+    <script>
+        new Vue({
+            el: '#box',
+            data: {
+                tabList: [{
+                    id: 1,
+                    title: 'one',
+                    path: 'img/1.gif'
+                }, {
+                    id: 2,
+                    title: 'two',
+                    path: 'img/2.gif'
+                }, {
+                    id: 3,
+                    title: 'three',
+                    path: 'img/3.gif'
+                }],
+                pointNew: 0
+            },
+            methods: {
+                getImg: function(index) {
+                    this.pointNew = index;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 需要一个input标签 -->
+        <input type="text" v-focus>
+        <div v-background-color="'red'">用vue自定义指令改变背景颜色</div>
+        <p v-texts="msg"></p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        // 自定义一个指令 实现 v-text 指令的效果
+        // v-text 把data中的数据渲染到指定的标签上
+        Vue.directive('texts', {
+            bind: function(el, binding) {
+                el.innerText = binding.value;
+            }
+        })
+
+        // 声明自定义的指令内容
+        Vue.directive('backgroundColor', {
+            // 在vue绑定元素时调用
+            // bind 在 inserted 之前调用
+            bind: function(el, binding) {
+                console.log('bind');
+                console.log(el);
+                console.log(binding);
+                // el：表示指令对应元素标签对象
+                // binding.value：表示指令等于字符串
+                // 设置元素的背景颜色
+                el.style.backgroundColor = binding.value;
+            }
+        })
+
+        // 声明自定义的指令内容
+        Vue.directive('focus', {
+            // 在vue创建完成后调用
+            // inserted 在 bind 之后调用
+            inserted: function(el) {
+                console.log('inserted');
+                console.log(el);
+                // 聚焦输入框
+                el.focus();
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+                msg: '十点下课',
+            }
+        })
+    </script>
+</body>
+
+</html>
