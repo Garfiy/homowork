@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <!-- guoer 过滤的参数 是|符号之前的变量（msg） -->
+        <p>{{msg | guoer}}</p>
+        <!-- big中过滤器的参数 是guoer过滤器的返回值 -->
+        <p>{{msg | guoer|big}}</p>
+        <!-- 可以直接传data中的对象 在这里使用data中的数据时，不需要加this -->
+        <p>{{msg | changeState(type) }}</p>
+
+        <p>{{msg | changeState(2) }}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'Rbcdefg',
+                type: 2,
+            },
+            // 过滤器的声明
+            filters: {
+                // 过滤器不会改变数据源（data里的数据）
+                guoer: function(value) {
+                    console.log(value);
+                    // 执行过滤器的逻辑
+                    value = value.charAt(0).toLowerCase() + value.slice(1);
+
+                    // 过滤器 一定要有返回值
+                    return value;
+                },
+                // 过滤器一定要声明第一个参数
+                big: function(value) {
+                    console.log(value);
+                    // 执行过滤器的逻辑
+                    value = value.charAt(0).toUpperCase() + value.slice(1);
+
+                    // 过滤器 一定要有返回值
+                    return value;
+                },
+                // type:1时 首子母变为大写  
+                // type:2时 首字母变为小写
+                changeState: (value, type) => {
+                    // 过滤器中 this 的指向 是指向window
+                    // 过滤器中 无法获取vm实例，获取不到data中的变量已经其他的过滤器，还是方法，计算，观察都无法获取；
+                    switch (type) {
+                        case 1:
+                            // vm.big(value);
+                            value = value.charAt(0).toUpperCase() + value.slice(1);
+                            break;
+                        case 2:
+                            // vm.guoer(value);
+                            value = value.charAt(0).toLowerCase() + value.slice(1);
+                            break;
+                    }
+
+                    return value;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <input type="text" v-model="msg">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg: 'showMsg',
+            },
+            methods: {
+                showMsg: function(msg) {
+                    console.log(msg);
+                    console.log(this);
+                }
+            },
+            beforeCreate: function() {
+                // 在这里还无法使用数据和方法
+                // showMsg.call(this, 'beforeCreate');
+            },
+            created: function() {
+                // showMsg.call(this, 'created');
+            },
+            beforeMount: function() {
+                // showMsg.call(this, 'beforeMount');
+            },
+            mounted: function() {
+                // showMsg.call(this, 'mounted');
+            },
+            // 在数据已经改变，视图未改变时  触发
+            beforeUpdate: function() {
+                showMsg.call(this, 'beforeUpdate');
+                // console.log(document.querySelector('p').innerText);
+                console.log(this.msg);
+                console.log(document.querySelector('input').value);
+            },
+            // 在数据已改变， 视图也已经改变时 触发
+            updated: function() {
+                showMsg.call(this, 'updated');
+                // console.log(document.querySelector('p').innerText);
+
+                console.log(this.msg);
+                console.log(document.querySelector('input').value);
+            },
+            beforeDestroy: function() {
+                showMsg.call(this, 'beforeDestroy');
+            },
+            destroyed: function() {
+                showMsg.call(this, 'destroyed');
+            }
+        })
+
+        function showMsg(msg) {
+            console.log(msg);
+            console.log(this);
+            // console.log(this.showMsg);
+        }
+    </script>
+</body>
+
+</html>

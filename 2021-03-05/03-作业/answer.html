@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="app1">
+            <p>methods:</p>
+            <input type="text" v-model="value1">
+            <select v-model="type">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="value2">
+            <button @click="onClickResult">=</button>
+            <span v-text="result"></span>
+        </div>
+
+        <div class="app2">
+            <p>computed:</p>
+            <input type="text" v-model="value1">
+            <select v-model="type">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="value2">
+            <button @click="onClickResult">=</button>
+            <span>{{computedResult}}</span>
+            <!-- <span>{{result}}</span> -->
+        </div>
+
+        <div class="app3">
+            <p>watch:</p>
+            <input type="text" v-model="value1">
+            <select v-model="type">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="value2">
+            <button @click="onClickResult">=</button>
+            <span v-text="result"></span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '.app1',
+            data: {
+                // 声明
+                value1: null,
+                type: null,
+                value2: null,
+                result: null,
+            },
+            methods: {
+                onClickResult: function() {
+                    let sum = '' + this.value1 + this.type + this.value2;
+                    console.log(sum);
+                    // eval 是把字符串当做代码来执行
+                    this.result = eval(sum);
+                }
+            }
+        });
+
+        new Vue({
+            el: '.app2',
+            data: {
+                // 声明
+                value1: '',
+                type: '+',
+                value2: '',
+                result: null,
+            },
+            methods: {
+                onClickResult: function() {
+                    if (this.value1 && isth.value2) {
+                        let sum = '' + this.value1 + this.type + this.value2;
+                        console.log(sum);
+                        // eval 是把字符串当做代码来执行
+                        this.result = eval(sum);
+                    }
+                }
+            },
+            // 是监听所用到的值的变化 只要有一个变化就会改变结果
+            // 多对一
+            computed: {
+                computedResult: function() {
+                    this.onClickResult();
+                    return this.result;
+                }
+            }
+        });
+
+
+        new Vue({
+            el: '.app3',
+            data: {
+                // 声明
+                value1: null,
+                type: null,
+                value2: null,
+                result: null,
+            },
+            methods: {
+                onClickResult: function() {
+                    if (this.value1 && this.value2 && this.type) {
+                        let sum = '' + this.value1 + this.type + this.value2;
+                        console.log(sum);
+                        // eval 是把字符串当做代码来执行
+                        this.result = eval(sum);
+                    }
+                }
+            },
+            // 是监听一个变量变化时  去改变多个变量
+            // 一对多
+            watch: {
+                value1: function() {
+                    this.onClickResult();
+                },
+                value2: function() {
+                    this.onClickResult();
+                },
+                type: function() {
+                    this.onClickResult();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
