@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="app1">
+            <p>第一种:</p>
+            <input type="text" v-model="methodsMsg.num1">
+            <select v-model="methodsMsg.arithmetic">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="methodsMsg.num2" @keyup.enter="subtract">
+            <button @click="subtract">=</button>
+            <span v-text="methodsMsg.sum"></span>
+        </div>
+        <div class="app2">
+            <p>第二种:</p>
+            <input type="text" v-model="multiplication.num1">
+            <select v-model="multiplication.arithmetic">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="multiplication.num2" @keyup.enter="subtract">
+            <button>=</button>
+            <span v-text="multiplication.sum"></span>
+        </div>
+        <div class="app3">
+            <p>第三种:</p>
+            <input type="text" v-model="computedMsg.num1">
+            <select v-model="computedMsg.arithmetic">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" v-model="computedMsg.num2" @keyup.enter="daiwdhoiagdiwu">
+            <button @click="daiwdhoiagdiwu">=</button>
+            <span> {{computedMsg.sum}}</span>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                methodsMsg: {
+                    num1: '',
+                    num2: '',
+                    arithmetic: '+',
+                    sum: '',
+                },
+                multiplication: {
+                    num1: '',
+                    num2: '',
+                    arithmetic: '+',
+                    sum: '',
+                },
+                computedMsg: {
+                    num1: '',
+                    num2: '',
+                    arithmetic: '+',
+                    sum: '',
+                },
+            },
+            methods: {
+                subtract: function () {
+                    if (this.methodsMsg.arithmetic == '+') {
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) + parseInt(this.methodsMsg
+                            .num2);
+                    } else if (this.methodsMsg.arithmetic == '-') {
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) - parseInt(this.methodsMsg
+                            .num2);
+                    } else if (this.methodsMsg.arithmetic == '*') {
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) * parseInt(this.methodsMsg
+                            .num2);
+                    } else {
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) / parseInt(this.methodsMsg
+                            .num2);
+                    }
+                },
+                daiwdhoiagdiwu: function () {
+                    this.computedSum;
+                }
+            },
+            watch: {
+                multiplication: {
+                    handler: function (v) {
+                        if (v.arithmetic == '+') {
+                            v.sum = parseInt(v.num1) + parseInt(v.num2);
+                        } else if (v.arithmetic == '-') {
+                            v.sum = parseInt(v.num1) - parseInt(v.num2);
+                        } else if (v.arithmetic == '*') {
+                            v.sum = parseInt(v.num1) * parseInt(v.num2);
+                        } else {
+                            v.sum = parseInt(v.num1) / parseInt(v.num2);
+                        }
+                    },
+                    deep: true
+                }
+            },
+            computed: {
+                computedSum: function () {
+                    console.log(this.computedMsg.arithmetic);
+                    if (this.computedMsg.arithmetic == '+') {
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) + parseInt(this
+                            .computedMsg.num2);
+                    } else if (this.computedMsg.arithmetic == '-') {
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) - parseInt(this
+                            .computedMsg.num2);
+                    } else if (this.computedMsg.arithmetic == '*') {
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) * parseInt(this
+                            .computedMsg.num2);
+                    } else {
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) / parseInt(this
+                            .computedMsg.num2);
+                    }
+                },
+            },
+        })
+    </script>
+</body>
+
+</html>
