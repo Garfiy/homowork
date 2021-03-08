@@ -12,15 +12,16 @@
     <div id="app">
         <input type="text" v-model="num1">
         <select v-model="select">
-        <option >+</option>
-        <option >-</option>
-        <option >*</option>
-        <option >/</option>
-    </select>
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
         <input type="text" v-model="num2">
         <button @click="sum">=</button>
         <span v-text="result"></span>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
@@ -33,7 +34,7 @@
                 result: null
             },
             methods: {
-                sum: function() {
+                sum: function () {
                     if (this.select == '+') {
                         this.result = parseInt(this.num1) + parseInt(this.num2);
                     } else if (this.select == '-') {

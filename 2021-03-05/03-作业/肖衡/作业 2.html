@@ -18,41 +18,46 @@
             <option>*</option>
             <option>/</option>
         </select>
-        <input type="text"  v-model="val2">
+        <input type="text" v-model="val2">
         <button @click="sums">=</button>
-        <span v-text = "sum"></span>
+        <span v-text="sum"></span>
     </div>
-
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>computed 和 watch 模式应该直接不点等于号就显示答案</li>
+        </ol>
+    </div>
     <script src="vue.js"></script>
     <script>
         new Vue({
             el: "#app",
-            data:{
-                val1:null,
-                fuhao:"+",
-                val2:null,
-                sum:null,
+            data: {
+                val1: null,
+                fuhao: "+",
+                val2: null,
+                sum: null,
             },
-            methods:{
-                sums:function(){
+            methods: {
+                sums: function () {
                     this.sumTwo;
                 }
             },
-            computed:{
-                sumTwo:function(){
+            computed: {
+                sumTwo: function () {
                     // console.log(111);
                     // console.log(this.fuhao);
-                    if(this.fuhao == "+"){
-                        return this.sum =  parseInt(this.val1) + parseInt(this.val2);
+                    if (this.fuhao == "+") {
+                        return this.sum = parseInt(this.val1) + parseInt(this.val2);
                     }
-                    if(this.fuhao == "-"){
-                        return this.sum =  parseInt(this.val1) - parseInt(this.val2);
+                    if (this.fuhao == "-") {
+                        return this.sum = parseInt(this.val1) - parseInt(this.val2);
                     }
-                    if(this.fuhao == "*"){
-                        return this.sum =  parseInt(this.val1) * parseInt(this.val2);
+                    if (this.fuhao == "*") {
+                        return this.sum = parseInt(this.val1) * parseInt(this.val2);
                     }
-                    if(this.fuhao == "/"){
-                        return this.sum =  parseInt(this.val1) / parseInt(this.val2);
+                    if (this.fuhao == "/") {
+                        return this.sum = parseInt(this.val1) / parseInt(this.val2);
                     }
                 }
             }

@@ -22,7 +22,12 @@
         <button @click="sums">=</button>
         <span>{{sum}}</span>
     </div>
-
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>computed 和 watch 模式应该直接不点等于号就显示答案</li>
+        </ol>
+    </div>
     <script src="vue.js"></script>
     <script>
         new Vue({
@@ -34,11 +39,11 @@
                     val2: null,
                     sum: null,
                 },
-                sum:null,
+                sum: null,
             },
-            methods:{
-                sums:function(){
-                  this.sum = this.datas.sum;
+            methods: {
+                sums: function () {
+                    this.sum = this.datas.sum;
                 }
             },
             watch: {

@@ -20,6 +20,14 @@
             <span>{{result}}</span>
         </select>
     </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>结果没有实现不点击等于号就出现</li>
+        </ol>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         new Vue({
@@ -31,7 +39,7 @@
                 result: null
             },
             computed: {
-                sum: function() {
+                sum: function () {
                     if (this.select == '+') {
                         return this.result = parseInt(this.inputval) + parseInt(this.inputvalone);
                     } else if (this.select == '-') {
@@ -41,10 +49,11 @@
                     } else if (this.select == '/') {
                         return this.result = parseInt(this.inputval) / parseInt(this.inputvalone);
                     }
+                    return this.result;
                 }
             },
             methods: {
-                sumclick: function() {
+                sumclick: function () {
                     this.sum
                 }
             }

@@ -39,17 +39,17 @@
                 sum: null
             },
             methods: {
-                count: function() {
+                count: function () {
                     if (this.num1 != null) {
                         this.$refs['input'].focus();
                     } else {
                         this.$refs['input2'].focus();
                     }
                 },
-                pitch: function(event) {
+                pitch: function (event) {
                     this.symboD = event.target.value;
                 },
-                numSum: function() {
+                numSum: function () {
                     if (this.symboD == '+') {
                         this.sum = parseInt(this.num1) + parseInt(this.num2);
                     } else if (this.symboD == '-') {

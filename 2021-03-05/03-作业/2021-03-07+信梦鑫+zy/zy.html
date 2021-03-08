@@ -13,11 +13,11 @@
         <div>methods：</div>
         <input type="text" v-model="methods.num1">
         <select v-model="methods.select">
-        <option>+</option>
-        <option>-</option>
-        <option>*</option>
-        <option>/</option>
-         </select>
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
         <input type="text" v-model="methods.num2">
         <button @click="calculate">=</button>
         <span v-text="methods.resultMethods"></span>
@@ -27,11 +27,11 @@
         <div>computed：</div>
         <input type="text" v-model="computed.num1">
         <select v-model="computed.select">
-        <option>+</option>
-        <option>-</option>
-        <option>*</option>
-        <option>/</option>
-         </select>
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
         <input type="text" v-model="computed.num2">
         <button @click="computed.resultComputed=sum">=</button>
         <span v-text="computed.resultComputed"></span>
@@ -41,15 +41,23 @@
         <div>watch：</div>
         <input type="text" v-model="watch.num1">
         <select v-model="watch.select">
-        <option>+</option>
-        <option>-</option>
-        <option>*</option>
-        <option>/</option>
-         </select>
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
         <input type="text" v-model="watch.num2">
         <button @click="watch.resultWatch=result">=</button>
         <span v-text="watch.resultWatch"></span>
     </div>
+
+    <br>
+    <divs style="color:red">
+        <ol>
+            <li>没有实现computed和watch的自动改变结果的功能</li>
+        </ol>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         new Vue({
@@ -76,7 +84,7 @@
                 result: ''
             },
             methods: {
-                calculate: function() {
+                calculate: function () {
                     let select = this.methods.select;
                     let num1 = parseInt(this.methods.num1);
                     let num2 = parseInt(this.methods.num2);
@@ -99,7 +107,7 @@
                 }
             },
             computed: {
-                sum: function() {
+                sum: function () {
                     let select = this.computed.select;
                     let num1 = parseInt(this.computed.num1);
                     let num2 = parseInt(this.computed.num2);
@@ -123,7 +131,7 @@
             },
             watch: {
                 watch: {
-                    handler: function(val) {
+                    handler: function (val) {
                         let select = val.select;
                         let num1 = parseInt(val.num1);
                         let num2 = parseInt(val.num2);

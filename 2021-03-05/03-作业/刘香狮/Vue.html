@@ -51,6 +51,15 @@
             <span> {{computedMsg.sum}}</span>
         </div>
     </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>computer 模式 并没有生效（没有实现改变前面三个变量时，自动变化结果）</li>
+            <li>没有使用 comouted 里声明的 computedSum 变量</li>
+        </ol>
+    </div>
+
     <script>
         var vm = new Vue({
             el: "#count",
@@ -72,7 +81,7 @@
                 }
             },
             methods: {
-                onClickMethods: function() {
+                onClickMethods: function () {
                     if (this.$refs.methodsOperation.value == '+') {
                         this.methodsMsg.sum = parseInt(this.methodsMsg.num1) + parseInt(this.methodsMsg.num2);
                     } else if (this.$refs.methodsOperation.value == '-') {
@@ -84,13 +93,13 @@
                         this.methodsMsg.sum = this.methodsMsg.num1 / this.methodsMsg.num2;
                     }
                 },
-                onClickComputed: function() {
+                onClickComputed: function () {
                     this.computedSum;
                 }
             },
             watch: {
                 watchMSg: {
-                    handler: function(val) {
+                    handler: function (val) {
                         if (this.$refs.wathcOperation.value == '+') {
                             val.sum = parseInt(val.num1) + parseInt(val.num2);
                         } else if (this.$refs.wathcOperation.value == '-' && val.num1 != null && val.num2 != null) {
@@ -108,7 +117,7 @@
                 }
             },
             computed: {
-                computedSum: function() {
+                computedSum: function () {
 
                     if (this.$refs.computedOperation.value == '+') {
                         return this.computedMsg.sum = parseInt(this.computedMsg.num1) + parseInt(this.computedMsg.num2);

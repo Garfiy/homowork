@@ -50,6 +50,15 @@
             <span> {{computedMsg.sum}}</span>
         </div>
     </div>
+
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>computer 模式 并没有生效（没有实现改变前面三个变量时，自动变化结果）</li>
+            <li>没有使用comouted里声明的computedSum变量</li>
+        </ol>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         new Vue({
@@ -77,17 +86,13 @@
             methods: {
                 subtract: function () {
                     if (this.methodsMsg.arithmetic == '+') {
-                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) + parseInt(this.methodsMsg
-                            .num2);
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) + parseInt(this.methodsMsg.num2);
                     } else if (this.methodsMsg.arithmetic == '-') {
-                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) - parseInt(this.methodsMsg
-                            .num2);
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) - parseInt(this.methodsMsg.num2);
                     } else if (this.methodsMsg.arithmetic == '*') {
-                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) * parseInt(this.methodsMsg
-                            .num2);
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) * parseInt(this.methodsMsg.num2);
                     } else {
-                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) / parseInt(this.methodsMsg
-                            .num2);
+                        this.methodsMsg.sum = parseInt(this.methodsMsg.num1) / parseInt(this.methodsMsg.num2);
                     }
                 },
                 daiwdhoiagdiwu: function () {
@@ -114,17 +119,13 @@
                 computedSum: function () {
                     console.log(this.computedMsg.arithmetic);
                     if (this.computedMsg.arithmetic == '+') {
-                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) + parseInt(this
-                            .computedMsg.num2);
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) + parseInt(this.computedMsg.num2);
                     } else if (this.computedMsg.arithmetic == '-') {
-                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) - parseInt(this
-                            .computedMsg.num2);
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) - parseInt(this.computedMsg.num2);
                     } else if (this.computedMsg.arithmetic == '*') {
-                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) * parseInt(this
-                            .computedMsg.num2);
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) * parseInt(this.computedMsg.num2);
                     } else {
-                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) / parseInt(this
-                            .computedMsg.num2);
+                        return this.computedMsg.sum = parseInt(this.computedMsg.num1) / parseInt(this.computedMsg.num2);
                     }
                 },
             },

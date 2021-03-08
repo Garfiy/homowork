@@ -13,16 +13,24 @@
         <div>
             <input type="text" v-model="calculate3.num1">
             <select name="" id="" v-model="calculate3.select">
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-        </select>
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+            </select>
             <input type="text" v-model="calculate3.num2">
             <button @click="calculate3.sum=sum3">=</button>
             <span v-text="calculate3.sum"></span>
         </div>
     </div>
+    
+    <br>
+    <div style="color: red;">
+        <ol>
+            <li>结果没有实现不点击等于号就出现</li>
+        </ol>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
         new Vue({
@@ -38,7 +46,7 @@
             },
             watch: {
                 calculate3: {
-                    handler: function(v) {
+                    handler: function (v) {
                         switch (v.select) {
                             case '+':
                                 this.sum3 = parseInt(v.num1) + parseInt(v.num2);
