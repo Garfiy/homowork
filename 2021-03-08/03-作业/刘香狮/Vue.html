@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/data.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods:</p>
+        <select name="省" id="" @change="onChange" ref='pro' >
+            <option v-for="(k,i) in datas[province]" :value="i">{{k}}</option>
+        </select>
+        <select name="市" id="" @change="onChange1" ref='city'>
+            <option v-for="(k,i) in datas[province +','+ city]" :value="i">{{k}}</option>
+        </select>
+        <select name="区" id="" @change="onChange2" ref='area'>
+            <option v-for="(k,i) in datas[province +','+ city + ','+area]" :value="i" >{{k}}</option>
+        </select>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                // 省
+                province:'0',
+                // 市
+                city:'110000',
+                // 区
+                area:'110100',
+                // 数据
+                datas:data,
+            },
+            methods:{
+                // 选省的时候 市变
+                onChange:function(){
+                    // 市的编码为 省的value
+                    this.city=this.$refs.pro.value;
+                    // 为什么县的编码不跟着变呢  操
+                    
+                    this.area=this.$refs.city.value; 
+                    this.onChange1();
+                    console.log(this.province);
+                    console.log(this.city);
+                },
+                onChange1:function(){
+                    
+                    this.area=this.$refs.city.value; 
+                    console.log(this.area);
+                },
+                onChange2:function(){
+                    console.log(this.$refs.area.value);
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
