@@ -8,13 +8,14 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="../data2.js"></script>
+    <script src="../data3.js"></script>
 </head>
 
 <body>
     <div id="app">
         <p>methods</p>
         <select name="" id="" @change="onChangePro" ref="proe" v-model="pro">
-            <option  v-for="(v,i) in datas" :value="i" :key="i">{{v.name}}</option>
+            <option v-for="(v,i) in datas" :value="i" :key="i">{{v.name}}</option>
         </select>
         <select name="" id="" @change="onChangeCity" v-model="city">
             <option :value="i" v-for="(v,i) in cityList" :key="i">{{v.name}}</option>
@@ -24,90 +25,208 @@
         </select>
     </div>
     <div id="app1">
-        <p>methods</p>
-        <select name="" id="" @change="onChangePro" ref="proe" v-model="pro">
-            <option  v-for="(v,i) in datas" :value="i" :key="i">{{v.name}}</option>
+        <p>watch</p>
+        <select name="" id="" ref="proe" v-model="pro">
+            <option v-for="(v,i) in datas" :value="i" :key="i">{{v.name}}</option>
         </select>
-        <select name="" id="" @change="onChangeCity" v-model="city">
+        <select name="" id="" v-model="city">
             <option :value="i" v-for="(v,i) in cityList" :key="i">{{v.name}}</option>
         </select>
         <select name="" id="">
             <option :value="i" v-for="(v,i) in areaList" :key="i">{{v}}</option>
         </select>
     </div>
+    <div id="app2">
+        <p>computed</p>
+        <select name="" id="" ref="proe" @change="cityList=proChange" v-model="pro">
+            <option v-for="(v,i) in datas" :value="i" :key="i">{{v.name}}</option>
+        </select>
+        <select name="" id="" v-model="city" @change=" areaList=cityChange">
+            <option :value="i" v-for="(v,i) in cityList" :key="i">{{v.name}}</option>
+        </select>
+        <select name="" id="">
+            <option :value="i" v-for="(v,i) in cityList[city].area" :key="i">{{v}}</option>
+        </select>
+    </div>
+    <h3>data3</h3>
+    <div id="app3">
+        <p>methods</p>
+        <select name="" id="" @change="onChange" v-model="pro">
+            <option v-for="(v,i) in datas" :key="i" :value="i">{{i}}</option>
+        </select>
+        <select name="" id="" v-model="city">
+            <option v-for="(v,i) in datas[pro]" :key="i" :value="i">{{i}}</option>
+        </select>
+        <select name="" id="">
+            <option v-for="(v,i) in datas[pro][city]">{{v}}</option>
+        </select>
+    </div>
+    <div id="app4">
+        <p>watch</p>
+        <select name="" id=""  v-model="pro">
+            <option v-for="(v,i) in datas" :key="i" :value="i">{{i}}</option>
+        </select>
+        <select name="" id="" v-model="city">
+            <option v-for="(v,i) in datas[pro]" :key="i" :value="i">{{i}}</option>
+        </select>
+        <select name="" id="">
+            <option v-for="(v,i) in datas[pro][city]">{{v}}</option>
+        </select>
+    </div>
+    <div id="app5">
+        <p>computed </p>
+        <select name="" id=""  v-model="pro" >
+            <option v-for="(v,i) in datas" :key="i" :value="i">{{i}}</option>
+        </select>
+        <select name="" id="" v-model="city">
+            <option v-for="(v,i) in datas[pro]" :key="i" :value="list">{{i}}</option>
+        </select>
+        <select name="" id="">
+            <option v-for="(v,i) in datas[pro][city]">{{v}}</option>
+        </select>
+    </div>
     <script>
-        var vm = new Vue({
+        new Vue({
             el: '#app',
             data: {
                 datas: data2,
                 // 省的序号
-                pro:'0',
+                pro: '0',
                 // 重新遍历市获取的数据
-                cityList:[],
+                cityList: [],
                 // 市的序号
-                city:'0',
+                city: '0',
                 // 重新获取区的数据
-                areaList:[],
+                areaList: [],
             },
-            created:function(){
+            created: function () {
                 // 初始化 数组 让默认能渲染
-                this.cityList=this.datas[this.pro].city;
-                this.areaList= this.cityList[this.city].area;
+                this.cityList = this.datas[this.pro].city;
+                this.areaList = this.cityList[this.city].area;
 
             },
             methods: {
                 onChangePro: function (e) {
                     // 重新定义市的数据
-                    this.cityList=this.datas[this.pro].city;
+                    this.cityList = this.datas[this.pro].city;
                     // 在调用省的时候 给市一个默认的索引
-                    this.city='0';
+                    this.city = '0';
                     // 调用市的数据 来渲染区
                     this.onChangeCity();
                 },
-                onChangeCity:function(){
+                onChangeCity: function () {
                     // 重新定义区的数据
-                    this.areaList= this.cityList[this.city].area;
+                    this.areaList = this.cityList[this.city].area;
                 }
 
             }
         })
-        var vm = new Vue({
+        new Vue({
             el: '#app1',
             data: {
                 datas: data2,
                 // 省的序号
-                pro:'0',
+                pro: '0',
                 // 重新遍历市获取的数据
-                cityList:[],
+                cityList: [],
                 // 市的序号
-                city:'0',
+                city: '0',
                 // 重新获取区的数据
-                areaList:[],
+                areaList: [],
             },
-            created:function(){
+            created: function () {
                 // 初始化 数组 让默认能渲染
-                this.cityList=this.datas[this.pro].city;
-                this.areaList= this.cityList[this.city].area;
+                this.cityList = this.datas[this.pro].city;
+                this.areaList = this.cityList[this.city].area;
 
+            },
+            watch: {
+                pro: function (value) {
+                    this.cityList = this.datas[value].city;
+                    this.areaList = this.cityList[this.city].area;
+                },
+                city: function (value) {
+                    this.areaList = this.cityList[value].area;
+                }
+            }
+        })
+        new Vue({
+
+            el: '#app2',
+            data: {
+                datas: data2,
+                // 省的序号
+                pro: '0',
+                // 重新遍历市获取的数据
+                cityList: [],
+                // 市的序号
+                city: '0',
+                // 重新获取区的数据
+                areaList: [],
+            },
+            created: function () {
+                // 初始化 数组 让默认能渲染
+                this.cityList = this.datas[this.pro].city;
+                this.areaList = this.cityList[this.city].area;
+
+            },
+            computed: {
+                proChange: function () {
+                    return this.datas[this.pro].city;
+                },
+                cityChange: function () {
+                    return this.cityList[this.city].area;
+                }
+            },
+
+        })
+
+        new Vue({
+            el: '#app3',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区',
             },
             methods: {
-                onChangePro: function (e) {
-                    // 重新定义市的数据
-                    this.cityList=this.datas[this.pro].city;
-                    // 在调用省的时候 给市一个默认的索引
-                    this.city='0';
-                    // 调用市的数据 来渲染区
-                    this.onChangeCity();
-                },
-                onChangeCity:function(){
-                    // 重新定义区的数据
-                    this.areaList= this.cityList[this.city].area;
+                onChange: function () {
+                    for (var k in this.datas[this.pro]) {
+                        this.city=k;
+                        break;
+                    }
                 }
-
+            }
+        })
+        new Vue({
+            el: '#app4',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区',
             },
             watch:{
-                
+                pro:function(){
+                    for(var k in this.datas[this.pro]){
+                        return this.city=k;
+                    }
+                }
             }
+        })
+
+        new Vue({
+            el: '#app5',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区',
+            },
+            computed:{
+                list:function(){
+                    for(var k in this.datas[this.pro]){
+                        return this.city=k;
+                    }
+                }
+            },
         })
     </script>
 </body>
