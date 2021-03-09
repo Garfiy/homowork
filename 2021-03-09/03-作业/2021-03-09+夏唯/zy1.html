@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="app1">
+        <p>methods:</p>
+        <select name="省" id="" v-model="pro" @change="onChangePro">
+            <option :value="k" v-for="(val,k) in allData" :key="k">{{val.name}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option :value="k" v-for="(val,k) in cityList">{{val.name}}</option>
+        </select>
+        <select name="区" id="" v-model="area">
+            <option :value="k" v-for="(val,k) in cityList[city].area">{{val}}</option>
+        </select>
+    </div>
+
+    <div class="app2">
+        <p>computed:</p>
+        <select name="省" id="" v-model="pro">
+            <option :value="k" v-for="(val,k) in allData" :key="k">{{val.name}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option :value="k" v-for="(val,k) in cityList">{{val.name}}</option>
+        </select>
+        <select name="区" id="" v-model="area">
+            <option :value="k" v-for="(val,k) in cityList[city].area">{{val}}</option>
+        </select>
+    </div>
+
+    <div class="app3">
+        <p>watch:</p>
+        <select name="省" id="" v-model="pro">
+            <option :value="k" v-for="(val,k) in allData" :key="k">{{val.name}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option :value="k" v-for="(val,k) in cityList">{{val.name}}</option>
+        </select>
+        <select name="区" id="" v-model="area">
+            <option :value="k" v-for="(val,k) in cityList[city].area">{{val}}</option>
+        </select>
+    </div>
+
+    <script src="js/data2.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
+
+    <script>
+        new Vue({
+            el: '.app1',
+            data: {
+                allData: data2,
+                pro: 0,
+                city: 0,
+                area: 0,
+                cityList: []
+            },
+            beforeMount: function() {
+                this.cityList = this.allData[this.pro].city;
+            },
+            methods: {
+                onChangePro: function() {
+                    this.city = 0;
+                    this.area = 0;
+                    this.cityList = this.allData[this.pro].city;
+                }
+            }
+        });
+        new Vue({
+            el: '.app2',
+            data: {
+                allData: data2,
+                pro: 0,
+                city: 0,
+                area: 0,
+            },
+            computed: {
+                cityList: function() {
+                    this.city = 0;
+                    this.area = 0;
+                    return this.allData[this.pro].city;
+                }
+            }
+        });
+        new Vue({
+            el: '.app3',
+            data: {
+                allData: data2,
+                pro: 0,
+                city: 0,
+                area: 0,
+                cityList: []
+            },
+            beforeMount: function() {
+                this.cityList = this.allData[this.pro].city;
+            },
+            watch: {
+                pro: function(val) {
+                    this.city = 0;
+                    this.area = 0;
+                    this.cityList = this.allData[val].city;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
