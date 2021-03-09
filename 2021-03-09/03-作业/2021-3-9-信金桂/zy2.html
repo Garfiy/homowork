@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="data3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app1">
+        <p>medthods:</p>
+        <p>省：
+            <select name="" id="" v-model="pro"> 
+                <option :value="key" v-for="(val,key) in allData" :key="key">{{key}}</option>
+        </select>
+        </p>
+        <p>市：
+            <select name="" id="" v-model="city">
+                <option :value="key" v-for="(val,key) in allData[pro]" :key="key">{{key}}</option>
+            </select>
+        </p>
+
+        <p>区：
+            <select name="" id="">
+                <option :value="key" v-for="(val,key) in allData[pro][city]" :key="key">{{val}}</option>
+            </select>
+        </p>
+    </div>
+    <script>
+        console.log(data3);
+        new Vue({
+            el: '#app1',
+            data: {
+                allData: data3,
+                pro: '北京市', // 省的id
+                city: '市辖区',
+            },
+
+        });
+    </script>
+</body>
+
+</html>

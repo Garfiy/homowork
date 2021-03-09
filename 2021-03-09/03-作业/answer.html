@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>实现 省市区的三级联动选择器</h1>
+    <ol>
+        <li>分别用下面三种方法实现效果</li>
+        <li>省市区的数据在data2.js文件中</li>
+        <li>省市区的数据在data3.js文件中</li>
+    </ol>
+
+    <div id="app">
+
+        <p><b>data2:</b></p>
+
+        <div>
+            <p>methods:</p>
+            <select name="省" id="" v-model="data2.methods.province" @change="onChangeProvince">
+                <option :value="index" v-for="(value,index) in data2.allData" :key="index">{{value.name}}</option>
+            </select>
+            <select name="市" id="" v-model="data2.methods.city" @change="onChangeCity">
+                <option :value="index" v-for="(value,index) in data2.allData[data2.methods.province].city" :key="index">
+                    {{value.name}}</option>
+            </select>
+            <select name="区" id="" v-model="data2.methods.area">
+                <option :value="index" v-for="(value,index) in data2.methods.areaList" :key="index">
+                    {{value}}
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <p>computed:</p>
+            <select name="省" id="" v-model="data2.province">
+                <option :value="index" v-for="(value,index) in data2.allData" :key="index">{{value.name}}</option>
+            </select>
+            <select name="市" id="" v-model="data2.city">
+                <option :value="index" v-for="(value,index) in cityList" :key="index">
+                    {{value.name}}</option>
+            </select>
+            <select name="区" id="" v-model="data2.area">
+                <option :value="index" v-for="(value,index) in areaList" :key="index">{{value}}
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <p>watch:</p>
+            <select name="省" id="" v-model="data2.watch.province">
+                <option :value="index" v-for="(value,index) in data2.allData" :key="index">{{value.name}}</option>
+            </select>
+            <select name="市" id="" v-model="data2.watch.city">
+                <option :value="index" v-for="(value,index) in data2.allData[data2.watch.province].city" :key="index">
+                    {{value.name}}</option>
+            </select>
+            <select name="区" id="" v-model="data2.watch.area">
+                <option :value="index" v-for="(value,index) in data2.watch.areaList" :key="index">{{value}}
+                </option>
+            </select>
+        </div>
+
+        <p><br></p>
+        <p><b>data3:</b></p>
+
+        <div>
+            <p>methods:</p>
+            <select name="省" id="" v-model="data3.methods.province" @change="onChangeProvinceByData3">
+                <option :value="value" v-for="(value,index) in Object.keys(data3.allData)" :key="index">{{value}}
+                </option>
+            </select>
+            <select name="市" id="" v-model="data3.methods.city" @change="onChangeCityByData3">
+                <option :value="value" v-for="(value,index) in Object.keys(data3.allData[data3.methods.province])"
+                    :key="index">
+                    {{value}}</option>
+            </select>
+            <select name="区" id="" v-model="data3.methods.area">
+                <option :value="index"
+                    v-for="(value,index) in data3.allData[data3.methods.province][data3.methods.city]" :key="index">
+                    {{value}}
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <p>computed:</p>
+            <select name="省" id="" v-model="data3.computed.province">
+                <option :value="value" v-for="(value,index) in Object.keys(data3.allData)" :key="index">{{value}}
+                </option>
+            </select>
+            <select name="市" id="" v-model="data3.computed.city">
+                <option :value="value" v-for="(value,index) in cityListByData3" :key="index">
+                    {{value}}</option>
+            </select>
+            <select name="区" id="" v-model="data3.computed.area">
+                <option :value="index" v-for="(value,index) in areaListByData3" :key="index">
+                    {{value}}
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <p>watch:</p>
+            <select name="省" id="" v-model="data3.watch.province">
+                <option :value="value" v-for="(value,index) in Object.keys(data3.allData)" :key="index">{{value}}
+                </option>
+            </select>
+            <select name="市" id="" v-model="data3.watch.city">
+                <option :value="value" v-for="(value,index) in Object.keys(data3.allData[data3.watch.province])"
+                    :key="index">
+                    {{value}}</option>
+            </select>
+            <select name="区" id="" v-model="data3.watch.area">
+                <option :value="index" v-for="(value,index) in data3.allData[data3.watch.province][data3.watch.city]"
+                    :key="index">
+                    {{value}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <script src="./data2.js"></script>
+    <script src="./data3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        console.log(data3);
+
+        new Vue({
+            el: '#app',
+            data: {
+                data2: {
+                    allData: data2,
+                    province: '0',
+                    city: '0',
+                    area: '0',
+
+                    methods: {
+                        province: '0',
+                        city: '0',
+                        area: '0',
+                        areaList: '',
+                    },
+                    watch: {
+                        province: '0',
+                        city: '0',
+                        area: '0',
+                        areaList: '',
+                    }
+                },
+
+                data3: {
+                    allData: data3,
+                    methods: {
+                        province: '北京市',
+                        city: '市辖区',
+                        area: '0',
+                    },
+                    computed: {
+                        province: '北京市',
+                        city: '市辖区',
+                        area: '0',
+                    },
+                    watch: {
+                        province: '北京市',
+                        city: '市辖区',
+                        area: '0',
+                    }
+                },
+            },
+            created: function () {
+                this.data2.methods.areaList = this.data2.allData[this.data2.methods.province].city[this.data2.methods.city].area;
+
+                this.setWatchAreaList();
+            },
+            methods: {
+                onChangeProvince: function (e) {
+                    console.log('onChangeProvince');
+                    this.data2.methods.city = 0;
+                    this.data2.methods.area = 0;
+
+                    this.data2.methods.areaList = this.data2.allData[this.data2.methods.province].city[this.data2.methods.city].area;
+                },
+                onChangeCity: function (e) {
+                    console.log('onChangeCity');
+                    this.data2.area = 0;
+
+                    this.data2.methods.areaList = this.data2.allData[this.data2.methods.province].city[this.data2.methods.city].area;
+                },
+
+                setWatchAreaList() {
+                    this.data2.watch.areaList = this.data2.allData[this.data2.watch.province].city[this.data2.watch.city].area;
+                },
+
+                onChangeProvinceByData3: function (e) {
+                    let item = this.data3.allData[this.data3.methods.province];
+                    this.data3.methods.city = Object.keys(item)[0];
+                    this.data3.methods.area = 0;
+                },
+                onChangeCityByData3: function (e) {
+                    this.data3.methods.area = 0;
+                }
+            },
+            computed: {
+                cityList: function () {
+                    this.data2.city = 0;
+                    return this.data2.allData[this.data2.province]['city'];
+                },
+                areaList: function () {
+                    this.data2.area = 0;
+                    return this.cityList[this.data2.city].area;
+                },
+                cityListByData3: function () {
+                    let arr = Object.keys(this.data3.allData[this.data3.computed.province]);
+                    this.data3.computed.city = arr[0];
+                    return arr;
+                },
+                areaListByData3: function () {
+                    this.data3.computed.area = 0;
+                    return (this.data3.allData[this.data3.computed.province][this.data3.computed.city]);
+                }
+            },
+            watch: {
+                'data2.watch.province': function () {
+                    this.data2.watch.city = 0;
+                    this.data2.watch.area = 0;
+
+                    this.setWatchAreaList();
+                },
+                'data2.watch.city': function () {
+                    this.data2.watch.area = 0;
+
+                    this.setWatchAreaList();
+                },
+                'data3.watch.province': function () {
+                    this.data3.watch.city = Object.keys(this.data3.allData[this.data3.watch.province])[0];
+                    this.data3.watch.area = 0;
+                },
+                'data3.watch.city': function () {
+                    this.data3.watch.area = 0;
+                }
+            }
+        })
+
+    </script>
+
+    <script>
+    </script>
+</body>
+
+</html>
