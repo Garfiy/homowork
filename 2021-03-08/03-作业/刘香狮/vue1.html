@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../data.js"></script>
+</head>
+
+<body>
+    <div id="app2">
+        <p>computed:</p>
+        <select name="省" id="" v-model="city">
+            <option v-for="(k,i) in datas[province]" :value="i" :key="i">{{k}}</option>
+        </select>
+        <select name="市" id="" v-model="area">
+            <option v-for="(k,i) in list" :value="i" :key="i">{{k}}</option>
+        </select>
+        <select name="区" id="">
+            <option v-for="(k,i) in datas[province +','+ city + ','+area]" :value="i" :key="i">{{k}}</option>
+        </select>
+    </div>
+    <script>
+        new Vue({
+            el: '#app2',
+            data: {
+                // 省
+                province: '0',
+                // 市
+                city: '110000',
+                // 区
+                area: '110100',
+                // 数据
+                datas: data,
+            },
+            computed: {
+                list: function () {
+                    let li = this.datas[0 + ',' + this.city];
+                    let id;
+                    for (let k in li) {
+                        id = k;
+                        break;
+                    }
+                    console.log(li);
+                    console.log(id);
+                    this.area = id;
+                    return li;
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
