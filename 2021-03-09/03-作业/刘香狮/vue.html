@@ -79,10 +79,10 @@
             <option v-for="(v,i) in datas" :key="i" :value="i">{{i}}</option>
         </select>
         <select name="" id="" v-model="city">
-            <option v-for="(v,i) in datas[pro]" :key="i" :value="list">{{i}}</option>
+            <option v-for="(v,i) in list" :key="i" :value="i">{{i}}</option>
         </select>
         <select name="" id="">
-            <option v-for="(v,i) in datas[pro][city]">{{v}}</option>
+            <option v-for="(v,i) in list[city]">{{v}}</option>
         </select>
     </div>
     <script>
@@ -223,8 +223,10 @@
             computed:{
                 list:function(){
                     for(var k in this.datas[this.pro]){
-                        return this.city=k;
+                         this.city=k;
+                         break;
                     }
+                    return this.datas[this.pro];
                 }
             },
         })
