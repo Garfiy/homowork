@@ -12,17 +12,22 @@
 
 <body>
     <div id="box">
-        <select @change="getPro($event)" v-model='proIndex'>
+        <select v-model='proIndex'>
             <option v-for="(item,key) in datas[0]" :value="key" :key="key">{{item}}</option>
         </select>
-        <select @change="getCity($event)" v-model='cityIndex'>
+        <select v-model='cityIndex'>
             <option v-for="(item,key) in datas[0+','+proIndex]" :value="key" :key="key">{{item}}</option>
         </select>
         <select>
-            <option v-for="(item,key) in datas[0+','+proIndex+','+cityIndex]" :value="key" :key="key">{{item}}</option>
+            <option v-for="(item,key) in datas[0+','+proIndex+','+city2" :value="key" :key="key">{{item}}</option>
         </select>
     </div>
     <script>
+        // comouted
+        // 动态监听所关联过的属性的变化
+        // 当关联的属性发生变化时 会自动调用
+        // 不能通过v-model进行绑定
+        // 只是赋值而不获取的变量 是不被监听变化的
         new Vue({
             el: '#box',
             data: {
@@ -34,19 +39,18 @@
                 this.proIndex = '110000';
                 this.cityIndex = '110100';
             },
-            methods: {
-                getPro: function(e) {
-                    var value = e.target.value;
-                    var id;
-                    var cityList = this.datas[0 + ',' + value];
-                    for (var k in cityList) {
+            computed: {
+                city2: function() {
+                    let id;
+                    for (var k in this.datas[0 + '' + this.proIndex]) {
                         id = k;
                         break;
                     }
-                    this.cityIndex = id;
-                }
-            },
 
+                    this.cityIndex = id;
+                    return id;
+                }
+            }
         })
     </script>
 </body>
