@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app div {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <select name="" id="" @click="onClick" @change="onChangePro" >
+                <option value="" v-show="flag">北京</option>
+                <option  v-for="(item,index) in proHtml" :value="item" :id="proID[index]">{{item}}</option>
+            </select>
+        </div>
+        <div>
+            <select name="" id="" >
+                <option value="市">市</option>
+            </select>
+        </div>
+        <div>
+            <select name="" id="">
+                <option value="区">区</option>
+            </select>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="data.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                dataArr:data,
+                proHtml:[],
+                proID:[],
+                flag:true,
+            },
+            methods:{
+                onClick:function(){
+                    this.proHtml=[];
+                    //获取到data中的属性名
+                    var shenObjIndex = Object.keys(this.dataArr).indexOf("0"); 
+                    //取到省的属性名
+                    let id =  Object.keys(this.dataArr[shenObjIndex]); 
+                    this.proID = id;
+                    for(var k in this.dataArr[shenObjIndex]){
+                        var zhi = this.dataArr[shenObjIndex][k];
+                        // push 到数据数组中
+                        this.proHtml.push(zhi)
+                    }
+                    // console.log(this.proID);
+                    this.flag= !this.flag
+                },
+                onChangePro:function(){
+                    this.$refs.selOne;
+                    console.log(this.$refs.selOne.id);
+                }
+            },
+        })
+    </script>
+</body>
+</html>

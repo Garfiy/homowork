@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>methods:</div>
+        <p>
+            省:
+            <select name="" id="" v-model="pro" @change="onChanegPro">
+                <option :value="index" v-for="(item,index) in dataList" :key="index">{{item.name,index}}</option>
+            </select>
+        </p>
+        <p>
+            市:
+            <select name="" id="" v-model="city" @change="onChanegCity">
+                <option :value="index" v-for="(item,index) in cityList.city" :key="index">{{item.name}}</option>
+            </select>
+        </p>
+        <p>
+            区:
+            <select name="" id="" v-model="area">
+                <option :value="index" v-for="(item,index) in areaList" :key="index">{{item}}</option>
+            </select>
+        </p>
+    </div>
+
+    <div id="app1">
+        <div>computed:</div>
+        <p>
+            省:
+            <select name="" id="" v-model="pro">
+                <option  v-for="(item,index) in dataList" :key="index" :value="index">{{item.name,index}}</option>
+            </select>
+        </p>
+        <p>
+            市:
+            <select name="" id="" v-model="city">
+                <option  v-for="(item,index) in cityListArr" :key="index" :value="index">{{item.name}}</option>
+            </select>
+        </p>
+        <p>
+            区:
+            <select name="" id="">
+                <option  v-for="(item,index) in cityListArr[city].area" :key="index" :value="index">{{item}}</option>
+            </select>
+        </p>
+    </div>
+
+    <div id="app2">
+        <div>watch:</div>
+        <p>
+            省:
+            <select name="" id="" v-model="pro">
+                <option  v-for="(item,index) in dataList" :key="index" :value="index">{{item.name,index}}</option>
+            </select>
+        </p>
+        <p>
+            市:
+            <select name="" id="" v-model="city">
+                <option  v-for="(item,index) in dataList[pro].city" :key="index" :value="index">{{item.name}}</option>
+            </select>
+        </p>
+        <p>
+            区:
+            <select name="" id="">
+                <option  v-for="(item,index) in dataList[pro].city[city].area" :key="index" :value="index">{{item}}</option>
+            </select>
+        </p>
+    </div>
+    <script src="data2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        console.log(data2);
+
+        new Vue({
+            el: "#app",
+            data: {
+                //三级联动数据
+                dataList: data2,
+                //省传的值
+                pro: "0",
+                //市传的值
+                city: "0",
+                area: "0",
+                cityList: [],
+
+                //区重新接收
+                areaList: []
+
+            },
+            created: function () {
+                this.cityList = this.dataList[this.pro];
+                this.areaList = this.dataList[this.pro].city[this.city].area;
+            },
+            methods: {
+                onChanegPro: function () {
+                    this.area="0";
+                    // console.log(this.pro);
+                    this.city = 0;
+                    this.cityList = this.dataList[this.pro];
+                    this.onChanegCity();
+                },
+                onChanegCity: function () {
+                    this.area="0";
+                    // console.log(this.city);
+                    this.areaList = this.dataList[this.pro].city[this.city].area;
+                }
+            }
+        })
+
+        new Vue({
+            el: "#app1",
+            data: {
+                //三级联动数据
+                dataList: data2,
+                //省传的值
+                pro: "0",
+                //市传的值
+                city: "0",
+                cityList: [],
+
+                //区重新接收
+                areaList: []
+
+            },
+            computed:{
+                cityListArr:function(){
+                    let list = this.dataList[this.pro].city;
+                    // console.log(list);
+                    let id;
+                    for(var k in list){
+                        // console.log(k);
+                        id= k;
+                        break;
+                    }
+                    // console.log(id);
+                    this.city = id;
+                    console.log("cityListArr");
+                    return list;
+                }
+            },
+        })
+
+        new Vue({
+            el: "#app2",
+            data: {
+                //三级联动数据
+                dataList: data2,
+                //省传的值
+                pro: "0",
+                //市传的值
+                city: "0",
+                cityList: [],
+
+                //区重新接收
+                areaList: []
+
+            },
+            watch:{
+                pro:function(){
+                    let list = this.dataList[this.pro].city;
+                    let id;
+                    for(var k in list){
+                        id = k;
+                        break;
+                    }
+                    this.city = id;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

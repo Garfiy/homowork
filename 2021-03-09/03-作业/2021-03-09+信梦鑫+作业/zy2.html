@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="js/vue.js"></script>
+    <div class="app4">
+        <p>methods:</p>
+        <select name="省" id="" v-model="pro" @change="change">
+            <option v-for="(value,key) in datas" :value="key" :key="key">{{key}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option v-for="(value,key) in dataList" :value="key" :key="key">{{key}}</option>
+        </select>
+        <select name="区" id="">
+            <option v-for="(value,key) in dataList[city]" :value="key" :key="key">{{value}}</option>
+        </select>
+    </div>
+    <div class="app5">
+        <p>computed:</p>
+        <select name="省" id="" v-model="pro">
+            <option v-for="(value,key) in datas" :value="key" :key="key">{{key}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option v-for="(value,key) in dataList" :value="key" :key="key">{{key}}</option>
+        </select>
+        <select name="区" id="">
+            <option v-for="(value,key) in dataList[city]" :value="key" :key="key">{{value}}</option>
+        </select>
+    </div>
+    <div class="app6">
+        <p>watch:</p>
+        <select name="省" id="" v-model="pro">
+            <option v-for="(value,key) in datas" :value="key" :key="key">{{key}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option v-for="(value,key) in dataList" :value="key" :key="key">{{key}}</option>
+        </select>
+        <select name="区" id="">
+            <option v-for="(value,key) in dataList[city]" :value="key" :key="key">{{value}}</option>
+        </select>
+    </div>
+    <script src="js/data3.js"></script>
+    <script>
+        var app4 = new Vue({
+            el: '.app4',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区',
+                dataList: null
+            },
+            methods: {
+                change: function() {
+                    this.dataList = this.datas[this.pro];
+                    for (var k in this.datas[this.pro]) {
+                        this.city = k;
+                        break;
+                    }
+                }
+            },
+            beforeMount: function() {
+                this.dataList = this.datas[this.pro];
+            }
+        });
+        var app5 = new Vue({
+            el: '.app5',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区'
+            },
+            computed: {
+                dataList: function() {
+                    for (var k in this.datas[this.pro]) {
+                        this.city = k;
+                        break;
+                    }
+                    return this.datas[this.pro];
+
+                }
+            }
+        });
+        var app6 = new Vue({
+            el: '.app6',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区',
+                dataList: null
+            },
+            watch: {
+                pro: function() {
+                    this.dataList = this.datas[this.pro];
+                    for (var k in this.datas[this.pro]) {
+                        this.city = k;
+                        break;
+                    }
+                }
+            },
+            beforeMount: function() {
+                this.dataList = this.datas[this.pro];
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <h2>methods</h2>
+    <div id="app1">
+        <select v-model="pro" @change="change">
+            <option :value="index" v-for="(item,index) in datas" :key="index">{{item.name}}</option>
+        </select>
+        <select v-model="city">
+            <option :value="index" v-for="(item,index) in datas[pro].city" :key="index">{{item.name}}</option>
+        </select>
+        <select>
+            <option :value="index" v-for="(item,index) in datas[pro].city[city].area" :key="index">{{item}}</option>
+        </select>
+    </div>
+    <h2>computed</h2>
+    <div id="app2">
+        <select v-model="pro">
+            <option :value="index" v-for="(item,index) in datas" :key="index">{{item.name}}</option>
+        </select>
+        <select v-model="city">
+            <option :value="index" v-for="(item,index) in dataList" :key="index">{{item.name}}</option>
+        </select>
+        <select>
+            <option :value="index" v-for="(item,index) in dataList[city].area" :key="index">{{item}}</option>
+        </select>
+    </div>
+    <h2>watch</h2>
+    <div id="app3">
+        <select v-model="pro">
+            <option :value="index" v-for="(item,index) in datas" :key="index">{{item.name}}</option>
+        </select>
+        <select v-model="city">
+            <option :value="index" v-for="(item,index) in datas[pro].city" :key="index">{{item.name}}</option>
+        </select>
+        <select>
+            <option :value="index" v-for="(item,index) in datas[pro].city[city].area" :key="index">{{item}}</option>
+        </select>
+    </div>
+
+    <h2>methods</h2>
+    <div id="app4">
+        <select v-model="pro" @change="change">
+            <option :value="key" v-for="(val,key) in datas" :key="key">{{key}}</option>
+        </select>
+        <select v-model="city">
+            <option :value="key" v-for="(val,key) in datas[pro]" :key="key">{{key}}</option>
+        </select>
+        <select>
+            <option :value="key" v-for="(val,key) in datas[pro][city]" :key="key">{{val}}</option>
+        </select>
+    </div>
+    <script src="../data2.js"></script>
+    <script src="../data3.js"></script>
+    <script>
+        new Vue({
+            el: '#app1',
+            data: {
+                datas: data2,
+                pro: 0,
+                city: 0,
+            },
+            methods: {
+                change: function() {
+                    this.city = 0;
+                }
+            }
+        })
+        new Vue({
+            el: '#app2',
+            data: {
+                datas: data2,
+                pro: 0,
+                city: 0,
+            },
+            computed: {
+                dataList: function() {
+                    this.city = 0;
+                    return this.datas[this.pro].city;
+                }
+            }
+        })
+        new Vue({
+            el: '#app3',
+            data: {
+                datas: data2,
+                pro: 0,
+                city: 0,
+            },
+            watch: {
+                pro: function() {
+                    this.city = 0;
+                }
+            }
+        })
+        new Vue({
+            el: '#app4',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区',
+
+            },
+            methods: {
+                change: function() {
+                    this.dataList = this.datas[this.pro];
+                    for (var k in this.datas[this.pro]) {
+                        this.city = k;
+                        break;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -12,10 +12,10 @@
 
 <body>
     <div id="box">
-        <select @change="getPro($event)" v-model='proIndex'>
+        <select v-model="proIndex">
             <option v-for="(item,key) in datas[0]" :value="key" :key="key">{{item}}</option>
         </select>
-        <select @change="getCity($event)" v-model='cityIndex'>
+        <select v-model='cityIndex'>
             <option v-for="(item,key) in datas[0+','+proIndex]" :value="key" :key="key">{{item}}</option>
         </select>
         <select>
@@ -23,6 +23,8 @@
         </select>
     </div>
     <script>
+        // watch:观察属性
+        // 观察data中的属性的变化 然后进行相应的操作
         new Vue({
             el: '#box',
             data: {
@@ -34,19 +36,19 @@
                 this.proIndex = '110000';
                 this.cityIndex = '110100';
             },
-            methods: {
-                getPro: function(e) {
-                    var value = e.target.value;
-                    var id;
-                    var cityList = this.datas[0 + ',' + value];
-                    for (var k in cityList) {
-                        id = k;
+            watch: {
+                //对象名 是对应的data里面的属性名
+                //对象值 属性发生变化时调用的方法
+                //value 是改变后的值
+                proIndex: function(value) {
+                    let id;
+                    for (let key in this.datas[0 + ',' + value]) {
+                        id = key;
                         break;
                     }
                     this.cityIndex = id;
                 }
-            },
-
+            }
         })
     </script>
 </body>

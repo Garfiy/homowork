@@ -1,3 +1,80 @@
+<<<<<<< HEAD:2021-03-08/03-作业/answer_methods.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods:</p>
+        <!-- v-model 本质是v-bind:value 是绑定了select的value值 会根据选项变化自动变化 -->
+        <!-- @change 监听select标签的value值变化 当value值变化时 就会触发onChangePro方法 -->
+        <p>省：<select name="" id="" v-model="pro" @change="onChangePro($event)">
+            <!-- :value="key" 动态绑定每个选项的唯一标识-->
+            <!-- allData[0] 是数据源中所有省份的数据对象 -->
+            <!-- (value,key) 中 value 是对象的值  key 是对象的键    key:value-->
+            <option :value="key" v-for="(value,key) in allData[0]" :key="key">{{value}}</option>
+        </select></p>
+
+        <p>市：<select name="" id="" v-model="city">
+            <option :value="key" v-for="(value,key) in allData[0+','+pro]" :key="key">{{value}}</option>
+        </select></p>
+
+        <p>区：<select name="" id="">
+            <option :value="key" v-for="(value,key) in allData[0+','+pro+','+city]" :key="key">{{value}}</option>
+        </select></p>
+    </div>
+
+    <script src="./data3.js"></script>
+    <script src="./data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        console.log(data3);
+        console.log(Object.keys(data3));
+        // methdos:
+        // 方法是需要我们自己去监听变化的事件
+        // 也需要我们自己控制监听的时机
+        new Vue({
+            el: '#app',
+            data: {
+                allData: data,
+                pro: '', //省的id
+                city: '', //市的id
+            },
+            created: function() {
+                this.pro = '110000';
+                this.city = '110100';
+            },
+            methods: {
+                // 当选择的省份发生变化时 触发改方法
+                onChangePro: function(e) {
+                    // console.log(e);
+                    // console.log(e.target);
+                    console.log(e.target.value);
+                    let value = e.target.value;
+                    
+                    let id;
+                    // 这里是对应省份的市区数据
+                    let cityList = this.allData[0 + ',' + value];
+                    for (var item in cityList) {
+                        // console.log(item);
+                        id = item;
+                        break;
+                    }
+                    this.city = id;
+                }
+            }
+        })
+    </script>
+</body>
+
+=======
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,4 +150,5 @@
     </script>
 </body>
 
+>>>>>>> d68404e8f97d832e024e0f71f46299178b06676a:2021-03-08/03-作业/王老师/answer_methods.html
 </html>
