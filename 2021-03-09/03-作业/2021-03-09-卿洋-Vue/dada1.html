@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p {
+            float: left;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h2>data2</h2>
+    <div id="app1">
+        <p>methods:</p>
+        <p>省:
+            <select name="" id="" v-model="pro" @change="change">
+                <option v-for="(k,i) in datas" :value="i" :key="i">{{k.name}}</option>
+            </select>
+        </p>
+        <p>
+            市:
+            <select name="" id="" v-model="cit">
+                <option v-for="(k,i) in cityList" :value="i" :key="i">{{k.name}}</option>
+            </select>
+        </p>
+        <p>
+            区
+            <select name="" id="">
+                <option v-for="(k,i) in cityList[cit].area" :value="i" :key="i">{{k}}</option>
+            </select>
+        </p>
+
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="app2">
+        <p>computed:</p>
+        <p>
+            省： <select name="" id="" v-model="pro">
+                <option v-for="(k,i) in datas" :value="i" :key="i">{{k.name}}</option>
+            </select>
+        </p>
+
+        <p>
+            市： <select name="" id="" v-model="cit">
+                <option v-for="(k,i) in dataList" :value="i" :key="i">{{k.name}}</option>
+            </select>
+        </p>
+        <p>
+            区： <select name="" id="">
+                <option v-for="(k,i) in dataList[cit].area" :value="i" :key="i">{{k}}</option>
+            </select>
+        </p>
+
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <div id="app3">
+        <p>watch:</p>
+        <p>
+            省： <select name="" id="" v-model="pro">
+                <option v-for="(k,i) in datas" :value="i" :key="i">{{k.name}}</option>
+            </select>
+        </p>
+        <p>
+            市: <select name="" id="" v-model="cit">
+                <option v-for="(k,i) in cityList" :value="i" :key="i">{{k.name}}</option>
+            </select>
+        </p>
+        <p>
+            区: <select name="" id="">
+                <option v-for="(k,i) in cityList[cit].area" :value="i" :key="i">{{k}}</option>
+            </select>
+        </p>
+
+    </div>
+    <script src="data2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var app1 = new Vue({
+            el: '#app1',
+            data: {
+                datas: data2,
+                pro: 0,
+                cit: 0,
+                cityList: null
+            },
+            methods: {
+                change: function () {
+                    this.cit = 0;
+                    this.cityList = this.datas[this.pro].city;
+                }
+            },
+            beforeMount: function () {
+                this.cityList = this.datas[this.pro].city;
+            }
+        });
+        var app2 = new Vue({
+            el: '#app2',
+            data: {
+                datas: data2,
+                pro: 0,
+                cit: 0
+            },
+            computed: {
+                dataList: function () {
+                    this.cit = 0;
+                    return this.datas[this.pro].city;
+                }
+            }
+        });
+        var app3 = new Vue({
+            el: '#app3',
+            data: {
+                datas: data2,
+                pro: 0,
+                cit: 0,
+                cityList: null
+            },
+            watch: {
+                pro: function () {
+                    this.cit = 0;
+                    this.cityList = this.datas[this.pro].city;
+                }
+            },
+            beforeMount: function () {
+                this.cityList = this.datas[this.pro].city;
+            }
+        });
+    </script>
+</body>
+
+</html>
