@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>data2数据源</h2>
+    <div id="app1">
+        <p>methods:</p>
+        <select name="省" id="" v-model="pro" @change="change">
+            <option v-for="(k,idx) in allData" :value="idx" :key="idx">{{k.name}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option v-for="(k,idx) in cityList" :value="idx" :key="idx">{{k.name}}</option>
+        </select>
+        <select name="区" id="" v-model="area">
+            <option v-for="(k,idx) in cityList[city].area" :value="idx" :key="idx">{{k}}</option>
+        </select>
+    </div>
+
+    <div id="app2">
+        <p>computed:</p>
+        <select name="省" id="" v-model="pro">
+            <option v-for="(k,idx) in allData" :value="idx" :key="idx">{{k.name}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option v-for="(k,idx) in getcityList" :value="idx" :key="idx">{{k.name}}</option>
+        </select>
+        <select name="区" id="" v-model="area">
+            <option v-for="(k,idx) in getcityList[city].area" :value="idx" :key="idx">{{k}}</option>
+        </select>
+    </div>
+
+    <div id="app3">
+        <p>watch:</p>
+        <select name="省" id="" v-model="pro">
+            <option v-for="(k,idx) in allData" :value="idx" :key="idx">{{k.name}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option v-for="(k,idx) in cityList " :value="idx" :key="idx">{{k.name}}</option>
+        </select>
+        <select name="区" id="" v-model="area">
+            <option v-for="(k,idx) in cityList[city].area" :value="idx" :key="idx">{{k}}</option>
+        </select>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../data2.js"></script>
+    <script src="../data3.js"></script>
+    <script>
+        new Vue({
+            el: '#app1',
+            data: {
+                allData: data2,
+                cityList: null,
+                pro: 0,
+                city: 0,
+                area: 0
+            },
+            created: function() {
+                this.cityList = this.allData[this.pro].city;
+            },
+            methods: {
+                change: function() {
+                    this.cityList = this.allData[this.pro].city;
+                    this.city = 0;
+                }
+            }
+        })
+
+        new Vue({
+            el: '#app2',
+            data: {
+                allData: data2,
+                cityList: null,
+                pro: 0,
+                city: 0,
+                area: 0
+            },
+            created: function() {
+                this.cityList = this.allData[this.pro].city;
+            },
+            computed: {
+                getcityList: function() {
+                    this.city = 0;
+                    return this.allData[this.pro].city;
+                }
+            }
+        })
+
+        new Vue({
+            el: '#app3',
+            data: {
+                allData: data2,
+                cityList: null,
+                pro: 0,
+                city: 0,
+                area: 0
+            },
+            created: function() {
+                this.cityList = this.allData[this.pro].city;
+            },
+            watch: {
+                pro: function() {
+                    console.log(1);
+                    this.cityList = this.allData[this.pro].city;
+                    this.city = 0;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
