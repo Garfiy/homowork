@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../data2.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods</p>
+        <select name="" id="" @change="onChangePro" ref="proe" v-model="pro">
+            <option  v-for="(v,i) in datas" :value="i" :key="i">{{v.name}}</option>
+        </select>
+        <select name="" id="" @change="onChangeCity" v-model="city">
+            <option :value="i" v-for="(v,i) in cityList" :key="i">{{v.name}}</option>
+        </select>
+        <select name="" id="">
+            <option :value="i" v-for="(v,i) in areaList" :key="i">{{v}}</option>
+        </select>
+    </div>
+    <div id="app1">
+        <p>methods</p>
+        <select name="" id="" @change="onChangePro" ref="proe" v-model="pro">
+            <option  v-for="(v,i) in datas" :value="i" :key="i">{{v.name}}</option>
+        </select>
+        <select name="" id="" @change="onChangeCity" v-model="city">
+            <option :value="i" v-for="(v,i) in cityList" :key="i">{{v.name}}</option>
+        </select>
+        <select name="" id="">
+            <option :value="i" v-for="(v,i) in areaList" :key="i">{{v}}</option>
+        </select>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                datas: data2,
+                // 省的序号
+                pro:'0',
+                // 重新遍历市获取的数据
+                cityList:[],
+                // 市的序号
+                city:'0',
+                // 重新获取区的数据
+                areaList:[],
+            },
+            created:function(){
+                // 初始化 数组 让默认能渲染
+                this.cityList=this.datas[this.pro].city;
+                this.areaList= this.cityList[this.city].area;
+
+            },
+            methods: {
+                onChangePro: function (e) {
+                    // 重新定义市的数据
+                    this.cityList=this.datas[this.pro].city;
+                    // 在调用省的时候 给市一个默认的索引
+                    this.city='0';
+                    // 调用市的数据 来渲染区
+                    this.onChangeCity();
+                },
+                onChangeCity:function(){
+                    // 重新定义区的数据
+                    this.areaList= this.cityList[this.city].area;
+                }
+
+            }
+        })
+        var vm = new Vue({
+            el: '#app1',
+            data: {
+                datas: data2,
+                // 省的序号
+                pro:'0',
+                // 重新遍历市获取的数据
+                cityList:[],
+                // 市的序号
+                city:'0',
+                // 重新获取区的数据
+                areaList:[],
+            },
+            created:function(){
+                // 初始化 数组 让默认能渲染
+                this.cityList=this.datas[this.pro].city;
+                this.areaList= this.cityList[this.city].area;
+
+            },
+            methods: {
+                onChangePro: function (e) {
+                    // 重新定义市的数据
+                    this.cityList=this.datas[this.pro].city;
+                    // 在调用省的时候 给市一个默认的索引
+                    this.city='0';
+                    // 调用市的数据 来渲染区
+                    this.onChangeCity();
+                },
+                onChangeCity:function(){
+                    // 重新定义区的数据
+                    this.areaList= this.cityList[this.city].area;
+                }
+
+            },
+            watch:{
+                
+            }
+        })
+    </script>
+</body>
+
+</html>
