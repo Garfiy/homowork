@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app div {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <select v-model="shijSelect" @change="sjSelect">
+            <option  :key="value" v-for="(value,i) in listData['0']" :label="value" :value="i"></option>
+        </select>
+         <select v-model="erjSelect">
+            <option :key="value" v-for="(value,i) in listData[ '0,'+ shijSelect]" :label="value" :value="i"></option>
+        </select>
+         <select v-model="threejSelect">
+            <option  v-for="(value,i) in listData['0,'+ shijSelect + ',' +erjSelect]" :label="value" :key="value" :value="i"></option>
+        </select>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="data.js"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                listData:data,
+            },
+            methods:{
+               
+            },
+        })
+    </script>
+</body>
+</html>

@@ -61,6 +61,7 @@
 
                     let id;
                     for (let key in list) {
+                        console.log(key);
                         id = key;
                         break;
                     }
@@ -69,7 +70,7 @@
                     // 进行赋值的变量 是不会随变量变化触发计算属性的调用
                     this.city = id;
                     console.log('cityList');
-
+                    console.log(list);
                     // computed 属性里的方法必须要return;
                     // 返回市的id
                     return list;
