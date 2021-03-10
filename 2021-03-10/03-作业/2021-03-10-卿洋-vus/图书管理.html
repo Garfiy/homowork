@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    h1 {
+        text-align: center;
+    }
+
+    .top-box {
+        background-color: burlywood;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .top2 {
+        text-align: center;
+        background-color: burlywood;
+        height: 30px;
+        line-height: 30px;
+        border-top: 1px solid yellowgreen;
+        border-bottom: 1px solid yellowgreen;
+    }
+
+    .table {
+        width: 100%;
+    }
+
+    .table td {
+        border: 1px dashed burlywood;
+        text-align: center;
+    }
+
+    table {
+        border: 1px dashed burlywood;
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="wrap">
+        <h1>图书管理</h1>
+        <div class="top-box">
+            <!-- 获取用户输入的内容 -->
+            编号: <input type="text" v-model="inputId">
+            名称: <input type="text" v-model="inputName">
+            <button @click="onClickSubmit">提交</button>
+        </div>
+        <div class="top2">
+            图书总数
+        </div>
+        <table class="table" cellspaing=0 cellpadding=0>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            <tbody>
+                <tr v-for="(value,index) in list" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime  }}</td>
+                    <td><a href="" @click.prevent="(preventone(value.id,value.name))"> 修改</a> | <a href=""
+                            @click.prevent="preventTwo(index)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '.wrap',
+            data: {
+                list: [{
+                    id: 1,
+                    name: '三国演义',
+                    createTime: '2021-03-10 22:19:35',
+                }, {
+                    id: 2,
+                    name: '水浒传',
+                    createTime: '2021-03-10 22:19:35',
+                }, {
+                    id: 3,
+                    name: '红楼梦',
+                    createTime: '2021-03-10 22:19:35',
+                }, {
+                    id: 4,
+                    name: '西游记',
+                    createTime: '2021-03-10 22:19:35',
+                }],
+                inputId: '',
+                inputName: '',
+            },
+            methods: {
+                onClickSubmit: function () {
+                    // 接收用户提交内容时
+                    // 一定要进行数据正确的判断
+                    if (this.inputId && this.inputName) {
+                        let arr = this.list.filter((value, index, array) => {
+                            value.id == this.inputId;
+                        });
+                        if (arr.length > 0) {
+                            alert('书籍id已经存在！');
+                            return;
+                        }
+                        // 添加一本书的信息
+                        this.list.push({
+                            id: this.inputId,
+                            name: this.inputName,
+                            createTime: this.getFrameTime(),
+                        });
+                        this.inputId = null;
+                        this.inputName = null
+                    } else {
+                        alert('不能点了');
+                    }
+                },
+                getFrameTime() {
+                    var date = new Date();
+                    let str = '';
+                    str += date.getFullYear(); //年     
+                    str += '-' + this.getFuramNUm((date.getMonth() + 1)); //月
+                    str += '-' + this.getFuramNUm(date.getDate()); //日
+                    str += '-' + this.getFuramNUm(date.getHours()) //时
+                    str += '-' + this.getFuramNUm(date.getMinutes()); //分
+                    str += '-' + this.getFuramNUm(date.getSeconds()); //秒
+                    return str;
+                },
+                getFuramNUm: function (num) {
+                    if (num < 10) {
+                        num = '0' + num;
+                    }
+                    return num;
+                },
+                //修改
+                preventone: function (id, name) {
+                    this.inputId = id;
+                    this.inputName = name;
+                },
+                // 删除
+                preventTwo: function (index) {
+                    this.list.splice(index, 1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

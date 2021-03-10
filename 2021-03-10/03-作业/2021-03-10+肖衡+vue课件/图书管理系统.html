@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .warp {
+            width: 700px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .top_box_1 {
+            background-color: burlywood;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .top_box_2 {
+            text-align: center;
+            background-color: burlywood;
+            height: 30px;
+            line-height: 30px;
+            border-top: 1px solid yellowgreen;
+            border-bottom: 1px solid yellowgreen;
+        }
+
+        table {
+            width: 100%;
+            text-align: center;
+        }
+
+        table td {
+            border: 1px dashed yellowgreen;
+        }
+
+        table th {
+            background-color: burlywood;
+            border: 1px dashed burlywood;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="warp">
+        <h1>图书管理</h1>
+        <div class="top_box_1">
+            <!-- 获取用户输入的内容 -->
+            编号: <input type="number" v-model="inputId" :disabled="flag">
+            名称: <input type="text" v-model="inputName">
+            <button @click="onClickSubmit">提交</button>
+            <input type="text" v-model="seeIptVal"> <button @click="onClickSee" >查询</button>
+        </div>
+        <div class="top_box_2">图书总数:{{list.length}}</div>
+        <!-- cellspacing; 清除单元格间距 -->
+        <!-- cellpadding; 清除单元格内部的间距 -->
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in list" :key="index">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.createTime}}</td>
+                    <td><a href="javascript:;" @click="onClickMod(index,$event)">修改</a> | <a href="javascript:;"
+                            @click="OnClickRemove(index,$event)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                list: [{
+                    id: 1,
+                    name: "三国演义",
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 2,
+                    name: "西游记",
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 3,
+                    name: "水浒传",
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 4,
+                    name: "红楼梦",
+                    createTime: '2050-01-12 22:19:32',
+                },],
+
+                inputId: "",//接收用户输入的编号
+                inputName: "",//接收用户的名称
+                flag: false,
+                modIndex: null, //修改传递的下标
+                seeIptVal:"",  //查询input
+
+            },
+            methods: {
+                onClickSubmit: function () {
+                    if (!this.flag) {
+                        //判断用户提交内容是否存在
+                        let arr = this.list.filter((val, index) => {
+                            return val.id == this.inputId;
+                        })
+                        if (arr.length > 0) {
+                            alert("书籍存在");
+                            return;
+                        }
+                        //接收用户提交内容时
+                        //一定要进行判断正确性的判断
+                        if (this.inputId && this.inputName) {
+                            //增加一本书的信息
+                            this.list.push({
+                                id: this.inputId,
+                                name: this.inputName,
+                                createTime: this.getFrameTime(),
+                            });
+                            this.inputId = "";
+                            this.inputName = "";
+                        } else {
+                            alert("书籍编号不能为空")
+                        }
+                    }
+                    if (this.flag) {
+                        console.log(this.modIndex);
+                        this.flag = false;
+                        this.list[this.modIndex].name = this.inputName;
+                        this.inputName = '';
+                        this.inputId = '';
+                    }
+                },
+                //获取当前的时间
+                getFrameTime() {
+                    let date = new Date();
+                    let str = "";
+                    str += date.getFullYear();//年
+                    str += '-' + this.getFrameNum((date.getMonth() + 1));//月
+                    str += '-' + this.getFrameNum(date.getDate());//日
+                    str += '-' + this.getFrameNum(date.getHours());//时
+                    str += '-' + this.getFrameNum(date.getMinutes());//分
+                    str += '-' + this.getFrameNum(date.getSeconds());//秒
+                    return str;
+                },
+                // 将小于10的数转换才2位的字符串
+                getFrameNum(num) {
+                    if (num < 10) {
+                        return "0" + num;
+                    } else {
+                        return num;
+                    }
+                },
+
+                //删除
+                OnClickRemove: function (index) {
+                    this.list.splice(index, 1);
+                },
+                //修改
+                onClickMod: function (index) {
+                    this.modIndex = index;
+                    this.inputId = this.list[index].id;
+                    this.inputName = this.list[index].name;
+                    this.flag = true;
+                },
+                //点击查询
+                onClickSee:function(){
+                    if(this.seeIptVal == ""){
+                        alert("请输入查询物件");
+                        return;
+                    }
+                    // console.log(this.seeIptVal);
+                    var newArr = [];
+                    this.list.forEach((val,index)=>{
+                        if(val.name.indexOf(this.seeIptVal) == 0 || val.id == this.seeIptVal){
+                            newArr.push(val);
+                        }
+                    })
+                    this.list = newArr;
+
+                    
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

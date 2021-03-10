@@ -17,11 +17,12 @@
         }
         
         .top_box_1 {
-            background-color: burlywood;
-            height: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap;
+            background-color: burlywood;
+            padding: 10px 0;
         }
         
         .top_box_2 {
@@ -58,6 +59,7 @@
             编号： <input type="text" v-model="inputId"> 名称：
             <input type="text" v-model="inputName">
             <button @click="onClickSubmit">提交</button>
+            <div> 查找：<input type="text" v-model="inputFind" placeholder="请输入查找的编号或者名称"><button @click="onClickFind">查找</button></div>
         </div>
         <div class="top_box_2">
             图书总数：{{list.length}}
@@ -71,12 +73,24 @@
                 <th>时间</th>
                 <th>操作</th>
             </tr>
-            <tbody>
+            <tbody v-if="flag">
                 <tr v-for="(value,index) in list" :key="index">
                     <td>{{value.id}}</td>
                     <td>{{value.name}}</td>
                     <td>{{value.createTime}}</td>
+<<<<<<< HEAD
                     <td><a href="#">修改</a> | <a href="#">删除</a></td>
+=======
+                    <td><a href="javascript:;" @click="onClickalter(index)">修改</a> | <a href="javascript:;" @click="onClickDelete(index)">删除</a></td>
+                </tr>
+            </tbody>
+            <tbody v-else="!flag">
+                <tr v-for="(value,index) in newList" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime}}</td>
+                    <td><a href="javascript:;" @click="onClickalter(index)">修改</a> | <a href="javascript:;" @click="onClickDelete(index)">删除</a></td>
+>>>>>>> 239f7041d507bcb681be3b3ccd39a965ccd35774
                 </tr>
             </tbody>
         </table>
@@ -103,10 +117,12 @@
                     id: 4,
                     name: '西游记',
                     createTime: '2050-01-12 22:19:32',
-                }, ],
-
+                }],
+                newList: [],
                 inputId: '', //接收用户输入的编号
                 inputName: '', //接收用户输入的名称
+                inputFind: '',
+                flag: true
             },
             methods: {
                 onClickSubmit: function() {
@@ -132,7 +148,6 @@
                             name: this.inputName,
                             createTime: this.getFrameTime(),
                         });
-
                         this.inputId = null;
                         this.inputName = null;
                     } else {
@@ -147,7 +162,7 @@
                     str += '-' + this.getFrameNum((date.getMonth() + 1)); //月
                     str += '-' + this.getFrameNum(date.getDate()); //日
                     str += ' ' + this.getFrameNum(date.getHours()); //时
-                    str += ':' + this.getFrameNum(date.getMinutes()); // 分
+                    str += ':' + this.getFrameNum(date.getMinutes()); // 分 
                     str += ':' + this.getFrameNum(date.getSeconds()); // 秒
                     return str;
                 },
@@ -158,6 +173,56 @@
                     }
                     return num;
                 },
+<<<<<<< HEAD
+=======
+                // 删除事件
+                onClickDelete: function(index) {
+                    this.list.splice(index, 1);
+                },
+                // 修改事件
+                onClickalter: function(index) {
+                    this.inputId = this.list[index].id;
+                    this.inputName = this.list[index].name;
+                    this.list.splice(index, 1);
+                },
+                // 查找
+                onClickFind: function() {
+                    var reg = /^[0-9]+.?[0-9]*$/;
+                    if (this.inputFind.trim() != '') {
+                        if (reg.test(this.inputFind)) {
+                            this.list.forEach(val => {
+                                if (String(val.id).indexOf(this.inputFind) != -1) {
+                                    if (this.newList.length != 0) {
+                                        this.newList.forEach(value => {
+                                            if (value.id !== val.id) {
+                                                this.newList.push(val);
+                                            }
+                                        })
+                                    } else {
+                                        this.newList.push(val);
+                                    }
+                                }
+                            })
+                        } else {
+                            this.list.forEach(val => {
+                                if (val.name.indexOf(this.inputFind) != -1) {
+                                    if (this.newList.length != 0) {
+                                        this.newList.forEach(value => {
+                                            if (value.name.indexOf(val.name) == -1) {
+                                                this.newList.push(val);
+                                            }
+                                        })
+                                    } else {
+                                        this.newList.push(val);
+                                    }
+                                }
+                            })
+                        }
+                        this.flag = false;
+                    }
+
+                }
+>>>>>>> 239f7041d507bcb681be3b3ccd39a965ccd35774
             }
         })
     </script>
