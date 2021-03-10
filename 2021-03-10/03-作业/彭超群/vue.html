@@ -165,7 +165,7 @@
                     //一定要进行数据正确性的判断
                     if (this.inputId && this.inputName) {
                         //判断用户输入的id是否重复
-                        let arr = this.list.filter(v => {
+                        let arr = this.datas.filter(v => {
                             return v.id == this.inputId;
                         });
                         if (arr.length != 0 && !this.flag) {
@@ -184,12 +184,16 @@
                                 name: this.inputName,
                                 createTime: this.getFrameTime(),
                             });
+                            this.datas.push({
+                                id: this.inputId,
+                                name: this.inputName,
+                                createTime: this.getFrameTime(),
+                            });
                         }
                         this.sort();
                         this.inputId = '';
                         this.inputName = '';
                         this.sum = this.list.length;
-                        this.datas = this.list;
                     } else {
                         alert('编号和名称不能为空');
                     }
@@ -232,7 +236,7 @@
                 remove: function(i) { //删除
                     this.list.splice(i, 1);
                     this.sum = this.list.length;
-                    this.datas = this.list;
+                    this.datas.splice(i, 1);
                 },
                 sort: function() { //排序
                     let arr = this.list.sort(function(a, b) {
@@ -250,6 +254,7 @@
                     });
                     this.list = arr;
                     this.sum = this.list.length;
+                    this.sort();
                 }
             },
             created: function() { //初始化
