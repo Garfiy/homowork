@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .wrap {
+            width: 600px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        
+        .top_box1 {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            /* height: 30px; */
+            background-color: rgb(216, 176, 76);
+        }
+        
+        .top_box1 input {
+            margin: 0 10px;
+        }
+        
+        .top_box2 {
+            text-align: center;
+            background-color: rgb(216, 176, 76);
+            /* height: 30px; */
+            line-height: 30px;
+            border-top: 1px solid yellowgreen;
+            border-bottom: 1px solid yellowgreen;
+        }
+        
+        .table {
+            width: 100%;
+        }
+        
+        .table th {
+            border: 1px dashed burlywood;
+            background-color: rgb(216, 176, 76);
+        }
+        
+        .table td:first-of-type {
+            border-left: 1px dashed burlywood;
+        }
+        
+        .table td {
+            border-bottom: 1px dashed burlywood;
+            border-right: 1px dashed burlywood;
+        }
+        
+        .find {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrap">
+        <h1>图书管理</h1>
+        <div class="top_box1">
+            <!-- 获取用户输入的内容 -->
+            编号: <input type="text" v-model="inputId"> 名称: <input type="text" v-model="inputName">
+            <button @click="onClickSubmit">提交</button>
+            <br>
+            <div class="find">
+                查找：
+                <input type="text" v-model="findId" placeholder="请输入需要查找的id"><button @click="onClickFind()">确定</button>
+            </div>
+        </div>
+        <div class="top_box2">
+            图书总数：{{list.length}}
+        </div>
+        <!-- cellspacing 清除单元格间距 -->
+        <!-- cellpadding 清除单元格内部间距 -->
+        <table class="table" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            <tbody>
+                <tr v-for="(value,index) in list" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime}}</td>
+                    <td>
+                        <a href="javascript:;" @click="onClickAmend(index)">修改</a>/
+                        <a href="javascript:;" @click="onClickDelete(index)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        new Vue({
+            el: '.wrap',
+            data: {
+                list: [{
+                    id: 1,
+                    name: '三国演义',
+                    createTime: '2021-01-20 22:19:50',
+                }, {
+                    id: 2,
+                    name: '水浒传',
+                    createTime: '2021-01-20 22:19:50',
+                }, {
+                    id: 3,
+                    name: '红楼梦',
+                    createTime: '2021-01-20 22:19:50',
+                }, {
+                    id: 4,
+                    name: '西游记',
+                    createTime: '2021-01-20 22:19:50',
+                }],
+                inputId: '', // 接收用户输入的编号
+                inputName: '', // 接收用户输入的名称
+                deleteIdx: '',
+                findId: '',
+                findArr: [],
+            },
+            methods: {
+                onClickSubmit: function() {
+
+                    // 接收用户提交内容时
+                    // 一定要进行数据正确性的判断
+                    if (this.inputId && this.inputName) {
+                        // 判断用户输入的id是否重复
+                        let arr = this.list.filter((value, index, array) => {
+                            // 过滤的条件
+                            return value.id == this.inputId;
+                        });
+
+                        // 如果有符合条件的数据
+                        // 说明id重复
+                        if (arr.length > 0) {
+                            alert('书已存在');
+                            return;
+                        }
+
+                        // 增加一本书的信息
+                        this.list.push({
+                            id: this.inputId,
+                            name: this.inputName,
+                            createTime: this.getFrameTime(),
+                        });
+
+                        this.inputId = null;
+                        this.inputName = null;
+                    } else {
+                        alert('编号和名称不能为空！');
+                    }
+                },
+                // 获取当前时间的标准格式
+                getFrameTime: function() {
+                    var date = new Date()
+                    let str = '';
+                    str += date.getFullYear(); //年
+                    str += '-' + this.getFrameNum((date.getMonth() + 1)); //月
+                    str += '-' + this.getFrameNum(date.getDate()); //日
+                    str += ' ' + this.getFrameNum(date.getHours()); //时
+                    str += ':' + this.getFrameNum(date.getMinutes()); //分
+                    str += ':' + this.getFrameNum(date.getSeconds()); //秒
+                    return str;
+                },
+                getFrameNum: function(num) {
+                    if (num < 10) {
+                        num = '0' + num;
+                    }
+                    return num;
+                },
+                onClickDelete: function(index) {
+                    console.log(index);
+                    this.list.splice(index, 1);
+                    // console.log(e.currentTarget.parentElement.parentElement);
+                },
+                onClickAmend: function(index) {
+                    this.inputId = this.list[index].id;
+                    this.inputName = this.list[index].name;
+
+                    this.onClickDelete(index);
+                },
+                onClickFind: function() {
+                    // console.log(this.list[this.findId].id - 1);
+                    if (this.findId == this.list[this.findId].id - 1) {
+                        // this.list = [{
+                        //     id: null,
+                        //     name: null,
+                        //     createTime: null,
+                        // }];
+                        // this.list.push({
+                        //     id: this.findId,
+                        //     name: this.list[this.findId].name,
+                        //     createTime: this.getFrameTime(),
+                        // });
+
+                        this.list = [{
+                            id: this.findId,
+                            name: this.list[this.findId - 1].name,
+                            createTime: this.getFrameTime(),
+                        }];
+                        console.log(111);
+                    } else {
+                        alert('暂时没有你想找的书籍哦！')
+                    }
+                    // console.log();
+                }
+
+            }
+        });
+    </script>
+</body>
+
+</html>

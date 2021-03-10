@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .wrap {
+            width: 530px;
+        }
+        
+        .top-box1 {
+            background-color: burlywood;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .top-box2 {
+            text-align: center;
+            background-color: burlywood;
+            height: 30px;
+            line-height: 30px;
+            border-top: 1px solid yellowgreen;
+            border-bottom: 1px solid yellowgreen;
+        }
+        
+        table {
+            width: 100%;
+            text-align: center;
+        }
+        
+        table th {
+            background-color: burlywood;
+            border: 1px dashed burlywood;
+            height: 30px;
+        }
+        
+        table td {
+            border: 1px dashed burlywood;
+            height: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>图书管理</h1>
+        <div class="top-box1">
+            编号：<input type="text" v-model="inputId"> 名称：
+            <input type="text" v-model="inputName">
+            <button @click="onClickSubmit">提交</button>
+        </div>
+        <div class="top-box2">
+            图书总数：{{list.length}}
+        </div>
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            <tbody>
+                <tr v-for="(value,index) in list" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime}}</td>
+                    <td><a href="#" @click.prevent="modification(value.id,value.name,$event)">修改</a>| <a href="#" @click.prevent="onClickDelete(value.id,$event)">删除</a></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '.wrap',
+            data: {
+                list: [{
+                    id: 1,
+                    name: '三国演义',
+                    createTime: '2250-01-12 22:22:45',
+                }, {
+                    id: 2,
+                    name: '水浒传',
+                    createTime: '2250-01-12 22:22:45',
+                }, {
+                    id: 3,
+                    name: '西游记',
+                    createTime: '2250-01-12 22:22:45',
+                }, {
+                    id: 4,
+                    name: '红楼梦',
+                    createTime: '2250-01-12 22:22:45',
+                }, ],
+                inputId: '',
+                inputName: ''
+            },
+            methods: {
+                onClickSubmit: function() {
+                    if (this.inputId && this.inputName) {
+                        let arr = this.list.filter((value, index, array) => {
+                            return value.id == this.inputId;
+                        })
+                        if (arr.length > 0) {
+                            alert('书籍id已经存在!');
+                            return;
+                            n
+                        }
+                        this.list.push({
+                            id: this.inputId,
+                            name: this.inputName,
+                            createTime: this.getFrameTime(),
+                        })
+                        this.list.sort(this.onClickSort('id'));
+                    } else {
+                        alert('编号和名称不能为空')
+                    }
+                },
+                getFrameTime() {
+                    let add0 = function(num) {
+                        return num = num < 10 ? '0' + num : num;
+                    }
+                    date = new Date();
+                    let str = '';
+                    str += date.getFullYear();
+                    str += '-' + add0((date.getMonth() + 1));
+                    str += '-' + add0(date.getDate());
+                    str += '' + add0(date.getHours());
+                    str += ':' + add0(date.getMinutes());
+                    str += ':' + add0(date.getSeconds());
+                    return str;
+                },
+
+                //修改
+                modification: function(id, name, event) {
+                    this.inputId = id;
+                    this.inputName = name;
+                    this.onClickDelete(id, event);
+
+                },
+                //删除
+                onClickDelete: function(id, event) {
+                    let index = this.list.findIndex(v => v.id == id);
+                    this.list.splice(index, 1);
+                },
+                //排序
+                onClickSort: function(id) {
+                    return function(a, b) {
+                        var val1 = a[id];
+                        var val2 = b[id];
+                        return val1 - val2;
+                    }
+                },
+
+            }
+        })
+    </script>
+</body>
+
+</html>
