@@ -1,4 +1,4 @@
-let data2 = [{
+var data2 = [{
         "name": "北京市",
         "city": [{
             "name": "北京市",

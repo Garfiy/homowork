@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        省：<select name="" id="" v-model="proId">
+            <option :value="key" v-for="(value,key) in proList" :key="key">{{value.name}}</option>
+        </select> 市
+
+        <select name="" id="" v-model="cityId">
+            <option :value="key" v-for="(value,key) in cityList" :key="key">{{value.name}}</option>
+        </select> 区：
+
+        <select name="" id="" v-model="areaId">
+            <option :value="key" v-for="(value,key) in areaList" :key="key">{{value}}</option>
+        </select>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./data2.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                // 前面的是vue的数据 后面的 window下面的
+                data2: window.data2,
+
+                // 省的数据
+                proId: null,
+                proList: [],
+                // 市的数据
+                cityId: null,
+                cityList: [],
+                // 区的数据
+                areaId: null,
+                areaList: [],
+            },
+            created: function() {
+                // 初始化
+                console.log(this.data2);
+                this.proList = this.data2;
+                this.proId = 0;
+
+                this.cityList = this.data2[this.proId].city;
+                this.cityId = 0;
+
+                this.areaList = this.data2[this.proId].city[this.cityId].area;
+                this.areaId = 0;
+            },
+            watch: {
+                // 观察proId的变化 然后改变后面两级的内容
+                proId: function() {
+                    this.cityList = this.data2[this.proId].city;
+                    this.cityId = 0;
+
+                    this.areaList = this.data2[this.proId].city[this.cityId].area;
+                    this.areaId = 0;
+                },
+                cityId: function() {
+                    this.areaList = this.data2[this.proId].city[this.cityId].area;
+                    this.areaId = 0;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
