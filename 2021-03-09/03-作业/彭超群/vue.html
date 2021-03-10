@@ -16,10 +16,10 @@
         <select name="省" id="" v-model="pro" @change="change">
             <option v-for="(k,i) in datas" :value="i" :key="i">{{k.name}}</option>
         </select>
-        <select name="市" id="" v-model="cit">
+        <select name="市" id="" v-model="cit" @change="change1">
             <option v-for="(k,i) in cityList" :value="i" :key="i">{{k.name}}</option>
         </select>
-        <select name="区" id="">
+        <select name="区" id="" v-model="area">
             <option v-for="(k,i) in cityList[cit].area" :value="i" :key="i">{{k}}</option>
         </select>
     </div>
@@ -32,8 +32,8 @@
         <select name="市" id="" v-model="cit">
             <option v-for="(k,i) in dataList" :value="i" :key="i">{{k.name}}</option>
         </select>
-        <select name="区" id="">
-            <option v-for="(k,i) in dataList[cit].area" :value="i" :key="i">{{k}}</option>
+        <select name="区" id="" v-model="area">
+            <option v-for="(k,i) in dataLists" :value="i" :key="i">{{k}}</option>
         </select>
     </div>
 
@@ -45,7 +45,7 @@
         <select name="市" id="" v-model="cit">
             <option v-for="(k,i) in cityList" :value="i" :key="i">{{k.name}}</option>
         </select>
-        <select name="区" id="">
+        <select name="区" id="" v-model="area">
             <option v-for="(k,i) in cityList[cit].area" :value="i" :key="i">{{k}}</option>
         </select>
     </div>
@@ -56,10 +56,10 @@
         <select name="省" id="" v-model="pro" @change="change">
             <option v-for="(k,i) in datas" :value="i" :key="i">{{i}}</option>
         </select>
-        <select name="市" id="" v-model="city">
+        <select name="市" id="" v-model="city" @change="change1">
             <option v-for="(k,i) in dataList" :value="i" :key="i">{{i}}</option>
         </select>
-        <select name="区" id="">
+        <select name="区" id="" v-model="area">
             <option v-for="(k,i) in dataList[city]" :value="i" :key="i">{{k}}</option>
         </select>
     </div>
@@ -71,8 +71,8 @@
         <select name="市" id="" v-model="city">
             <option v-for="(k,i) in dataList" :value="i" :key="i">{{i}}</option>
         </select>
-        <select name="区" id="">
-            <option v-for="(k,i) in dataList[city]" :value="i" :key="i">{{k}}</option>
+        <select name="区" id="" v-model="area">
+            <option v-for="(k,i) in dataLists" :value="i" :key="i">{{k}}</option>
         </select>
     </div>
     <div class="app6">
@@ -83,7 +83,7 @@
         <select name="市" id="" v-model="city">
             <option v-for="(k,i) in dataList" :value="i" :key="i">{{i}}</option>
         </select>
-        <select name="区" id="">
+        <select name="区" id="" v-model="area">
             <option v-for="(k,i) in dataList[city]" :value="i" :key="i">{{k}}</option>
         </select>
     </div>
@@ -99,12 +99,17 @@
                 datas: data2,
                 pro: 0,
                 cit: 0,
-                cityList: null
+                cityList: null,
+                area: 0
             },
             methods: {
                 change: function() {
                     this.cit = 0;
+                    this.area = 0;
                     this.cityList = this.datas[this.pro].city;
+                },
+                change1: function() {
+                    this.area = 0;
                 }
             },
             beforeMount: function() {
@@ -116,12 +121,18 @@
             data: {
                 datas: data2,
                 pro: 0,
-                cit: 0
+                cit: 0,
+                area: 0
             },
             computed: {
                 dataList: function() {
                     this.cit = 0;
+                    this.area = 0;
                     return this.datas[this.pro].city;
+                },
+                dataLists: function() {
+                    this.area = 0;
+                    return this.dataList[this.cit].area;
                 }
             }
         });
@@ -131,12 +142,17 @@
                 datas: data2,
                 pro: 0,
                 cit: 0,
-                cityList: null
+                cityList: null,
+                area: 0
             },
             watch: {
                 pro: function() {
                     this.cit = 0;
+                    this.area = 0;
                     this.cityList = this.datas[this.pro].city;
+                },
+                cit: function() {
+                    this.area = 0;
                 }
             },
             beforeMount: function() {
@@ -149,17 +165,21 @@
                 datas: data3,
                 pro: '北京市',
                 city: '市辖区',
-                dataList: null
+                dataList: null,
+                area: 0
             },
             methods: {
                 change: function() {
+                    this.area = 0;
                     this.dataList = this.datas[this.pro];
-                    for (var k in this.datas[this.pro]) {
+                    for (var k in this.dataList) {
                         this.city = k;
-
                         break;
                     }
                     console.log(this.city);
+                },
+                change1: function() {
+                    this.area = 0;
                 }
             },
             beforeMount: function() {
@@ -171,16 +191,22 @@
             data: {
                 datas: data3,
                 pro: '北京市',
-                city: '市辖区'
+                city: '市辖区',
+                area: 0
             },
             computed: {
                 dataList: function() {
+                    this.area = 0;
                     for (var k in this.datas[this.pro]) {
                         this.city = k;
                         break;
                     }
                     return this.datas[this.pro];
 
+                },
+                dataLists: function() {
+                    this.area = 0;
+                    return this.dataList[this.city];
                 }
             }
         });
@@ -190,15 +216,17 @@
                 datas: data3,
                 pro: '北京市',
                 city: '市辖区',
-                dataList: null
+                dataList: null,
+                area: 0
             },
             watch: {
                 pro: function() {
+                    this.area = 0;
                     this.dataList = this.datas[this.pro];
-                    for (var k in this.datas[this.pro]) {
-                        this.city = k;
-                        break;
-                    }
+                    this.city = Object.keys(this.dataList)[0];
+                },
+                city: function() {
+                    this.area = 0;
                 }
             },
             beforeMount: function() {
