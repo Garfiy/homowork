@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods:</p>
+        <select name="省" id="" v-model="pro" @change="change">
+            <option v-for="(k,i) in datas" :value="i" :key="i">{{i}}</option>
+        </select>
+        <select name="市" id="" v-model="city">
+            <option v-for="(k,i) in dataList" :value="i" :key="i">{{i}}</option>
+        </select>
+        <select name="区" id="">
+            <option v-for="(k,i) in dataList[city]" :value="i" :key="i">{{k}}</option>
+        </select>
+    </div>
+    <script src="data3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var app4 = new Vue({
+            el: '#app',
+            data: {
+                datas: data3,
+                pro: '北京市',
+                city: '市辖区',
+                dataList: null
+            },
+            methods: {
+                change: function () {
+                    this.dataList = this.datas[this.pro];
+                    for (var k in this.datas[this.pro]) {
+                        this.city = k;
+                        break;
+                    }
+                    console.log(this.city);
+                }
+            },
+            beforeMount: function () {
+                this.dataList = this.datas[this.pro];
+            }
+        });
+    </script>
+</body>
+
+</html>

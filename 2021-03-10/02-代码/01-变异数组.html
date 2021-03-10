@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <b v-for="(value,key) in obj">{{value}}</b>
+        <button @click=onClick1>点击改变数据</button>
+
+        <b v-for="(value,index) in arr">{{value}}</b>
+        <button @click=onClick2>点击改变数据</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                obj: {
+                    a: 1,
+                    b: 2,
+                    c: 3,
+                },
+                arr: [1, 2, 3, 4, 5],
+            },
+            methods: {
+                onClick1: function() {
+                    this.obj.b = 5;
+                },
+                onClick2: function() {
+                    // this.arr.splice(2, 1, 5);
+
+                    this.arr[2] = 5;
+                    Vue.set(this.arr, 2, 5);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

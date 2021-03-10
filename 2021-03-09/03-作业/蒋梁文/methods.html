@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods:</p>
+        <span>省：</span>
+        <select name="" id="" v-model="pro" @change="change">
+            <option :value="index" v-for="(value,index) in datas" :key="index">{{value.name}}</option>
+        </select>
+        <span>市：</span>
+        <select name="" id="" v-model="city">
+            <option :value="index" v-for="(value,index) in dataList" :key="index">{{value.name}}</option>
+        </select>
+        <span>区：</span>
+        <select name="" id="">
+            <option :value="index" v-for="(value,index) in dataList[city].area" :key="index">{{value}}</option>
+        </select>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/data2.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                datas: data2,
+                pro: 0,
+                city: 0,
+                dataList: null
+            },
+            methods: {
+                change: function() {
+
+                    this.dataList = this.datas[this.pro].city;
+                }
+            },
+            beforeMount: function() {
+                this.dataList = this.datas[this.pro].city;
+
+            }
+        })
+    </script>
+</body>
+
+</html>
