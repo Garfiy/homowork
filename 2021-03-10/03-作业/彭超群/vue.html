@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        #app {
+            width: 600px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        p {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .top {
+            background-color: burlywood;
+            overflow: hidden;
+        }
+        
+        .top-box {
+            display: flex;
+            justify-content: space-around;
+            margin: 0 0 10px;
+        }
+        
+        .table {
+            width: 600px;
+            text-align: center;
+        }
+        
+        .table td {
+            border: 1px dashed bisque;
+            padding: 10px 0;
+        }
+        
+        thead {
+            background-color: burlywood;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+        
+        .top-search {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+        }
+        
+        .top-search input {
+            width: 300px;
+            height: 30px;
+            text-indent: 10px;
+        }
+        
+        .top-search button {
+            width: 100px;
+            height: 33px;
+            margin-left: 10px;
+        }
+        
+        .top-box button {
+            width: 60px;
+        }
+        
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>图书管理</h1>
+        <div class="top">
+            <div class="top-search">
+                <input type="text" placeholder="请输入搜索内容" v-model="search" @keyup.enter="onClickSearch"><button @click="onClickSearch">搜索</button>
+            </div>
+            <div class="top-box">
+                <div>
+                    编号: <input type="number" v-model.trim="inputId" @keyup="onKeyup">
+                </div>
+                <div>
+                    名称 : <input type="text" v-model.trim="inputName" @keyup="onKeyup">
+                </div>
+                <button @click="onClickSubmit" ref="btn">提交</button>
+            </div>
+            <p>图书总数 <span v-text="sum"></span></p>
+        </div>
+        <table class="table" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(k,i) in list" :key="k.id" :index="i">
+                    <td>{{k.id}}</td>
+                    <td>{{k.name}}</td>
+                    <td>{{k.createTime}}</td>
+                    <td><a href="javascript:;" ref="amends" @click="amend(i)">修改</a> | <a href="javascript:;" ref="removes" @click="remove(i)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                list: [{
+                    id: '1',
+                    name: '三国演义',
+                    createTime: '2050-01-12 22:19:35'
+                }, {
+                    id: '2',
+                    name: '水浒传',
+                    createTime: '2050-01-12 22:19:35'
+                }, {
+                    id: '3',
+                    name: '红楼梦',
+                    createTime: '2050-01-12 22:19:35'
+                }, {
+                    id: '4',
+                    name: '西游记',
+                    createTime: '2050-01-12 22:19:35'
+                }],
+                inputId: '', //接收用户输入的id
+                inputName: '', //接收用户输入的name
+                flag: false, //判断提交按钮是否在修改内容
+                index: 0, //判断修改内容的索引号
+                addData: null, //添加内容
+                sum: 0, //图书总数
+                search: '', //搜索内容
+                datas: null //保存数据
+            },
+            methods: {
+                onClickSubmit: function() { //提交
+                    //接收用户提交内容时
+                    //一定要进行数据正确性的判断
+                    if (this.inputId && this.inputName) {
+                        //判断用户输入的id是否重复
+                        let arr = this.datas.filter(v => {
+                            return v.id == this.inputId;
+                        });
+                        if (arr.length != 0 && !this.flag) {
+                            alert('编号已经存在');
+                            return;
+                        }
+                        if (this.flag) {
+                            this.list[this.index].id = this.inputId;
+                            this.list[this.index].name = this.inputName;
+                            this.list[this.index].createTime = this.getFrameTime();
+                            this.flag = false;
+                        } else {
+                            //增加一本书的信息
+                            this.list.push({
+                                id: this.inputId,
+                                name: this.inputName,
+                                createTime: this.getFrameTime(),
+                            });
+                            this.datas.push({
+                                id: this.inputId,
+                                name: this.inputName,
+                                createTime: this.getFrameTime(),
+                            });
+                        }
+                        this.sort();
+                        this.inputId = '';
+                        this.inputName = '';
+                        this.sum = this.list.length;
+                    } else {
+                        alert('编号和名称不能为空');
+                    }
+                },
+                getFrameTime: function() { //获取当前时间
+                    let date = new Date();
+                    let str = '';
+                    str += date.getFullYear(); //年
+                    str += '-' + this.getAddZore(date.getMonth() + 1); //月
+                    str += '-' + this.getAddZore(date.getDate()); //日
+                    str += ' ' + this.getAddZore(date.getHours()); //时
+                    str += ':' + this.getAddZore(date.getMinutes()); //分
+                    str += ':' + this.getAddZore(date.getSeconds()); //秒
+                    return str;
+                },
+                getAddZore: function(date) { //填0
+                    let str = date < 10 ? date = '0' + date : date;
+                    return str;
+                },
+                onKeyup: function() { //禁用按钮
+                    let arr;
+                    arr = this.list.filter(v => {
+                        return v.id == this.inputId && v.name == this.inputName;
+                    });
+                    if (arr.length == 1) {
+                        console.log(arr);
+                        this.$refs.btn.disabled = true;
+                    } else {
+                        this.$refs.btn.disabled = false;
+                    }
+                },
+                amend: function(i) { //修改
+                    this.index = i;
+                    this.$refs.btn.disabled = true;
+                    this.addData = this.list[i];
+                    this.inputId = this.addData.id;
+                    this.inputName = this.addData.name;
+                    this.flag = true;
+                },
+                remove: function(i) { //删除
+                    this.list.splice(i, 1);
+                    this.sum = this.list.length;
+                    this.datas.splice(i, 1);
+                },
+                sort: function() { //排序
+                    let arr = this.list.sort(function(a, b) {
+                        return a.id - b.id;
+                    });
+                    this.list = arr;
+                },
+                onClickSearch: function() { //搜索
+                    if (this.search.trim() == '') {
+                        this.list = this.datas;
+                        return;
+                    }
+                    let arr = this.datas.filter(v => {
+                        return v.id.indexOf(this.search) != -1 || v.name.indexOf(this.search) != -1;
+                    });
+                    this.list = arr;
+                    this.sum = this.list.length;
+                    this.sort();
+                }
+            },
+            created: function() { //初始化
+                this.sum = this.list.length;
+                this.datas = this.list;
+            }
+        });
+    </script>
+</body>
+
+</html>

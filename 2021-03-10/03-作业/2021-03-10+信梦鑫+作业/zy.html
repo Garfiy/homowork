@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .warp {
+            width: 550px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .top_box_1 {
+            line-height: 30px;
+            text-align: center;
+            background-color: burlywood;
+        }
+        
+        .top_box_2 {
+            text-align: center;
+            line-height: 30px;
+            background-color: burlywood;
+            border-top: 1px solid burlywood;
+            border-bottom: 1px solid burlywood;
+        }
+        
+        .table {
+            width: 100%;
+        }
+        
+        .table th {
+            background-color: burlywood;
+        }
+        
+        .table th,
+        .table td {
+            border: 1px dashed burlywood;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="warp">
+        <h1>图书管理</h1>
+        <div class="top_box_1">
+            编号: <input type="text" v-model="inputId"> 名称: <input type="text" v-model="inputName">
+            <button @click="onClickSubmit">提交</button>
+        </div>
+        <div class="top_box_2">
+            图书总数: {{list.length}}
+        </div>
+        <table cellpadding="0" cellspacing="0" class="table">
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            <tbody>
+                <tr v-for="(value,index) in list" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime}}</td>
+                    <td>
+                        <a href="" @click.prevent="amend(value.id)">修改</a> |
+                        <a href="" @click.prevent="remove(value.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                list: [{
+                    id: 1,
+                    name: '三国演义',
+                    createTime: '2050-01-12 22:35:39',
+                }, {
+                    id: 2,
+                    name: '水浒传',
+                    createTime: '2050-01-12 22:35:39',
+                }, {
+                    id: 3,
+                    name: '红楼梦',
+                    createTime: '2050-01-12 22:35:39',
+                }, {
+                    id: 4,
+                    name: '西游记',
+                    createTime: '2050-01-12 22:35:39',
+                }],
+                inputId: '',
+                inputName: '',
+                flag: true
+            },
+            methods: {
+                onClickSubmit: function() {
+                    if (this.flag) {
+                        this.flag = true;
+                        if (this.inputId && this.inputName) {
+                            let arr = this.list.filter((val) => {
+                                return val.id == this.inputId;
+                            });
+                            if (arr.length > 0) {
+                                alert('书籍id已经存在');
+                                return;
+                            }
+                            this.list.push({
+                                id: this.inputId,
+                                name: this.inputName,
+                                createTime: this.getFrameTime(),
+                            });
+                            this.inputId = '';
+                            this.inputName = '';
+                        } else {
+                            alert('编号和名称不能为空');
+                        }
+                    } else {
+                        this.list.some(item => {
+                            if (item.id == this.inputId) {
+                                item.name = this.inputName;
+                            }
+                        });
+                        this.inputId = null;
+                        this.inputName = null;
+                    }
+                },
+                getFrameTime: function() {
+                    let date = new Date();
+                    let str = '';
+                    str += date.getFullYear();
+                    str += '-' + this.getFrameNum((date.getMonth() + 1));
+                    str += '-' + this.getFrameNum(date.getDate());
+                    str += ' ' + this.getFrameNum(date.getHours());
+                    str += ':' + this.getFrameNum(date.getMinutes());
+                    str += ':' + this.getFrameNum(date.getSeconds());
+                    return str;
+                },
+                getFrameNum(num) {
+                    if (num < 10) {
+                        num = '0' + num;
+                    }
+                    return num;
+                },
+                remove: function(id) {
+                    let index = this.list.findIndex((value, index) => value.id == id);
+                    this.list.splice(index, 1);
+                },
+                amend: function(id) {
+                    let index = this.list.findIndex((value, index) => value.id == id);
+                    this.inputId = this.list[index].id;
+                    this.inputName = this.list[index].name;
+                    this.flag = false;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
