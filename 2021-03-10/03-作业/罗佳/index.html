@@ -23,17 +23,21 @@
 
         .top_box_1 {
             background-color: burlywood;
-            height: 30px;
+            height: 60px;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
+        }
+
+        input {
+            height: 20px;
         }
 
         .top_box_2 {
             text-align: center;
             background-color: burlywood;
-            height: 30px;
-            line-height: 30px;
+            height: 40px;
+            line-height: 40px;
             border-top: 1px solid yellowgreen;
             border-bottom: 1px solid yellowgreen;
         }
@@ -45,9 +49,11 @@
 
         table td {
             border: 1px dashed yellowgreen;
+            line-height: 50px;
         }
 
         table th {
+            line-height: 50px;
             background-color: burlywood;
             border: 1px dashed burlywood;
         }
@@ -169,7 +175,6 @@
                         return num;
                     }
                 },
-
                 //删除
                 OnClickRemove: function (index) {
                     this.list.splice(index, 1);
@@ -187,7 +192,6 @@
                         alert("请输入搜索信息");
                         return;
                     }
-
                     var newArr = [];
                     this.list.forEach((val, index) => {
                         console.log(val.name.indexOf(this.search));
