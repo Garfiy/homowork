@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>三级联动选择器</title>
 </head>
 
 <body>
@@ -174,20 +174,20 @@
                     }
                 },
             },
-            created: function () {
+            created: function() {
                 this.data2.methods.areaList = this.data2.allData[this.data2.methods.province].city[this.data2.methods.city].area;
 
                 this.setWatchAreaList();
             },
             methods: {
-                onChangeProvince: function (e) {
+                onChangeProvince: function(e) {
                     console.log('onChangeProvince');
                     this.data2.methods.city = 0;
                     this.data2.methods.area = 0;
 
                     this.data2.methods.areaList = this.data2.allData[this.data2.methods.province].city[this.data2.methods.city].area;
                 },
-                onChangeCity: function (e) {
+                onChangeCity: function(e) {
                     console.log('onChangeCity');
                     this.data2.area = 0;
 
@@ -198,56 +198,55 @@
                     this.data2.watch.areaList = this.data2.allData[this.data2.watch.province].city[this.data2.watch.city].area;
                 },
 
-                onChangeProvinceByData3: function (e) {
+                onChangeProvinceByData3: function(e) {
                     let item = this.data3.allData[this.data3.methods.province];
                     this.data3.methods.city = Object.keys(item)[0];
                     this.data3.methods.area = 0;
                 },
-                onChangeCityByData3: function (e) {
+                onChangeCityByData3: function(e) {
                     this.data3.methods.area = 0;
                 }
             },
             computed: {
-                cityList: function () {
+                cityList: function() {
                     this.data2.city = 0;
                     return this.data2.allData[this.data2.province]['city'];
                 },
-                areaList: function () {
+                areaList: function() {
                     this.data2.area = 0;
                     return this.cityList[this.data2.city].area;
                 },
-                cityListByData3: function () {
+                cityListByData3: function() {
                     let arr = Object.keys(this.data3.allData[this.data3.computed.province]);
                     this.data3.computed.city = arr[0];
                     return arr;
                 },
-                areaListByData3: function () {
+                areaListByData3: function() {
                     this.data3.computed.area = 0;
                     return (this.data3.allData[this.data3.computed.province][this.data3.computed.city]);
                 }
             },
             watch: {
-                'data2.watch.province': function () {
+                'data2.watch.province': function() {
                     this.data2.watch.city = 0;
                     this.data2.watch.area = 0;
 
                     this.setWatchAreaList();
                 },
-                'data2.watch.city': function () {
+                'data2.watch.city': function() {
                     this.data2.watch.area = 0;
 
                     this.setWatchAreaList();
                 },
-                'data3.watch.province': function () {
+                'data3.watch.province': function() {
                     this.data3.watch.city = Object.keys(this.data3.allData[this.data3.watch.province])[0];
                     this.data3.watch.area = 0;
                 },
-                'data3.watch.city': function () {
+                'data3.watch.city': function() {
                     this.data3.watch.area = 0;
                 }
             }
         })
-
     </script>
 
     <script>
