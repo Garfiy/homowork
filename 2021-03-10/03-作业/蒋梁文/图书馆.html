@@ -10,12 +10,20 @@
         h1 {
             text-align: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
         .warp {
             width: 600px;
             margin: 0 auto;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
         .top_box_1 {
             background-color: burlywood;
             height: 30px;
@@ -23,7 +31,11 @@
             justify-content: center;
             align-items: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
         .top_box_2 {
             text-align: center;
             background-color: burlywood;
@@ -32,17 +44,29 @@
             border-top: 1px solid yellowgreen;
             border-bottom: 1px solid yellowgreen;
         }
+<<<<<<< HEAD
 
         table {
             width: 100%;
         }
 
+=======
+        
+        table {
+            width: 100%;
+        }
+        
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
         table th {
             border: 1px dashed burlywood;
             background: burlywood;
             text-align: center;
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
         table td {
             border: 1px dashed burlywood;
             text-align: center;
@@ -71,8 +95,12 @@
                     <td>{{value.id}}</td>
                     <td>{{value.name}}</td>
                     <td>{{value.createTime}}</td>
+<<<<<<< HEAD
                     <td><a href="" @click.prevent="(preventone(value.id,value.name))"> 修改</a> | <a href=""
                             @click.prevent="preventTwo(index)">删除</a></td>
+=======
+                    <td><a href="" @click.prevent="(preventone(value.id,value.name))"> 修改</a> | <a href="" @click.prevent="preventTwo(index)">删除</a></td>
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
                 </tr>
             </tbody>
         </table>
@@ -103,7 +131,11 @@
                 inputName: '',
             },
             methods: {
+<<<<<<< HEAD
                 onClickSubmit: function () {
+=======
+                onClickSubmit: function() {
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
                     // 接收用户提交内容时
                     // 一定要进行正确
                     if (this.inputId && this.inputName) {
@@ -148,12 +180,20 @@
                     return num;
                 },
                 //修改
+<<<<<<< HEAD
                 preventone: function (id, name) {
+=======
+                preventone: function(id, name) {
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
                     this.inputId = id;
                     this.inputName = name;
                 },
                 // 删除
+<<<<<<< HEAD
                 preventTwo: function (index) {
+=======
+                preventTwo: function(index) {
+>>>>>>> 0187efb6b440e722eb7108555b1fcbed6f91ab32
                     this.list.splice(index, 1);
                 }
             }

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+        
+        .warp {
+            width: 550px;
+        }
+        
+        .top_box_1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: burlywood;
+            padding: 10px 0;
+        }
+        
+        .top_box_2 {
+            text-align: center;
+            background-color: burlywood;
+            height: 30px;
+            line-height: 30px;
+            border-top: 1px solid yellowgreen;
+            border-bottom: 1px solid yellowgreen;
+        }
+        
+        .table {
+            width: 100%;
+        }
+        
+        .table th {
+            border: 1px dashed burlywood;
+            background-color: burlywood;
+            text-align: center;
+        }
+        
+        .table td {
+            border: 1px dashed burlywood;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="warp">
+        <h1>图书管理</h1>
+        <div class="top_box_1">
+            <!-- 获取用户输入的内容 -->
+            编号： <input type="text" v-model="inputId"> 名称：
+            <input type="text" v-model="inputName">
+            <button @click="onClickSubmit">提交</button>
+            <div> 查找：<input type="text" v-model="inputFind" placeholder="请输入查找的编号或者名称"><button @click="onClickFind">查找</button></div>
+        </div>
+        <div class="top_box_2">
+            图书总数：{{list.length}}
+        </div>
+        <!-- cellspacing : 清除单元格间距 -->
+        <!-- cellpadding : 清除单元格内部的间距 -->
+        <table class="table" cellspacing=0 cellpadding=0>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            <tbody v-if="flag">
+                <tr v-for="(value,index) in list" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime}}</td>
+                    <td><a href="javascript:;" @click="onClickalter(index)">修改</a> | <a href="javascript:;" @click="onClickDelete(index)">删除</a></td>
+                </tr>
+            </tbody>
+            <tbody v-else="!flag">
+                <tr v-for="(value,index) in newList" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime}}</td>
+                    <td><a href="javascript:;" @click="onClickalter(index)">修改</a> | <a href="javascript:;" @click="onClickDelete(index)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '.warp',
+            data: {
+                list: [{
+                    id: 1,
+                    name: '三国演义',
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 2,
+                    name: '水浒传',
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 3,
+                    name: '红楼梦',
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 4,
+                    name: '西游记',
+                    createTime: '2050-01-12 22:19:32',
+                }],
+                newList: [],
+                inputId: '', //接收用户输入的编号
+                inputName: '', //接收用户输入的名称
+                inputFind: '',
+                flag: true
+            },
+            methods: {
+                onClickSubmit: function() {
+                    // 接收用户提交内容时
+                    // 一定要进行数据正确性的判断
+                    if (this.inputId && this.inputName) {
+                        // 判断用户输入的id是否重复
+                        let arr = this.list.filter((value, index, array) => {
+                            // 过滤的条件
+                            return value.id == this.inputId;
+                        });
+
+                        // 如果符合条件的数据
+                        // 说明id重复
+                        if (arr.length > 0) {
+                            alert('书籍id已经存在！');
+                            return;
+                        }
+
+                        // 增加一本书的信息
+                        this.list.push({
+                            id: this.inputId,
+                            name: this.inputName,
+                            createTime: this.getFrameTime(),
+                        });
+                        this.inputId = null;
+                        this.inputName = null;
+                    } else {
+                        alert('编号和名称不能为空');
+                    }
+                },
+                // 获取当前时间的标准格式
+                getFrameTime() {
+                    let date = new Date();
+                    let str = '';
+                    str += date.getFullYear(); //年
+                    str += '-' + this.getFrameNum((date.getMonth() + 1)); //月
+                    str += '-' + this.getFrameNum(date.getDate()); //日
+                    str += ' ' + this.getFrameNum(date.getHours()); //时
+                    str += ':' + this.getFrameNum(date.getMinutes()); // 分 
+                    str += ':' + this.getFrameNum(date.getSeconds()); // 秒
+                    return str;
+                },
+                // 将小于10的数装换成两位的字符串
+                getFrameNum(num) {
+                    if (num < 10) {
+                        num = '0' + num;
+                    }
+                    return num;
+                },
+                // 删除事件
+                onClickDelete: function(index) {
+                    this.list.splice(index, 1);
+                },
+                // 修改事件
+                onClickalter: function(index) {
+                    this.inputId = this.list[index].id;
+                    this.inputName = this.list[index].name;
+                    this.list.splice(index, 1);
+                },
+                // 查找
+                onClickFind: function() {
+                    var reg = /^[0-9]+.?[0-9]*$/;
+                    if (this.inputFind.trim() != '') {
+                        if (reg.test(this.inputFind)) {
+                            this.list.forEach(val => {
+                                if (String(val.id).indexOf(this.inputFind) != -1) {
+                                    if (this.newList.length != 0) {
+                                        this.newList.forEach(value => {
+                                            if (value.id !== val.id) {
+                                                this.newList.push(val);
+                                            }
+                                        })
+                                    } else {
+                                        this.newList.push(val);
+                                    }
+                                }
+                            })
+                        } else {
+                            this.list.forEach(val => {
+                                if (val.name.indexOf(this.inputFind) != -1) {
+                                    if (this.newList.length != 0) {
+                                        this.newList.forEach(value => {
+                                            if (value.name.indexOf(val.name) == -1) {
+                                                this.newList.push(val);
+                                            }
+                                        })
+                                    } else {
+                                        this.newList.push(val);
+                                    }
+                                }
+                            })
+                        }
+                        this.flag = false;
+                    }
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
