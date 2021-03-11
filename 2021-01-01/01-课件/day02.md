@@ -239,11 +239,11 @@ new Vue({
      <!--  
         当多次调用 reverseString  的时候 
         只要里面的 num 值不改变 他会把第一次计算的结果直接返回
-		直到data 中的num值改变 计算属性才会重新发生计算
+		直到 data 中的 num 值改变 计算属性才会重新发生计算
      -->
     <div>{{reverseString}}</div>
     <div>{{reverseString}}</div>
-     <!-- 调用methods中的方法的时候  他每次会重新调用 -->
+     <!-- 调用 methods 中的方法的时候  他每次会重新调用 -->
     <div>{{reverseMessage()}}</div>
     <div>{{reverseMessage()}}</div>
   </div>
@@ -263,17 +263,17 @@ new Vue({
           return this.msg.split('').reverse().join('');
         }
       },
-      //computed  属性 定义 和 data 已经 methods 平级 
+      //computed  属性 定义 和 data 以及 methods 平级 
       computed: {
         //  reverseString   这个是我们自己定义的名字 
         reverseString: function(){
           console.log('computed')
           var total = 0;
-          //  当data 中的 num 的值改变的时候  reverseString  会自动发生计算  
+          //  当 data 中的 num 的值改变的时候  reverseString  会自动发生计算  
           for(var i=0;i<=this.num;i++){
             total += i;
           }
-          // 这里一定要有return 否则 调用 reverseString 的 时候无法拿到结果    
+          // 这里一定要有 return 否则 调用 reverseString 的 时候无法拿到结果    
           return total;
         }
       }
@@ -1029,9 +1029,19 @@ new Vue({
 
 ####  生命周期
 
+挂载（初始化相关属性）
+	① beforeCreate：在实例初始化之后，数据观测和事件配置之前被调用。
+	② created：在实例创建完成后被立即调用。
+	③ beforeMount：在挂载开始之前被调用。
+	④ mounted：el被新创建的vm.$el替换，并挂载到实例上去之后调用该钩子。
+ 更新（元素或组件的变更操作）
+	① beforeUpdate：数据更新时调用，发生在虚拟DOM打补丁之前。
+	② updated：由于数据更改导致的虚拟DOM重新渲染和打补丁，在这之后会调用该钩子。
+ 销毁（销毁相关属性）
+	① beforeDestroy：实例销毁之前调用。
+	② destroyed：实例销毁后调用。
 
-
-
+![](img/lifecycle.png)
 
 
 
