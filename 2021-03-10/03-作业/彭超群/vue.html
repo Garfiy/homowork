@@ -157,17 +157,31 @@
                 addData: null, //添加内容
                 sum: 0, //图书总数
                 search: '', //搜索内容
-                datas: null //保存数据
+                datas: [] //保存数据
             },
             methods: {
                 onClickSubmit: function() { //提交
                     //接收用户提交内容时
                     //一定要进行数据正确性的判断
                     if (this.inputId && this.inputName) {
+                        let num = Number(this.inputId);
+                        if (num != NaN) {
+                            //向下取整
+                            let num2 = Math.floor(num);
+                            //通过判断两个数是否相等,来判断是否是正数
+                            if (num == num2 && num >= 0) {
+                                //如果相等那么就是正数
+
+                            } else {
+                                alert('编号必须为正整数');
+                                return;
+                            }
+                        } else {
+                            alert('编号必须为数字');
+                            return;
+                        }
                         //判断用户输入的id是否重复
-                        let arr = this.datas.filter(v => {
-                            return v.id == this.inputId;
-                        });
+                        let arr = this.datas.filter(v => v.id == this.inputId);
                         if (arr.length != 0 && !this.flag) {
                             alert('编号已经存在');
                             return;
@@ -215,9 +229,7 @@
                 },
                 onKeyup: function() { //禁用按钮
                     let arr;
-                    arr = this.list.filter(v => {
-                        return v.id == this.inputId && v.name == this.inputName;
-                    });
+                    arr = this.list.filter(v => v.id == this.inputId && v.name == this.inputName);
                     if (arr.length == 1) {
                         console.log(arr);
                         this.$refs.btn.disabled = true;
@@ -246,12 +258,14 @@
                 },
                 onClickSearch: function() { //搜索
                     if (this.search.trim() == '') {
-                        this.list = this.datas;
+                        this.datas.forEach((v, i) => {
+                            this.list[i] = v;
+                            Vue.set(this.list, i, v);
+                        });
+                        this.sort();
                         return;
                     }
-                    let arr = this.datas.filter(v => {
-                        return v.id.indexOf(this.search) != -1 || v.name.indexOf(this.search) != -1;
-                    });
+                    let arr = this.datas.filter(v => v.id.indexOf(this.search) != -1 || v.name.indexOf(this.search) != -1);
                     this.list = arr;
                     this.sum = this.list.length;
                     this.sort();
@@ -259,7 +273,9 @@
             },
             created: function() { //初始化
                 this.sum = this.list.length;
-                this.datas = this.list;
+                this.list.forEach((v, i) => {
+                    this.datas.push(v);
+                });
             }
         });
     </script>
