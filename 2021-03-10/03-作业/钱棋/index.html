@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .app {
+            width: 600px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .top_box_1 {
+            background-color: burlywood;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .top_box_2 {
+            text-align: center;
+            background-color: burlywood;
+            height: 30px;
+            line-height: 30px;
+            border-top: 1px solid yellowgreen;
+            border-bottom: 1px solid yellowgreen;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th {
+            background: burlywood;
+        }
+        
+        .table th,
+        .table td {
+            border: 1px dashed burlywood;
+            text-align: center;
+            height: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <h1>图书管理</h1>
+        <div class="top_box_1">
+            <div class="">
+                搜索: <input type="text" v-model="searchName"> <button @click="onSearch">搜索</button>
+            </div>
+            <div class="">
+                编号: <input type="text" v-model="inputId" :disabled="flag"> 名称: <input type="text" v-model="inputName">
+                <button @click="onClickSubmit">提交</button>
+            </div>
+        </div>
+        <div class="top_box_2">
+            图书总数: {{list.length}}
+        </div>
+        <table class="table" cellspacing=0 cellpadding=0>
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(value,index) in list">
+                    <td>{{value.id}} </td>
+                    <td>{{value.name}} </td>
+                    <td>{{value.createTime}}</td>
+                    <td><a href="#" @click.prevent="onAmend(index)">修改</a> | <a href="#" @click.prevent="onRemove(index)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '.app',
+            data: {
+                list: [{
+                    id: 1,
+                    name: '三国演义',
+                    createTime: '2021-01-12 22:19:32',
+                }, {
+                    id: 2,
+                    name: '水浒传',
+                    createTime: '2021-01-12 22:19:32',
+                }, {
+                    id: 3,
+                    name: '红楼梦',
+                    createTime: '2021-01-12 22:19:32',
+                }, {
+                    id: 4,
+                    name: '西游记',
+                    createTime: '2021-01-12 22:19:32',
+                }, ],
+
+                inputId: '', //接收用户输入的编号
+                inputName: '', //接收用户输入的名称
+                searchName: '',
+                flag: false,
+            },
+            methods: {
+                onClickSubmit: function() {
+                    // 接收用户提交内容时
+                    // 一定要进行数据正确性的判断
+                    if (this.inputId && this.inputName) {
+                        if (this.flag) {
+                            this.list.some((item) => {
+                                if (item.id == this.inputId) {
+                                    // 箭头函数中 this 指向父级作用域的this 
+                                    item.name = this.inputName;
+                                    // 完成更新操作之后，需要终止循环
+                                    return true;
+                                }
+                            });
+                            this.flag = false;
+                        } else {
+                            // 判断用户输入的id是否重复
+                            let arr = this.list.filter((value, index, array) => {
+                                // 过滤的条件
+                                return value.id == this.inputId;
+                            });
+                            // 说明id重复
+                            if (arr.length > 0) {
+                                alert('书籍id已经存在！');
+                                return;
+                            }
+                            // 增加一本书的信息
+                            this.list.push({
+                                id: this.inputId,
+                                name: this.inputName,
+                                createTime: this.getFrameTime(),
+                            });
+                        }
+                        this.inputId = null;
+                        this.inputName = null;
+                    } else {
+                        alert('编号和名称不能为空');
+                    }
+                },
+                // 修改功能
+                onAmend: function(index) {
+                    this.inputId = this.list[index].id;
+                    this.inputName = this.list[index].name;
+                    this.flag = true;
+                },
+                // 删除功能
+                onRemove: function(index) {
+                    this.list.splice(index, 1);
+                },
+                // 查找功能
+                onSearch: function() {
+                    if (this.searchName != "") {
+                        this.list = this.list.filter((item) => {
+                            return item.id == this.searchName || item.name == this.searchName
+                        })
+                        this.searchName = "";
+                    }
+                },
+                // 获取当前时间的标准格式
+                getFrameTime() {
+                    let date = new Date();
+                    let str = '';
+                    str += date.getFullYear(); //年
+                    str += '-' + this.getFrameNum((date.getMonth() + 1)); //月
+                    str += '-' + this.getFrameNum(date.getDate()); //日
+                    str += ' ' + this.getFrameNum(date.getHours()); //时
+                    str += ':' + this.getFrameNum(date.getMinutes()); // 分
+                    str += ':' + this.getFrameNum(date.getSeconds()); // 秒
+                    return str;
+                },
+                // 将小于10的数装换成两位的字符串
+                getFrameNum(num) {
+                    if (num < 10) {
+                        num = '0' + num;
+                    }
+                    return num;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
