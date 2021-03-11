@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <showmsg></showmsg>
+        <showmsg title="我传的参数头部"></showmsg>
+        <showmsg :title='msg' content="内容"></showmsg>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg: '父节点的参数头部',
+            },
+            components: {
+                'showmsg': {
+                    template: '<h1>{{msg}}---{{title}}---{{content}}</h1>',
+                    // 声明组件接收的参数
+                    // 以数组形式声明，
+                    // 每个参数都是一个字符串（组件属性）
+                    props: ['title', 'content'],
+                    data: function() {
+                        return {
+                            msg: '组件自己的参数',
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

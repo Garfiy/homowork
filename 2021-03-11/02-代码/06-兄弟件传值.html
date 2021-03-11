@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <tom></tom>
+        <jerry></jerry>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        // 事件中心
+        var hub = new Vue();
+
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            components: {
+                // 兄弟组件  tom 
+                'tom': {
+                    template: '<div>tom have {{money}} money<button @click="getMeMoney">借钱</button></div>',
+                    data: function() {
+                        return {
+                            // tom自己拥有的数值
+                            money: 100,
+                        }
+                    },
+                    methods: {
+                        // tom 向 jerry 借钱时调用
+                        getMeMoney: function() {
+                            // 抛出事件
+                            // 通知 jerry 我要接多少钱  50块
+                            hub.$emit('getMoney', 50);
+                        }
+                    },
+                    // 初始化
+                    created: function() {
+                        // 监听 jerry 向我借钱的动作
+                        hub.$on('tom-event', value => {
+                            // 首先把自己的钱减去  减去jerry要借的数值value
+                            this.money -= value;
+
+
+                            if (value > 0) {
+                                // 通知jerry到账  到账 value 块
+                                hub.$emit('getMoney', -value);
+                            }
+                        })
+                    }
+                },
+                // 兄弟组件
+                'jerry': {
+                    template: '<div>jerry have {{money}} money<button @click="getMoney">借钱</button></div>',
+                    data: function() {
+                        return {
+                            // jerry拥有的钱的数值
+                            money: 100,
+                        }
+                    },
+                    methods: {
+                        // jerry 向 tom 借钱的操作
+                        getMoney: function() {
+                            // 通知 tom 要借的金额 10块
+                            hub.$emit('tom-event', 10);
+                        }
+                    },
+                    // 初始化
+                    created: function() {
+                        // 监听事件 tom 向我借钱
+                        hub.$on('getMoney', (value) => {
+                            // 收到借钱通知后 把自己的钱减掉 减去value块
+                            this.money -= value;
+
+                            if (value > 0) {
+                                // 通知 tom 钱已经到账
+                                hub.$emit('tom-event', -value);
+                            }
+                        });
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

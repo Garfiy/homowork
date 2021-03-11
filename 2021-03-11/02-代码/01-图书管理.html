@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+        
+        .warp {
+            width: 550px;
+        }
+        
+        .top_box_1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: burlywood;
+            padding: 10px 0;
+        }
+        
+        .top_box_2 {
+            text-align: center;
+            background-color: burlywood;
+            height: 30px;
+            line-height: 30px;
+            border-top: 1px solid yellowgreen;
+            border-bottom: 1px solid yellowgreen;
+        }
+        
+        .table {
+            width: 100%;
+        }
+        
+        .table th {
+            border: 1px dashed burlywood;
+            background-color: burlywood;
+            text-align: center;
+        }
+        
+        .table td {
+            border: 1px dashed burlywood;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="warp">
+        <h1>图书管理</h1>
+        <div class="top_box_1">
+            搜索：<input type="text" v-model="inputFind"><button @click="onClickFind">查询</button>
+        </div>
+        <div class="top_box_1">
+            <!-- 获取用户输入的内容 -->
+            编号： <input type="text" v-model="inputId" :disabled="submitMsg!='提交'"> 名称：
+            <input type="text" v-model="inputName">
+            <button @click="onClickSubmit" :disabled="changeName?changeName==inputName:false">{{submitMsg}}</button>
+        </div>
+        <div class="top_box_2">
+            图书总数：{{list.length}}
+        </div>
+        <!-- cellspacing : 清除单元格间距 -->
+        <!-- cellpadding : 清除单元格内部的间距 -->
+        <table class="table" cellspacing=0 cellpadding=0>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>时间</th>
+                <th>操作</th>
+            </tr>
+            <tbody>
+                <tr v-for="(value,index) in list" :key="index">
+                    <td>{{value.id}}</td>
+                    <td>{{value.name}}</td>
+                    <td>{{value.createTime}}</td>
+                    <td><a href="#" @click="onClickChange(value)">修改</a> | <a href="#" @click="onClickRemove(index)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '.warp',
+            data: {
+                list: [{
+                    id: 1,
+                    name: '三国演义',
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 2,
+                    name: '水浒传',
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 3,
+                    name: '红楼梦',
+                    createTime: '2050-01-12 22:19:32',
+                }, {
+                    id: 4,
+                    name: '西游记',
+                    createTime: '2050-01-12 22:19:32',
+                }],
+                defaultList: [], //保存一份未筛选的数据
+                newList: [],
+                inputId: '', //接收用户输入的编号
+                inputName: '', //接收用户输入的名称
+                inputFind: '', //接收用户输入的查询内容
+                submitMsg: '提交',
+                changeName: '', //要修改的图书的名称
+            },
+            methods: {
+                // 点击提交
+                onClickSubmit: function() {
+                    if (this.submitMsg == '提交') {
+                        // 接收用户提交内容时
+                        // 一定要进行数据正确性的判断
+                        if (this.inputId && this.inputName) {
+                            // 书籍编号必须为正整数才允许添加图书
+                            // 将用户输入的值装换为数值
+                            let num = Number(this.inputId);
+                            if (num != NaN) {
+                                // 向下取证
+                                let num2 = Math.floor(num);
+
+                                // 通过判断两个数是否相等；来判断数是否是整数
+                                if (num == num2 && num >= 0) {
+                                    // 如果相等 那么就是正数
+
+                                } else {
+                                    alert('编号必须为正整数');
+                                    return;
+                                }
+                            } else {
+                                alert('编号必须为0-9数值');
+                                return;
+                            }
+
+                            // 判断用户输入的id是否重复
+                            let arr = this.list.filter((value, index, array) => {
+                                // 过滤的条件
+                                return value.id == this.inputId;
+                            });
+
+                            // 如果符合条件的数据
+                            // 说明id重复
+                            if (arr.length > 0) {
+                                alert('书籍id已经存在！');
+                                return;
+                            }
+
+                            // 增加一本书的信息
+                            this.list.push({
+                                id: this.inputId,
+                                name: this.inputName,
+                                createTime: this.getFrameTime(),
+                            });
+                            this.inputId = null;
+                            this.inputName = null;
+                        } else {
+                            alert('编号和名称不能为空');
+                        }
+                    } else {
+                        // 修改内容
+
+                        // 首先是根据图书编号 找到数据源中对应的数据下标
+
+                        for (let i = 0; i < this.list.length; i++) {
+                            if (this.inputId == this.list[i].id) {
+                                // 判断图书编号是否相等
+                                this.list[i].name = this.inputName;
+
+                                // 还原之前用到的参数
+                                this.inputId = '';
+                                this.inputName = '';
+                                this.submitMsg = '提交';
+                                this.changeName = '';
+
+                                return;
+                            }
+                        }
+                    }
+                },
+                // 获取当前时间的标准格式
+                getFrameTime() {
+                    let date = new Date();
+                    let str = '';
+                    str += date.getFullYear(); //年
+                    str += '-' + this.getFrameNum((date.getMonth() + 1)); //月
+                    str += '-' + this.getFrameNum(date.getDate()); //日
+                    str += ' ' + this.getFrameNum(date.getHours()); //时
+                    str += ':' + this.getFrameNum(date.getMinutes()); // 分 
+                    str += ':' + this.getFrameNum(date.getSeconds()); // 秒
+                    return str;
+                },
+                // 将小于10的数装换成两位的字符串
+                getFrameNum(num) {
+                    if (num < 10) {
+                        num = '0' + num;
+                    }
+                    return num;
+                },
+                // 点击删除回调方法
+                onClickRemove(index) {
+                    this.list.splice(index, 1);
+                },
+                // 点击修改回调方法
+                onClickChange(value) {
+                    // 将要修改的数据显示到输入框中
+                    this.inputId = value.id;
+                    this.changeName = this.inputName = value.name;
+
+                    // 改变提交按钮的文案
+                    this.submitMsg = '修改';
+                },
+                // 点击查询回调方法
+                onClickFind() {
+                    // 判断用户输入内容是否合法
+                    if (this.inputFind) {
+                        let that = this;
+                        // 根据输入内容对数据进行筛选
+
+                        // 用普通函数时，
+                        // 需要return；
+                        // 且要注意 this 的指向
+                        // let arr = this.list.filter(function(value, index, item) {
+                        //     return value.name.indexOf(that.inputFind) != -1;
+                        // });
+
+                        // 用箭头函数时
+                        // 如果用了{}那么就必须要return
+                        // let arr = this.list.filter((value, index, item) => {
+                        //     return value.name.indexOf(that.inputFind) != -1;
+                        // })
+
+                        // 如果没有用{}那么就不需要return;
+                        // =>后面只能写一行脚本
+                        let arr = this.list.filter((value, index, item) => value.name.indexOf(that.inputFind) != -1);
+
+                        // 改变数据源时 先保存一份
+                        this.defaultList = this.list;
+                        // 筛选完成后要重新赋值
+                        this.list = arr;
+                    } else {
+                        // 当搜索栏为空时 则显示所有数据
+                        this.list = this.defaultList;
+                    }
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

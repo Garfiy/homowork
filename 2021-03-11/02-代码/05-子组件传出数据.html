@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        父亲的钱包余额：{{moneys}}
+        <son @get-me-money="getMoney" :father-money="moneys"></son>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        // 当做父节点
+        new Vue({
+            el: '#app',
+            data: {
+                moneys: 200,
+            },
+            methods: {
+                getMoney: function(value) {
+                    if (value <= 100) {
+                        this.moneys -= 100;
+                        alert('给');
+                    } else {
+                        alert('不给');
+                    }
+                }
+            },
+            // 子组件做为儿子
+            components: {
+                'son': {
+                    template: '<div><br>父亲所拥有的钱：{{fatherMoney}}<button @click="onClickHandler">要钱</button><button @click="onGetMoney">拿钱</button></div>',
+                    props: ['fatherMoney'],
+                    methods: {
+                        // 点击调用的方法
+                        onClickHandler: function() {
+                            this.$emit('get-me-money', 100);
+                        },
+                        // 直接操作父节点的数据
+                        // 子组件不允许直接操作父组件的数据
+                        onGetMoney: function() {
+                            this.fatherMoney -= 100;
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
