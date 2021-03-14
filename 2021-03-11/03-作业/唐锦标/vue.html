@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onClickadd" v-model="inputTitle">
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all" v-model="flag">
+            <label for="toggle-all" @click="onClickCheckAll">Mark all as complete</label>
+            <ul class="todo-list">
+                <li :class="value.completed?'completed':''" v-for="(value,i) in todos" :key="i" @dblclick="onClickModification">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" v-model="value.completed">
+                        <label for="toggle">{{value.title}}</label>
+                        <button class="destroy" @click="onCickDelete(i)"></button>
+                    </div>
+                    <input class="edit">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count"><strong>3</strong> item left</span>
+            <ul class="filters">
+                <li><a href="#/" class="selected">All</a></li>
+                <li><a href="#/active">Active</a></li>
+                <li><a href="#/completed">Completed</a></li>
+            </ul>
+            <button class="clear-completed" @click="onClickCrear">Clear completed</button>
+        </footer>
+    </section>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#todoapp",
+            data: {
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    completed: false
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    completed: false
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    completed: true
+                }],
+                flag: true,
+                inputTitle: ''
+            },
+            methods: {
+                //删除
+                onCickDelete: function(index) {
+                    this.todos.splice(index, 1)
+                },
+                //全选
+                onClickCheckAll: function() {
+                    this.todos.forEach(val => {
+                        val.completed = !this.flag
+                    })
+                },
+                //添加
+                onClickadd: function() {
+                    this.todos.push({
+                        title: this.inputTitle,
+                        id: this.todos.length,
+                        completed: false
+                    })
+                },
+                //清除
+                onClickCrear: function() {
+                    for (var i = 0; i < this.todos.length; i++) {
+                        if (this.todos[i].completed) {
+                            this.todos.splice(i, 1)
+                            i--;
+                        }
+                    }
+                },
+                //修改
+                onClickModification: function() {
+
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

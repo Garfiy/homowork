@@ -15,13 +15,11 @@
         <header class="header">
             <h1>todos</h1>
             <input placeholder="What needs to be done?" @keyup.enter="addTodo" class="new-todo">
-
         </header>
         <section class="main">
             <input v-model="toggleStat" id="toggle-all" type="checkbox" class="toggle-all">
             <label for="toggle-all">Mark all as complete</label>
             <ul class="todo-list">
-
                 <li v-for="(item, index) in todos" v-bind:class="{completed: item.completed, editing: item === currentEditing}">
                     <div class="view">
                         <input type="checkbox" class="toggle" v-model="item.completed">
@@ -38,10 +36,10 @@
                 <li><a href="#/" class="selected">All</a></li>
                 <li><a href="#/active" class="">Active</a></li>
                 <li><a href="#/completed" class="">Completed</a></li>
-            </ul> <button class="clear-completed">Clear completed</button></footer>
+            </ul> <button class="clear-completed">Clear completed</button>
+        </footer>
     </section>
     <script src="js/vue.js"></script>
-
     <script>
         new Vue({
             el: "#todoapp",
@@ -73,7 +71,6 @@
                     if (!todoText.length) {
                         return
                     }
-
                     const lastTodo = this.todos[this.todos.length - 1]
                     const id = lastTodo ? lastTodo.id + 1 : 1
 
@@ -98,17 +95,14 @@
                     //    如果为空，则直接删除这个 item
                     //    如果不为空，则修改任务项的 title 数据
                     var editText = event.target.value.trim()
-
-                    // 程序员要具有工匠精神：优化简写
-                    // !editText.length ?
-                    //   this.todos.splice(index, 1) :
-                    //   item.title = editText
-
+                        // 程序员要具有工匠精神：优化简写
+                        // !editText.length ?
+                        //   this.todos.splice(index, 1) :
+                        //   item.title = editText
                     if (!editText.length) {
                         // 将元素直接从数组中移除
                         return this.todos.splice(index, 1)
                     }
-
                     // 2. 将数据设置到任务项中
                     item.title = editText
 
