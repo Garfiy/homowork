@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <my-goods></my-goods>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component("my-goods", {
+            data: function () {
+                return {
+                    uname: '张三',
+                    sum: 0,
+                    list: [{
+                        id: 1,
+                        name: 'TCL彩电',
+                        price: 1000,
+                        num: 1,
+                        img: 'img/a.jpg'
+                    }, {
+                        id: 2,
+                        name: '机顶盒',
+                        price: 1000,
+                        num: 1,
+                        img: 'img/b.jpg'
+                    }, {
+                        id: 3,
+                        name: '海尔冰箱',
+                        price: 1000,
+                        num: 1,
+                        img: 'img/c.jpg'
+                    }, {
+                        id: 4,
+                        name: '小米手机',
+                        price: 1000,
+                        num: 1,
+                        img: 'img/d.jpg'
+                    }, {
+                        id: 5,
+                        name: 'PPTV电视',
+                        price: 1000,
+                        num: 2,
+                        img: 'img/e.jpg'
+                    }]
+                }
+            },
+            template: `
+            <div class="container">
+                <div class="cart">
+                    <div class="title">我的商品</div>
+                    <div>
+                        <div class="item" v-for="(k,i) in list" :key="i">
+                            <img :src="k.img">
+                            <span class="unit-price">{{ k.price }}￥</span>
+                            <div class="name">{{ k.name }}</div>
+                            <div class="change">
+                                <a href="javascript:;" @click="onClickRemove(k,i)">－</a>
+                                <input type="text" class="num" v-model="k.num" />
+                                <a href="javascript:;" @click="onClickapp(k,i)">＋</a>
+                            </div>
+                            <div class="del" @click="onClickRemovetwo(i)">×</div>
+                        </div>
+                    </div>
+                    <div class="total">
+                        <span>总价：{{ sum }}元</span>
+                        <button>结算</button>
+                    </div>
+                </div>
+            </div>`,
+            methods: {
+                onClickapp: function (price, i) {
+                    this.list[i].num++;
+                    this.sum += price.price;
+                },
+                onClickRemove: function (num, i) {
+                    if (this.list[i].num > 1) {
+                        this.list[i].num--;
+                        this.sum -= num.price;
+                    }
+                },
+                onClickRemovetwo: function (i) {
+                    this.list.splice(i, 1);
+                },
+            },
+            beforeUpdate: function () {
+                let sum = 0;
+                this.list.forEach(v => {
+                    sum += v.num * v.price;
+                    console.log(sum);
+                });
+                this.sum = sum;
+            }
+        })
+        new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>
