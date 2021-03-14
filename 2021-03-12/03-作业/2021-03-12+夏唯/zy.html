@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .container {}
+        
+        .container .cart {
+            width: 300px;
+            /*background-color: lightgreen;*/
+            margin: auto;
+        }
+        
+        .container .title {
+            background-color: lightblue;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            /*color: #fff;*/
+        }
+        
+        .container .total {
+            background-color: #FFCE46;
+            height: 50px;
+            line-height: 50px;
+            text-align: left;
+        }
+        
+        .container .total button {
+            margin: 0 5px;
+            background-color: #DC4C40;
+            height: 35px;
+            width: 80px;
+            border: 0;
+        }
+        
+        .container .total span {
+            color: red;
+            font-weight: bold;
+        }
+        
+        .container .item {
+            height: 55px;
+            line-height: 55px;
+            position: relative;
+            border-top: 1px solid #ADD8E6;
+        }
+        
+        .container .item img {
+            width: 45px;
+            height: 45px;
+            margin: 5px;
+        }
+        
+        .container .item .name {
+            position: absolute;
+            width: 90px;
+            top: 0;
+            left: 55px;
+            font-size: 16px;
+        }
+        
+        .container .item .change {
+            width: 100px;
+            position: absolute;
+            top: 0;
+            right: 50px;
+        }
+        
+        .container .item .change a {
+            font-size: 20px;
+            width: 30px;
+            text-decoration: none;
+            background-color: lightgray;
+            vertical-align: middle;
+        }
+        
+        .container .item .change .num {
+            width: 40px;
+            height: 25px;
+        }
+        
+        .container .item .del {
+            position: absolute;
+            top: 0;
+            right: 0px;
+            width: 40px;
+            text-align: center;
+            font-size: 40px;
+            cursor: pointer;
+            color: red;
+        }
+        
+        .container .item .del:hover {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <my-conmponent></my-conmponent>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {},
+            components: {
+                'my-conmponent': {
+                    template: '<div class="container"><div class="cart"><div class="title">我的商品</div>        <div class="item" v-for="(val,index) in goods" :key="val.id"><img :src="val.brand" /><div class="name">{{val.name}}{{val.price}}</div><div class="change"><a href="" @click.prevent="onClickSub(val)">－</a><input type="text" class="num" v-model="val.num"><a href="" @click.prevent="onClickAdd(val)">＋</a></div> <div class="del" @click="del(index)">×</div></div>  <div class="total"> <button @click="onClickAddGoods">添加商品</button><span>总价: {{total}}</span><button @click="onClickPayment">结算</button></div></div></div>',
+                    data: function() {
+                        return {
+                            goods: [{
+                                id: 1,
+                                brand: 'img/a.jpg',
+                                name: '电视',
+                                price: 1000,
+                                num: 1
+                            }, {
+                                id: 2,
+                                brand: 'img/b.jpg',
+                                name: '机顶盒',
+                                price: 1100,
+                                num: 2
+                            }, {
+                                id: 3,
+                                brand: 'img/c.jpg',
+                                name: '冰箱',
+                                price: 1200,
+                                num: 3
+                            }, {
+                                id: 4,
+                                brand: 'img/d.jpg',
+                                name: '手机',
+                                price: 1300,
+                                num: 4
+                            }, {
+                                id: 5,
+                                brand: 'img/e.jpg',
+                                name: '电视',
+                                price: 1400,
+                                num: 5
+                            }],
+                            removeGoods: []
+                        }
+                    },
+                    methods: {
+                        del: function(index) {
+                            this.removeGoods.push(this.goods[index]);
+                            this.goods.splice(index, 1);
+                        },
+                        onClickSub: function(val) {
+                            this.goods.some(item => {
+                                if (item.id == val.id) {
+                                    if (item.num > 1) {
+                                        item.num -= 1;
+                                        return true;
+                                    }
+                                }
+                            });
+                        },
+                        onClickAdd: function(val) {
+                            this.goods.some(item => {
+                                if (item.id == val.id) {
+                                    item.num += 1;
+                                    return true;
+                                }
+                            });
+                        },
+                        onClickAddGoods: function() {
+                            if (this.goods.length < 5) {
+                                this.goods.push(this.removeGoods[0]);
+                                this.removeGoods.splice(0, 1);
+                            } else {
+                                alert('只能添加5种商品');
+                            }
+                        },
+                        onClickPayment: function() {
+                            alert('你的余额不足');
+                        }
+                    },
+                    computed: {
+                        total: function() {
+                            let total = 0;
+                            this.goods.forEach(val => {
+                                total += val.price * val.num;
+                            });
+                            return total;
+                        }
+                    },
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
