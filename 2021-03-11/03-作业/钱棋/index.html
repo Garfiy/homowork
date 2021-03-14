@@ -20,11 +20,11 @@
             <input v-model="toggleStat" id="toggle-all" type="checkbox" class="toggle-all">
             <label for="toggle-all">Mark all as complete</label>
             <ul class="todo-list">
-                <li v-for="(item, index) in todos" v-bind:class="{completed: item.completed, editing: item === currentEditing}">
+                <li v-for="(item, index) in todos" v-bind:class="{completed: item.completed, editing: item === currentEditing}" :key="item.id">
                     <div class="view">
                         <input type="checkbox" class="toggle" v-model="item.completed">
                         <label @dblclick="currentEditing = item">{{item.title}}</label>
-                        <button class="destroy" @click="removeTodo(index, $event)"></button>
+                        <button class="destroy" @click="removeTodo(item, $event)"></button>
                     </div>
                     <input class="edit" @keyup.enter="saveEdit(item, index, $event)" v-focus @blur="saveEdit(item, index, $event)" :value="item.title" @keyup.esc="currentEditing = null">
                 </li>
@@ -68,7 +68,7 @@
                 focus: {
                     // 指令的定义
                     update: function(el) {
-                        el.focus()
+                        el.focus();
                     }
                 }
             },
@@ -82,8 +82,9 @@
                 },
                 // 添加新目标
                 addTodo: function(e) {
-                    var todoText = e.target.value;
-                    if (!todoText.trim().length) {
+                    var todoText = e.target.value.trim();
+                    if (!todoText.length) {
+                        e.target.value = '';
                         return;
                     }
                     const id = this.todos.length + 1;
@@ -95,27 +96,31 @@
                     e.target.value = '';
                     this.getData();
                 },
-                // 点击删除
-                removeTodo: function(index) {
-                    this.todos.splice(index, 1);
-                    this.getData();
+                // 点击叉删除
+                removeTodo: function(item) {
+                    if (item) {
+                        var index = this.todos.indexOf(item);
+                        this.todos.splice(index, 1);
+                        this.backupsArr.splice(item.id, 1);
+                    }
                 },
                 // 编辑目标
                 saveEdit: function(item, index, e) {
-                    var editText = event.target.value;
-                    if (!editText.trim().length) {
+                    var editText = event.target.value.trim();
+                    if (!editText.length) {
                         return this.todos.splice(index, 1);
                     }
                     item.title = editText;
                     this.currentEditing = null;
-                    this.getData();
                 },
                 // 删除已完成
                 removeDone: function() {
                     this.todos = this.todos.filter(item => {
                         return !item.completed;
                     });
-                    this.getData();
+                    this.backupsArr = this.backupsArr.filter(item => {
+                        return !item.completed;
+                    });
                 },
                 // 查找已完成 
                 doneTodo: function() {
