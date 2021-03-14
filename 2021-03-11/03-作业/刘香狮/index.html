@@ -79,7 +79,7 @@
 							id: this.todos.length + 1 || 1,
 							title: value,
 							completed: false
-						})
+						});
 						// 		- 4. 清空文本框
 						e.target.value = null;
 					},
@@ -103,7 +103,7 @@
 					// 删除已经完成的计划
 					onClickDelete: function() {
 						// 返回的值是true 就返回新数组 再给原数组 赋值就没有了为false的数据了
-						this.todos = this.todos.filter(v => !v.completed)
+						this.todos = this.todos.filter(v => !v.completed);
 					}
 				},
 				computed: {
@@ -127,7 +127,7 @@
 							if (v.completed == true) {
 								num++;
 							}
-						})
+						});
 						return num;
 					}
 				},

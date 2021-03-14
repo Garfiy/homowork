@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			.box {
+				width: 18.75rem;
+				height: 31.25rem;
+				margin: 0 auto;
+			}
+
+			img {
+				width: 3.125rem;
+				height: 3.125rem;
+			}
+
+
+
+			li {
+				list-style: none;
+				display: flex;
+				line-height: 3.125rem;
+				justify-content: space-between;
+				align-items: center;
+
+			}
+
+			input {
+				width: 3.125rem;
+				height: 1.25rem;
+			}
+
+			button {
+				width: 1.25rem;
+				height: 1.25rem;
+			}
+
+			a {
+				display: block;
+				height: 100%;
+				width: 3.125rem;
+				font-size: 1.875rem;
+				color: red;
+				text-align: center;
+			}
+
+			a:hover {
+				background-color: #F4A460;
+			}
+
+			.footer {
+				height: 3.125rem;
+			}
+
+			.footer>p {
+				height: 100%;
+				color: red;
+				font-weight: 700;
+			}
+
+			.footer>p>button {
+				width: 3.75rem;
+				height: 1.875rem;
+				background-color: #B83F45;
+				border: none;
+			}
+
+			.box-head {
+				display: flex;
+				background-color: #00FFFF;
+				justify-content: space-evenly;
+			}
+
+			.color {
+				background-color: #FA8072;
+			}
+
+			.list1 {
+				height: 3.125rem;
+				overflow-y: auto;
+
+			}
+
+			.fade-enter-active,
+			.fade-leave-active {
+				transition: opacity 1.5s;
+			}
+
+			.fade-enter,
+			.fade-leave-to {
+				opacity: 0;
+			}
+
+			ol {
+				height: 3.125rem;
+				overflow-y: auto;
+			}
+		</style>
+		<!-- 	<link rel="stylesheet" type="text/css" href="css/animate.min.css" /> -->
+	</head>
+	<body>
+
+		<div id="app" class="box">
+			<app></app>
+		</div>
+		
+		<script type="text/javascript">
+			// 中介
+			var hub = new Vue();
+			// 头部模板
+			var shoppingHead = Vue.component('shoppingHead', {
+				template: `<div class="box-head"> <p>我的商品</p></div>`,
+
+			});
+
+			// 新数据模板
+			var shoppingList = Vue.component('shoppingList', {
+				props: ['fatherRemove'],
+				template: `<li>
+						<img :src="fatherRemove.src">
+						<p>单价:{{fatherRemove.price}}</p> 
+						<span class="color" @click="onClickData(fatherRemove)">添加到购物车</span>
+					</li>`,
+				methods: {
+					onClickData: function(val) {
+						this.$emit('sondata', val);
+					}
+				}
+			});
+			// 结算模板
+			var shoppingFooter = Vue.component('shoppingFooter', {
+				data: function() {
+					return {
+						m: 1,
+					};
+				},
+				props: ['fatherSum'],
+				template: `<div class="footer"> <p>总价:{{fatherSum}} <button>结算</button> </p>  </div>`,
+				created: function() {
+					hub.$on('money', val => {
+						this.m = val.num;
+						this.$emit('moneynum', this.m);
+					});
+
+				}
+			});
+
+			// 初始渲染模板
+			var shopping = Vue.component('shopping', {
+				props: ['fatherList', 'index'],
+				template: ` <li>
+				<img :src="fatherList.src"> 
+				<span>单价:{{fatherList.price}}</span>
+				<button type="button" @click="onCLickEventSubL(fatherList)">-</button> 
+				<input type="text"  :value="fatherList.num"> <button type="button"   @click="onClickEvent(fatherList)">+</button>
+				 <a @click="onClickRemoveList(fatherList,index)">X</a>
+				 </li>`,
+				methods: {
+					// 加
+					onClickEvent: function(val) {
+						this.$emit('sonlist', val);
+						hub.$emit('money', val);
+					},
+					// 减
+					onCLickEventSubL: function(val) {
+						this.$emit('sublist', val);
+						hub.$emit('money', val);
+					},
+					// 删除
+					onClickRemoveList: function(val, index) {
+						this.$emit('remove', val, index);
+					},
+
+				},
+
+			});
+
+			var App = Vue.component('app', {
+				template: `<div>
+				<shopping-head></shopping-head>
+				<ol><shopping-list class="list1" v-for="(value,index) in removeList" :key="index" :father-remove='value' @sondata = "onClickAddList(value)"> </shopping-list> </ol> 
+				<ul><shopping v-for="(value, index) in list" :key="index" :father-list='value' :index='index' @sonlist = "onClickAdd(value)" @sublist = "ooClickRemove(value)" @remove="onClickRemoveList(value,index)"></shopping> </ul>
+				<shopping-footer :father-sum='sum' @moneynum="tolatPrice"> </shopping-footer>
+				</div> `,
+				data: function() {
+					return {
+						list: [{
+								src: 'img/a.jpg',
+								price: 1500,
+								num: 1,
+								name: 'TCL'
+							}, {
+								src: 'img/b.jpg',
+								price: 1200,
+								num: 1,
+								name: '路由器'
+							},
+							{
+								src: 'img/c.jpg',
+								price: 1030,
+								num: 1,
+								name: 'Haier'
+							},
+							{
+								src: 'img/d.jpg',
+								price: 1400,
+								num: 1,
+								name: '小米	'
+							}, {
+								src: 'img/e.jpg',
+								price: 170,
+								num: 1,
+								name: 'QQTV'
+							},
+						],
+						// 默认的总数
+						sum: 0,
+						// 删除存放的数据
+						removeList: [],
+					};
+				},
+				methods: {
+					// 点击添加数量
+					onClickAdd: function(v) {
+						v.num++;
+					},
+					// 点击数量减少
+					ooClickRemove: function(v) {
+
+						v.num--;
+						if (v.num <= 1) {
+							v.num = 1;
+						}
+					},
+					// 计算总数
+					tolatPrice: function() {
+						let tolat = 0;
+						this.list.forEach(val => {
+							tolat += (val.num * val.price);
+						});
+						this.sum = tolat;
+					},
+					// 新添加
+					onClickAddList(v) {
+						this.list.push(v);
+						//  当里面的值 不是进来对象  就返回原对象 否则点击的对象就是原来的对象
+						this.removeList = this.removeList.filter(val => {
+							if (val != v) {
+								return val;
+							} else {
+								val.num = 1;
+							}
+						});
+
+					},
+					// 删除数据
+					onClickRemoveList: function(v, i) {
+						// 用一个新的数组接收数据  在添加的时候直接加进去 并且初始数量为1
+						this.removeList.push(v);
+
+						// 点击 清除对应的整条数据 
+						this.list.splice(i, 1);
+					},
+				},
+
+				// 初始化渲染
+				created: function() {
+					// 默认渲染 总价
+					// 获取数据中的price的值累加
+					let price = 0;
+					this.list.forEach(v => {
+						price += v.price;
+					});
+					this.sum = price;
+				},
+				// 数据改变 重新渲染页面
+				beforeUpdate() {
+					// 重新渲染总数
+					this.tolatPrice();
+				},
+				components: {
+					shoppingHead,
+					shopping,
+					shoppingFooter,
+					shoppingList,
+				}
+			});
+			new Vue({
+				el: '#app',
+
+				components: {
+					App
+				}
+
+			});
+		</script>
+	</body>
+
+</html>
