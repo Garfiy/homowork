@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <one_component></one_component>
+        <!-- 会将wrod替换掉用来的slot标签 -->
+        <one_component>wrod</one_component>
+        <!-- 可以连着标签一起替换 -->
+        <one_component><i>wrod</i></one_component>
+        <one_component><em slot="slot1">wrod</em><em slot=""> one city</em></one_component>
+
+
+        <two_component><template slot-scope="item">
+            <h1>{{item.prop}}</h1>
+        </template></two_component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        Vue.component('one_component', {
+            template: "<h1><slot name='slot1'>hello</slot><slot>hello</slot></h1>",
+        })
+
+        Vue.component('two_component', {
+            template: "<h1><slot :prop='msg'>{{msg}}</slot></h1>",
+            data: function() {
+                return {
+                    msg: 'hellow',
+                }
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

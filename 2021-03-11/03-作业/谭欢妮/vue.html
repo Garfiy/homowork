@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo">
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li v-for="(item, index) in todos" v-bind:class="{completed: item.completed, editing: item === currentEditing}">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" v-model="item.completed">
+                        <label @dblclick="currentEditing = item">{{item.title}}</label>
+                        <button class="destroy" @click="removeTodo(index, $event)"></button>
+                    </div>
+                    <input class="edit" @keyup.enter="saveEdit(item, index, $event)" :value="item.title" @keyup.esc="currentEditing = null">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count">
+                <strong>2</strong> item left</span>
+            <ul class="filters">
+                <li><a href="#/" class="selected">All</a></li>
+                <li><a href="#/active">Active</a></li>
+                <li><a href="#/completed">Completed</a></li>
+            </ul>
+            <button class="clear-completed">Clear completed</button>
+        </footer>
+    </section>
+
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#todoapp',
+            data: {
+                data: {
+                    currentEditing: null,
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }]
+                },
+                methods: {
+                    addTodo(event) {
+                        
+                    var todoText = event.target.value.trim()
+                    if (!todoText.length) {
+                        return
+                    }
+
+                    const lastTodo = this.todos[this.todos.length - 1]
+                    const id = lastTodo ? lastTodo.id + 1 : 1
+
+                    // 当数组发生变化，则绑定渲染该数组的视图也会得到更新
+                    this.todos.push({
+                        id,
+                        title: todoText,
+                        completed: false
+                    })
+
+                    // 清空文本框
+                    event.target.value = ''
+                },
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

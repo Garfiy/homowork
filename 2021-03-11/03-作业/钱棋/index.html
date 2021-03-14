@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" @keyup.enter="addTodo" class="new-todo">
+        </header>
+        <section class="main">
+            <input v-model="toggleStat" id="toggle-all" type="checkbox" class="toggle-all">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li v-for="(item, index) in todos" v-bind:class="{completed: item.completed, editing: item === currentEditing}">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" v-model="item.completed">
+                        <label @dblclick="currentEditing = item">{{item.title}}</label>
+                        <button class="destroy" @click="removeTodo(index, $event)"></button>
+                    </div>
+                    <input class="edit" @keyup.enter="saveEdit(item, index, $event)" v-focus @blur="saveEdit(item, index, $event)" :value="item.title" @keyup.esc="currentEditing = null">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count"><strong>{{leftCount}}</strong> item left</span>
+            <ul class="filters">
+                <li><a href="#/" class="selected" @click="allTodo">All</a></li>
+                <li><a href="#/active" class="" @click="undoneTodo">Active</a></li>
+                <li><a href="#/completed" class="" @click="doneTodo">Completed</a></li>
+            </ul> <button class="clear-completed" @click="removeDone">Clear completed</button>
+        </footer>
+    </section>
+    <script src="js/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: "#todoapp",
+            data: {
+                currentEditing: null,
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    completed: false
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    completed: false
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    completed: true
+                }],
+                backupsArr: [],
+            },
+            created: function() {
+                this.getData();
+            },
+            directives: {
+                focus: {
+                    // 指令的定义
+                    update: function(el) {
+                        el.focus()
+                    }
+                }
+            },
+            methods: {
+                // 备份数据源
+                getData: function() {
+                    this.todos.forEach((item, index) => {
+                        this.backupsArr[index] = item;
+                    });
+                    return this.backupsArr;
+                },
+                // 添加新目标
+                addTodo: function(e) {
+                    var todoText = e.target.value;
+                    if (!todoText.trim().length) {
+                        return;
+                    }
+                    const id = this.todos.length + 1;
+                    this.todos.push({
+                        id: id,
+                        title: todoText,
+                        completed: false
+                    });
+                    e.target.value = '';
+                    this.getData();
+                },
+                // 点击删除
+                removeTodo: function(index) {
+                    this.todos.splice(index, 1);
+                    this.getData();
+                },
+                // 编辑目标
+                saveEdit: function(item, index, e) {
+                    var editText = event.target.value;
+                    if (!editText.trim().length) {
+                        return this.todos.splice(index, 1);
+                    }
+                    item.title = editText;
+                    this.currentEditing = null;
+                    this.getData();
+                },
+                // 删除已完成
+                removeDone: function() {
+                    this.todos = this.todos.filter(item => {
+                        return !item.completed;
+                    });
+                    this.getData();
+                },
+                // 查找已完成 
+                doneTodo: function() {
+                    this.todos = this.backupsArr.filter(item => {
+                        return item.completed;
+                    });
+                },
+                // 查找未完成
+                undoneTodo: function() {
+                    this.todos = this.backupsArr.filter(item => {
+                        return !item.completed;
+                    });
+                },
+                // 查看全部Todo
+                allTodo: function() {
+                    this.todos = this.backupsArr;
+                }
+            },
+            computed: {
+                toggleStat: {
+                    get() {
+                        return this.todos.every(item => item.completed);
+                    },
+                    set(val) {
+                        this.todos.forEach(todo => todo.completed = val);
+                        this.getData();
+                    }
+                },
+                leftCount: function() {
+                    return this.todos.filter(item => !item.completed).length;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Document</title>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+
+	<body>
+		<section id="todoapp" class="todoapp">
+			<header class="header">
+				<h1>todos</h1>
+				<input placeholder="What needs to be done?" @blur="onBlurAndkeyAddTodo"
+					@keyup.enter="onBlurAndkeyAddTodo" class="new-todo">
+
+			</header>
+			<section class="main">
+				<input id="toggle-all" type="checkbox" class="toggle-all" v-model="activate">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul class="todo-list">
+					<li v-for="(item, index) in todos"
+						v-bind:class="{completed: item.completed, editing: item === currentEditing}" :key="index">
+						<div class="view">
+							<input type="checkbox" class="toggle" v-model="item.completed">
+							<label @dblclick="currentEditing=item">{{item.title}}</label>
+							<button class="destroy" @click="onClickRemoveTods(index)"></button>
+						</div>
+						<input @keyup.esc="keyCancel" @blur="onBlurAmendAndKey(index,$event)"
+							@keyup.enter="onBlurAmendAndKey(index,$event)" class="edit" :value="item.title">
+					</li>
+				</ul>
+			</section>
+			<footer class="footer">
+				<span class="todo-count"><strong>{{total}}</strong> item left</span>
+				<ul class="filters">
+					<li><a href="#/" class="selected">All</a></li>
+					<li><a href="#/active" class="">Active</a></li>
+					<li><a href="#/completed" class="">Completed</a></li>
+				</ul> <button @click="onClickDelete" class="clear-completed">Clear completed</button>
+			</footer>
+		</section>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+		<script>
+			new Vue({
+				el: '#todoapp',
+				data: {
+					currentEditing: null,
+					todos: [{
+						id: 1,
+						title: '吃饭',
+						completed: false
+					}, {
+						id: 2,
+						title: '睡觉',
+						completed: false
+					}, {
+						id: 3,
+						title: '打豆豆',
+						completed: true
+					}],
+				},
+				methods: {
+					// 添加数据  blur && key enter 
+					onBlurAndkeyAddTodo: function(e) {
+						// - 1. 获取文本框中用户输入的数据
+						let value = e.target.value.trim();
+						// - 2. 判断数据是否非空   如果是空的，则什么都不做    如果不是空的，则添加到数组中
+
+						if (value.length == 0) {
+							return;
+						}
+						// 	- 3. 添加到数组中
+						this.todos.unshift({
+							id: this.todos.length + 1 || 1,
+							title: value,
+							completed: false
+						})
+						// 		- 4. 清空文本框
+						e.target.value = null;
+					},
+					// 移除
+					onClickRemoveTods: function(index) {
+						// 点击 删除对应的数据
+						this.todos.splice(index, 1);
+					},
+					// 隐藏输入框 esc
+					keyCancel: function() {
+						// 触发时 输入框隐藏
+						this.currentEditing = null;
+					},
+					// 修改 渲染数据 blur key enter 
+					onBlurAmendAndKey: function(index, e) {
+						//  对应数据的内容 等于 输入框的值
+						this.todos[index].title = e.target.value;
+						// 清空输入框
+						this.currentEditing = null;
+					},
+					// 删除已经完成的计划
+					onClickDelete: function() {
+						// 返回的值是true 就返回新数组 再给原数组 赋值就没有了为false的数据了
+						this.todos = this.todos.filter(v => !v.completed)
+					}
+				},
+				computed: {
+					activate: {
+						get() {
+							// 当所有的元素都满足条件 就返回为 true  有一个不满足就是false
+							// 把所有的数据判断一次 当所有的值为 true 那么activate 的返回值就是true
+							//  有一个不满足 activate的值就为false
+
+							return this.todos.every(item => item.completed);
+						},
+						set(value) {
+
+							// 把数据中的所有值 和value 对应
+							this.todos.forEach(v => v.completed = value);
+						}
+					},
+					total: function() {
+						let num = 0;
+						this.todos.filter(v => {
+							if (v.completed == true) {
+								num++;
+							}
+						})
+						return num;
+					}
+				},
+				watch: {
+					todos: {
+						handler(val) {
+							let falg;
+							// 当所有的元素都满足条件 就返回为 true  有一个不满足就是false
+							// 把所有的数据判断一次 当所有的值为 true 那么activate 的返回值就是true
+							//  有一个不满足 activate的值就为false
+							falg = val.every(v => v.completed);
+							if (falg) {
+								alert('你已经完成了全部的计划,快添加新的计划吧');
+							}
+
+						},
+						deep: true
+					}
+				}
+
+			});
+		</script>
+	</body>
+
+</html>

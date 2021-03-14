@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="onKeyupEnterAdd" v-model="newTodo">
+        </header>
+        <section class="main">
+            <input class="toggle-all" id="toggle-all" type="checkbox" :checked="checkAll" @click="onCheckAlls">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li v-for="(k ,i) in todos" v-bind:class="{completed: k.completed, editing:k === show}" :key="k.id">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" @click="onClickCheckbox(i)" :checked="k.completed">
+                        <label @dblclick="ondblclick(i)">{{k.title}}</label>
+                        <button class="destroy" @click="deletes(i)"></button>
+                    </div>
+                    <input class="edit" type="text" v-model="k.title" @keyup.enter="onKeyupChange">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count"><strong v-text="sum">0</strong> item left</span>
+            <ul class="filters">
+                <li><a href="#/" class="selected" @click="onAll">All</a></li>
+                <li><a href="#/active" class="" @click="onActive">Active</a></li>
+                <li><a href="#/completed" class="" @click="onCompletedShow">Completed</a></li>
+            </ul> <button class="clear-completed" @click="clearCompleted">Clear completed</button></footer>
+    </section>
+    <script>
+        var todoapp = new Vue({
+            el: '#todoapp',
+            data: {
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    completed: false
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    completed: false
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    completed: true
+                }],
+                newTodo: '',
+                checkAll: false,
+                arr: [], //保存数据
+                show: false,
+                sum: 3
+            },
+            methods: {
+                onKeyupEnterAdd: function() { //增加数据
+                    if (this.newTodo.trim() != '') {
+                        this.todos.forEach((v, i) => {
+                            v.id = i + 1;
+                        });
+                        this.todos.push({
+                            id: this.todos.length + 1,
+                            title: this.newTodo,
+                            completed: false
+                        });
+                        this.newTodo = '';
+                    }
+                    this.check();
+                    this.save();
+                },
+                onClickCheckbox: function(i) { //选择
+                    console.log(this.todos[i]);
+                    this.todos[i].completed = !this.todos[i].completed;
+                    this.check();
+                },
+                check: function() { //判断全部选中
+                    let num = 0;
+                    this.todos.forEach(v => {
+                        if (v.completed) {
+                            num++;
+                        }
+                    });
+                    if (num == this.todos.length) {
+                        this.checkAll = true;
+                    } else {
+                        this.checkAll = false;
+                    }
+                },
+                onCheckAlls: function() { //全选按钮
+                    this.checkAll = !this.checkAll;
+                    this.todos.forEach(v => {
+                        v.completed = this.checkAll;
+                    });
+                },
+                deletes: function(i) { //删除
+                    this.todos.splice(i, 1);
+                    this.arr.splice(i, 1);
+                    this.todos.forEach((v, i) => {
+                        v.id = i + 1;
+                        this.arr.id = i + 1;
+                    });
+                },
+                clearCompleted: function() { //选中的删除
+                    for (var i = 0; i < this.todos.length;) {
+                        if (this.todos[i].completed) {
+                            this.todos.splice(i, 1);
+                            for (var j = 0; j < this.arr.length;) {
+                                if (this.arr[j].completed) {
+                                    this.arr.splice(j, 1);
+                                } else {
+                                    j++;
+                                }
+                            }
+                        } else {
+                            i++;
+                        }
+                    }
+                    for (var j = 0; j < this.arr.length;) {
+                        if (this.arr[j].completed) {
+                            this.arr.splice(j, 1);
+                        } else {
+                            j++;
+                        }
+                    }
+                    this.todos.forEach((v, i) => {
+                        v.id = i + 1;
+                        this.arr.id = i + 1;
+                    });
+                },
+                onCompletedShow: function() { //选中的显示
+                    this.arr.forEach((v, i) => {
+                        this.todos[i] = v;
+                        Vue.set(this.todos, i, v);
+                    });
+                    for (var i = 0; i < this.todos.length;) {
+                        if (!this.todos[i].completed) {
+                            this.todos.splice(i, 1);
+                        } else {
+                            i++;
+                        }
+                    }
+                },
+                onActive: function() { //未选中的显示
+                    this.arr.forEach((v, i) => {
+                        this.todos[i] = v;
+                        Vue.set(this.todos, i, v);
+                    });
+                    for (var i = 0; i < this.todos.length;) {
+                        if (this.todos[i].completed) {
+                            this.todos.splice(i, 1);
+                        } else {
+                            i++;
+                        }
+                    }
+                },
+                onAll: function() { //全部显示
+                    this.arr.forEach((v, i) => {
+                        this.todos[i] = v;
+                        Vue.set(this.todos, i, v);
+                    });
+                    console.log(this.todos);
+                },
+                save: function() { //保存数据
+                    this.todos.forEach((v, i) => {
+                        this.arr[i] = v;
+                    });
+                },
+                ondblclick: function(i) { //双击修改内容
+                    this.show = this.todos[i];
+                },
+                onKeyupChange: function() { //修改内容
+                    this.show = null;
+                }
+            },
+            created: function() { //初始化
+                this.save();
+            },
+            beforeUpdate: function() {
+                this.sum = this.todos.length;
+            }
+        });
+    </script>
+</body>
+
+</html>

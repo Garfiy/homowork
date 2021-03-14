@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="onClickAdd">
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all" @click="onClickCheck">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li class="" v-for="(value,index) in todos" :key="index" :value="value" :class="value.completed? 'completed ':' '">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" v-model="value.completed">
+                        <label @dblclick="onClickAlter">{{value.title}}</label>
+                        <button class="destroy" @click="onClickDele"></button>
+                    </div>
+                    <input class="edit" v-show="true">
+                </li>
+                <!-- <li class="">
+                    <div class="view">
+                        <input type="checkbox" class="toggle">
+                        <label>睡觉</label>
+                        <button class="destroy"></button>
+                    </div> <input class="edit"></li>
+                <li class="completed">
+                    <div class="view">
+                        <input type="checkbox" class="toggle">
+                        <label>打豆豆</label>
+                        <button class="destroy">
+                        </button></div>
+                    <input class="edit">
+                </li> -->
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count">
+                <strong>2</strong> item left</span>
+            <ul class="filters">
+                <li><a href="#/" class="selected">All</a></li>
+                <li><a href="#/active">Active</a></li>
+                <li><a href="#/completed">Completed</a></li>
+            </ul>
+            <button class="clear-completed" @click="onClickClear">Clear completed</button>
+        </footer>
+    </section>
+    <!-- <script src="js/vue.js"></script> -->
+
+    <script>
+        new Vue({
+            el: "#todoapp",
+            data: {
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    completed: false
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    completed: false
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    completed: true
+                }],
+                // 判断勾勾的状态
+                isShow: true,
+            },
+            methods: {
+                // 输入框添加内容
+                onClickAdd: function(e) {
+                    // console.log(e.target);
+                    var inputText = e.target.value;
+                    var flag = false;
+                    this.todos.push({
+                        id: this.todos.length,
+                        title: inputText,
+                        completed: flag,
+                    });
+
+                },
+                onClickCheck: function() {
+                    for (var i = 0; i < this.todos.length; i++) {
+                        console.log(this.todos[i].completed);
+                        this.todos[i].completed = true;
+                    }
+                },
+                onClickClear: function() {
+                    for (var i = 0; i < this.todos.length; i++) {
+                        console.log(typeof(this.todos[i].id));
+                        if (this.todos[i].completed) {
+                            this.todos.splice(i, 1);
+                        }
+                    }
+                },
+                onClickDele: function() {
+                    // this.todos.splice(i, 1);
+                    for (var i = 0; i < this.todos.length - 1; i++) {
+                        this.todos.splice(i, 1)
+                    }
+                },
+                onClickAlter: function() {
+                    console.log(111);
+                    var show = this.isShow
+                    console.log(show);
+                    show == true;
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

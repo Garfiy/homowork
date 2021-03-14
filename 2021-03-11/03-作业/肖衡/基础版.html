@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" @keyup.enter="addTodo" class="new-todo" v-model="inputText">
+
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all" @click="onClickQuan">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li v-for="(item, index) in todos"
+                    v-bind:class="{completed: item.completed, editing: item === currentEditing}">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" v-model="item.completed" @click=" ">
+                        <label @dblclick="currentEditing = item">{{item.title}}</label>
+                        <button class="destroy" @click="removeTodo(index, $event)"></button>
+                    </div>
+                    <input class="edit" @keyup.enter="saveEdit(item, index, $event)" :value="item.title"
+                        @keyup.esc="currentEditing = null">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count"><strong></strong>item left</span>
+            <ul class="filters">
+                <li><a href="#/" class="selected" @click="onClickAll">All</a></li>
+                <li><a href="#/active" class="" @click = "onClickActive">Active</a></li>
+                <li><a href="#/completed" class=""  @click = "onClickCompleted">Completed</a></li>
+            </ul> <button class="clear-completed">Clear completed</button>
+        </footer>
+    </section>
+    <script src="js/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: "#todoapp",
+            data: {
+                currentEditing: null,
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    completed: false
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    completed: false
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    completed: true
+                }],
+                inputText: "",//输入的文字
+                Qflag: false, //控制全选
+                Alltodos: null,
+            },
+            methods: {
+                //添加
+                addTodo: function (e) {
+                    // console.log(e.target);
+                    if (e.target.value != "") {
+                        console.log(this.inputText);
+                        this.todos.push({
+                            id: this.todos.lenth + 1,
+                            title: this.inputText,
+                            completed: false
+                        }),
+                            this.inputText = '';
+                    } else {
+                        alert("亲,您输入的内容为空");
+                        return;
+                    }
+                },
+                //删除
+                removeTodo: function (index) {
+                    this.todos.splice(index, 1);
+                },
+                //修改
+                saveEdit(item, index, event) {
+                    var editText = event.target.value.trim()
+
+                    if (!editText.length) {
+                        // 将元素直接从数组中移除
+                        return this.todos.splice(index, 1)
+                    }
+
+                    // 2. 将数据设置到任务项中
+                    item.title = editText
+
+                    // 3. 去除 editing 样式
+                    this.currentEditing = null
+                },
+                //全选按钮
+                onClickQuan: function () {
+                    this.Qflag = !this.Qflag;
+                    this.todos.filter((val) => {
+                        val.completed = this.Qflag;
+                    })
+                },
+                //全部选中
+                // check:function(){
+                //     var trueArr = 0;
+                //     this.todos.filter((val) => {
+                //         if(val.completed == true){
+                //             console.log(val);
+                //         }
+                //     })
+                //     console.log(trueArr);
+                // },
+
+                //点击all 显示全部
+                onClickAll: function () {
+                    console.log(this.Alltodos);
+                    this.Alltodos = this.todos; 
+                    console.log(this.Alltodos);
+                },
+                //初始化
+                created: function () {
+                    if(this.todos == null){
+                        return
+                    }
+                     this.Alltodos = this.todos;
+                },
+                //没有完成的
+                onClickActive:function(){
+                    let arr =this.todos.filter((val) => {
+                        if(val.completed ==false){
+                            return val;
+                        }
+                    })
+                    console.log(arr);
+                    this.todos = arr;
+                },
+                //完成的
+                onClickCompleted:function(){
+                    let arr =this.todos.filter((val) => {
+                        if(val.completed ==true){
+                            return val;
+                        }
+                    })
+                    console.log(arr);
+                    this.todos = arr;
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

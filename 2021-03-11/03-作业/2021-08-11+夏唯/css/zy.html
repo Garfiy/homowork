@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="addTitle">
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all" @click="toggleAll">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li class="" v-for="(val,index) in todos" :key="index" :class="{completed: val.completed, editing: val === currentEditing}">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" v-model="val.completed">
+                        <label @dblclick="currentEditing=val">{{val.title}}</label>
+                        <button class="destroy" @click="onClickRemove(val,index)"></button>
+                    </div>
+                    <input class="edit" :value="val.title" @keyup.enter="revise(val,$event)">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer">
+            <span class="todo-count">
+                <strong>{{sum}}</strong> item left</span>
+            <ul class="filters">
+                <li><a href="#/" :class="{selected:num1==1}" @click="onClickAll">All</a></li>
+                <li><a href="#/active" @click="onClickActive" :class="{selected:num1==2}">Active</a></li>
+                <li><a href="#/completed" @click="onClickCompleted" :class="{selected:num1==3}">Completed</a></li>
+            </ul>
+            <button class="clear-completed" @click="onClickRemoveAll">Clear completed</button>
+        </footer>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#todoapp",
+            data: {
+                currentEditing: null,
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    completed: false
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    completed: false
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    completed: true
+                }],
+                todos2: null,
+                num: 2,
+                flag: true,
+                num1: 1
+            },
+            methods: {
+                toggleAll: function() {
+                    if (this.flag) {
+                        this.todos.forEach((val) => {
+                            val.completed = this.flag;
+                        })
+                        return this.flag = false;
+                    } else {
+                        this.todos.forEach((val) => {
+                            val.completed = this.flag;
+                        })
+                        return this.flag = true;
+                    }
+                },
+                addTitle: function(e) {
+                    var text = e.target.value.trim();
+                    if (!text) {
+                        return;
+                    }
+                    var id = this.todos.length + 1;
+                    this.todos.push({
+                        id: id,
+                        title: text,
+                        completed: false
+                    });
+                    e.target.value = '';
+                },
+                onClickRemove: function(val, index) {
+                    this.todos.splice(index, 1);
+                    if (this.todos2 == null) {
+                        return;
+                    }
+                    this.todos2.splice(val.id - 1, 1);
+                },
+                onClickRemoveAll: function() {
+                    if (this.todos2 == null) {
+                        this.todos = [];
+                        return;
+                    }
+                    let clear = this.todos2.filter(val => val == this.todos[0]);
+                    this.todos = [];
+                    this.todos2.splice(clear[0].id - 1, 1);
+                },
+                onClickCompleted: function(e) {
+                    this.num1 = 3;
+                    if (this.todos2 == null) {
+                        this.todos2 = this.todos;
+                    }
+                    let complete = this.todos2.filter(val => val.completed == true);
+                    this.todos = complete;
+                },
+                onClickActive: function() {
+                    this.num1 = 2;
+                    if (this.todos2 == null) {
+                        this.todos2 = this.todos;
+                    }
+                    let complete = this.todos2.filter(val => val.completed != true);
+                    this.todos = complete;
+                },
+                onClickAll: function() {
+                    this.num1 = 1;
+                    if (this.todos2 == null) {
+                        return;
+                    }
+                    this.todos = this.todos2;
+                    this.todos2 = null;
+                    return this.todos;
+                },
+                revise: function(val, e) {
+                    let text = e.target.value.trim();
+                    if (!text) {
+                        return;
+                    }
+                    val.title = text;
+                    this.currentEditing = null;
+                }
+            },
+            computed: {
+                sum: function() {
+                    return this.num = this.todos.filter(val => val.completed != true).length;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
