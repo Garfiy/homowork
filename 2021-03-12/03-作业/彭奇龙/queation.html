@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .container .cart {
+            width: 300px;
+            /*background-color: lightgreen;*/
+            margin: auto;
+        }
+        
+        .container .title {
+            background-color: lightblue;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            /*color: #fff;*/
+        }
+        
+        .container .total {
+            background-color: #FFCE46;
+            height: 50px;
+            line-height: 50px;
+            text-align: right;
+        }
+        
+        .container .total button {
+            margin: 0 10px;
+            background-color: #DC4C40;
+            height: 35px;
+            width: 80px;
+            border: 0;
+        }
+        
+        .container .total span {
+            color: red;
+            font-weight: bold;
+        }
+        
+        .container .item {
+            height: 55px;
+            line-height: 55px;
+            position: relative;
+            border-top: 1px solid #ADD8E6;
+        }
+        
+        .container .item img {
+            width: 45px;
+            height: 45px;
+            margin: 5px;
+        }
+        
+        .container .item .name {
+            position: absolute;
+            width: 90px;
+            top: 0;
+            left: 55px;
+            font-size: 16px;
+        }
+        
+        .container .item .change {
+            width: 100px;
+            position: absolute;
+            top: 0;
+            right: 50px;
+        }
+        
+        .container .item .change a {
+            font-size: 20px;
+            width: 30px;
+            text-decoration: none;
+            background-color: lightgray;
+            vertical-align: middle;
+        }
+        
+        .container .item .change .num {
+            width: 40px;
+            height: 25px;
+        }
+        
+        .container .item .del {
+            position: absolute;
+            top: 0;
+            right: 0px;
+            width: 40px;
+            text-align: center;
+            font-size: 40px;
+            cursor: pointer;
+            color: red;
+        }
+        
+        .container .item .del:hover {
+            background-color: orange;
+        }
+        
+        .money {
+            position: fixed;
+            background-color: rgba(0, 0, 0, .5);
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        
+        .money img:last-of-type {
+            position: absolute;
+            left: 65%;
+            top: 50%;
+            width: 200px;
+            height: 300px;
+            transform: translate(-50%, -50%);
+        }
+        
+        .money img:first-of-type {
+            position: absolute;
+            left: 35%;
+            top: 50%;
+            width: 200px;
+            height: 300px;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>购物车案例</h1>
+    <ol>
+        <li>div#app中只能有两个标签</li>
+        <li>当商品数不足五种时，允许用户新增没有的那种商品</li>
+        <li>显示单价</li>
+    </ol>
+
+    <div id="app">
+        <hd-title></hd-title>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            components: {
+                'hd-title': {
+                    template: `     
+                    <div class="container">
+                        <div class="cart">
+                            <div class="title">我的商品</div>
+                            <div>
+                                <div class="item" v-for="(value,index) in datas" :key="index">
+                                    <img :src="value.src" />
+                                    <div class="name">单价：{{value.name}}</div>
+                                    <div class="change">
+                                        <a href="javascript:;"  @click="onClickDeletNum(index)">－</a>
+                                        <input type="text" class="num" v-model="value.num"/>
+                                        <a href="javascript:;" @click="onClickNum(index)">＋</a>
+                                    </div>
+                                    <div class="del" @click="removeData(index)">×</div>
+                                </div>
+                            </div>
+                            <div class="total">
+                                <input type="button" value="添加" @click="onClickAppend">
+                                <span>总价：{{count}}</span>
+                                <button @click="onClickMoney">结算</button>
+                            </div>
+                        </div>
+                        <div class="money" ref="money"><img src="img/wx.jpg"/><img src="img/zfb.jpg"/></div>
+                    </div>
+                    
+                    `,
+                    data() {
+                        return {
+                            datas: [{
+                                id: 1,
+                                src: 'img/a.jpg',
+                                name: 10,
+                                num: 1
+                            }, {
+                                id: 2,
+                                src: 'img/b.jpg',
+                                name: 20,
+                                num: 1
+                            }, {
+                                id: 3,
+                                src: 'img/c.jpg',
+                                name: 30,
+                                num: 1
+                            }, {
+                                id: 4,
+                                src: 'img/d.jpg',
+                                name: 40,
+                                num: 1
+                            }, {
+                                id: 5,
+                                src: 'img/e.jpg',
+                                name: 50,
+                                num: 1
+                            }],
+                            newData: []
+                        }
+                    },
+                    created() {
+                        this.datas.forEach(val => this.sum += val.name * val.num);
+                    },
+                    methods: {
+                        onClickNum: function(index) {
+                            var and = 0;
+                            this.datas[index].num++;
+                        },
+                        onClickDeletNum: function(index) {
+                            var and = 0;
+                            if (this.datas[index].num > 1) {
+                                this.datas[index].num--;
+                            }
+                        },
+                        removeData: function(index) {
+                            this.newData.push(this.datas[index]);
+                            this.datas.splice(index, 1);
+                        },
+                        onClickAppend: function() {
+                            if (this.datas.length < 5) {
+                                this.datas.push(this.newData[0]);
+                                this.newData.splice(0, 1);
+                            } else {
+                                alert('最多只能添加五中商品');
+                            }
+                        },
+                        onClickMoney: function() {
+                            this.$refs.money.style.display = 'block';
+                        }
+                    },
+                    computed: {
+                        count: function() {
+                            var sum = 0;
+                            this.datas.forEach(val => sum += val.name * val.num);
+                            return sum;
+                        }
+                    }
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
