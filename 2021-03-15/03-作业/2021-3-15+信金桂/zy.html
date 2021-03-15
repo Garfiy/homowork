@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <todos></todos>
+    </div>
+    <script>
+        //第三方喊话中心
+        var hub = new Vue();
+
+        // 全部组件
+        Vue.component('todos', {
+            template: ` <section id="todoapp" class="todoapp">
+                <todos-tit></todos-tit>
+                    <todos-list></todos-list>
+                    <todos-foot></todos-foot>
+            </section>
+          `,
+        })
+
+        //头部
+        Vue.component('todos-tit', {
+            template: ` <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="onClickAdd">
+        </header>`,
+            methods: {
+                // 输入框添加内容 按下回车执行操作
+                onClickAdd: function(e) {
+                    hub.$emit('add-task', e);
+                }
+            },
+        });
+
+        // 内容列表
+        Vue.component('todos-list', {
+            template: ` <section class="main">
+                <input id="toggle-all" type="checkbox" class="toggle-all" @click="onClickCheck">
+                <label for="toggle-all">Mark all as complete</label>
+                <ul class="todo-list">
+                <li class="" v-for="(value,index) in todos" :key="value.id" :value="value" :class="value.completed? 'completed ':' '">
+                    <div class="view">
+                        <input type="checkbox" class="toggle" v-model="value.completed">
+                        <label>{{value.title}}</label>
+                        <button class="destroy" @click="onClickDel(value)"></button>
+                    </div>
+                    <input class="edit" v-show="true" :date-id="value.id"@keydown.enter="onEnterInput(value)">
+                </li>
+            </ul>
+                 </section>`,
+            data: function() {
+                return {
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                    // selectList: ['All', 'Active', 'Completed'], // 状态数组
+                }
+            },
+            mounted: function() {
+                //监听增加商品的回调
+                hub.$on('add-task', (e) => {
+                    // console.log(e.target.value);
+                    var inputText = e.target.value;
+                    // console.log(inputText);
+                    if (!inputText || !inputText.trim()) {
+                        return;
+                    } else {
+                        var flag = false;
+                        console.log(inputText);
+                        this.todos.push({
+                            id: +new Date(),
+                            title: inputText,
+                            completed: flag,
+                        });
+                    }
+                    e.target.value = " ";
+                });
+
+                hub.$on('tast-remove', (e) => {
+                    this.todos = this.todos.filter(value => !value.completed);
+                });
+
+                // hub.$on('tast-change', (e) => {
+                //     this.todos = this.todos.filter(value => !value.completed);
+                // });
+
+                var num = 0;
+                for (let i = 0; i < this.todos.length; i++) {
+                    if (!this.todos[i].completed) {
+                        num++;
+                    }
+                }
+                hub.$emit('tast-num', num);
+            },
+            methods: {
+                onClickDel: function(value) {
+                    if (value) {
+                        let index = this.todos.indexOf(value);
+                        if (index != -1) {
+                            this.todos.splice(index, 1);
+                        }
+                    }
+                },
+                onClickCheck: function() {
+                    for (var i = 0; i < this.todos.length; i++) {
+                        console.log(this.todos[i].completed);
+                        this.todos[i].completed = true;
+                    }
+                },
+                onEnterInput: function(item) {
+                    // 将修改后的内容复制给原来用来显示的数据
+                    item.title = this.inputChangeTitle.title;
+                    // 赋值后隐藏修改框
+                    this.inputChangeTitle = {};
+                },
+            },
+
+        });
+
+        // 页脚
+        Vue.component('todos-foot', {
+            template: `<footer class="footer">
+            <span class="todo-count">
+                <strong>{{num}}</strong> item left</span>
+            <ul class="filters">
+                <li v-for="(value,index) in selectList" :key="index">
+                    <a :class="{selected:selectState==value.toLocaleLowerCase()}" @click="selectState=value.toLocaleLowerCase()">
+                        {{value}}</a>
+                </li>
+            </ul>
+            <button class="clear-completed" @click="onClikRemove">Clear completed</button>
+        </footer>`,
+            data() {
+                return {
+                    num: 0,
+                    selectState: 'all',
+                    selectList: ['All', 'Active', 'Completed'], // 状态数组
+                }
+            },
+            created() {
+                hub.$on('tast-num', (value) => {
+                    this.num = value
+                });
+            },
+            methods: {
+                onClikRemove: function(e) {
+                    hub.$emit('tast-remove', e);
+                }
+            },
+        });
+        new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>
