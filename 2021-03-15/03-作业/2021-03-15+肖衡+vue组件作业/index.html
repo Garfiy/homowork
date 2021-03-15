@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <todos-box></todos-box>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //事件中心
+        var hub = new Vue();
+        //表单组件
+        Vue.component('todos-box', {
+            template:
+                `
+            <div>
+                <todos-head></todos-head>
+                <todos-list></todos-list>
+                <todos-foot></todos-foot>
+            </div>
+            `,
+        })
+        //表单头部
+        Vue.component("todos-head", {
+            template: `
+            <header class="header">
+                <h1>todos</h1>
+                <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onkeyDownEnter" v-model="inputValue">
+            </header>
+            `,
+            data: function () {
+                return {
+                    inputValue: "",
+                }
+            },
+            methods: {
+                //回车新增
+                onkeyDownEnter: function () {
+                    if (this.inputValue) {
+                        // console.log(this.inputValue);
+                        hub.$emit("add-inputValue", this.inputValue);
+                        this.inputValue = "";
+                    }
+                }
+            },
+        })
+        //表单列表
+        Vue.component("todos-list", {
+            template: `
+            <section class="main">
+            	<input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSel"> 
+            	<label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li :class="{completed:item.completed,editing:newObjTodos.id === item.id}" v-for="(item,index) in todos" :key="item.id" v-show="selectState=='all' || (selectState =='active' && !item.completed) || (selectState =='completed' && item.completed ) ">
+                    <div class="view"><input type="checkbox" class="toggle" v-model='item.completed'> 
+                        <label  @dblclick="onDblClick(item)">{{item.title}}</label> 
+                        <button class="destroy" @click="onClickEdit(item)"></button>
+                    </div> 
+                    <input class="edit" v-model="newObjTodos.title" v-focus="newObjTodos.id"   @keydown.esc="newObjTodos={}" @blur="newObjTodos = {}" @keydown.enter = "onKeyEnterEdit(item)">
+                </li>
+            </ul>
+        </section>
+            `,
+            data: function () {
+                return {
+                    newObjTodos: {},
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                    newObj: {
+                        id: null,
+                        title: "",
+                        completed: null,
+                    },
+                    selectState:"all",
+                }
+            },
+            methods: {
+                //点击删除
+                onClickEdit: function (item) {
+                    // console.log(1111);
+                    let index = this.todos.indexOf(item);
+                    this.todos.splice(index, 1);
+                },
+                //双击修改数据
+                onDblClick: function (item) {
+                    this.newObjTodos = {};
+                    //传进来的对象   for in 取键值对
+                    for (var k in item) {
+                        // 键 = 值
+                        this.newObjTodos[k] = item[k];
+                    }
+                    // console.log(this.newObjTodos);
+                },
+                // edit回车事件
+                onKeyEnterEdit: function (item) {
+                    item.title = this.newObjTodos.title;
+                    this.newObjTodos = {};
+                }
+            },
+            beforeMount: function () {
+                hub.$on("add-inputValue", (inputValue) => {
+                    this.newObj.title = inputValue;
+                    this.newObj.id = + new Date();
+                    this.newObj.completed = false;
+                    this.todos.push(this.newObj);
+                    this.newObj = {
+                        id: null,
+                        title: "",
+                        completed: null,
+                    }
+                })
+
+            },
+            directives: {
+                'focus': {
+                    //当绑定的对象发生改变时触发 updata回调
+                    update: function (el, binding) {
+                        el.focus();
+                    }
+                }
+            },
+            computed: {
+                //是否全选中
+                allSel: {
+                    get: function () {
+                        {
+                            for (var i = 0; i < this.todos.length; i++) {
+                                // 当有没完成的时候  全选按钮就不选中
+                                if (!this.todos[i].completed) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                    },
+                    set: function (value) {
+                        for (var i = 0; i < this.todos.length; i++) {
+                            this.todos[i].completed = value;
+                        }
+                    }
+                }
+            },
+            created: function () {
+                hub.$on('clear-list', (list) => {
+                    console.log(list);
+                    this.todos = [];
+                    list.forEach(item => {
+                        this.todos.push(item);
+                    })
+                });
+                hub.$on('selectState',(selectState) => {
+                    this.selectState = selectState;
+                })
+            },
+            mounted: function () {
+                hub.$emit("pao-todos", this.todos);
+            },
+        }),
+
+            //表单的尾部
+            Vue.component('todos-foot', {
+                template: `
+            <footer class="footer">
+                <span class="todo-count">
+                    <strong>{{activeItemNum}}</strong> item left</span>
+                    <ul class="filters">
+                    <li v-for="(item,index) in selectList"><a :class="{selected:selectState==item.toLocaleLowerCase()}" @click="selectState=item.toLocaleLowerCase()">{{item}}</a></li>
+                    </ul>
+                <button class="clear-completed" @click="onClickClear">Clear completed</button>
+            </footer>
+            `,
+                data: function () {
+                    return {
+                        list: [],
+                        selectState: "all",//记录当前选中的类型
+                        selectList: ["All", "Active", "Completed"],//状态数组
+                    }
+                },
+                methods: {
+                    onClickClear: function () {
+                        this.list = this.list.filter(item => {
+                            if (item.completed == false) {
+                                return item;
+                            }
+                        })
+                        hub.$emit("clear-list", this.list);
+                    }
+                },
+                created: function () {
+                    hub.$on('pao-todos', (todos) => {
+                        todos.forEach(item => {
+                            this.list.push(item);
+                        })
+                    })
+                },
+                computed: {
+                    activeItemNum: function () {
+                        let num = 0;
+                        for (let i = 0; i < this.list.length; i++) {
+                            if (!this.list[i].completed) {
+                                num++;
+                            }
+                        }
+                        return num;
+                    },
+                },
+                watch:{
+                    selectState:function(){
+                        hub.$emit("selectState",this.selectState);
+                    }
+                }
+            })
+
+        new Vue({
+            el: "#todoapp",
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>
