@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <content-box></content-box>
+    </section>
+    <script src="js/vue.js"></script>
+    <script>
+        var hub = new Vue();
+        Vue.component('content-box', {
+            template: `<div>
+                        <header-input></header-input>
+                        <section-list></section-list>
+                        <footer-change></footer-change>
+                        </div>`,
+        })
+
+        // 头部添加组价
+        Vue.component('header-input', {
+            template: `<header class="header">
+                            <h1>todos</h1>
+                            <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="keyList" v-model="inputChange">
+                        </header>`,
+            data() {
+                return {
+                    inputChange: ''
+                }
+            },
+            methods: {
+                keyList: function() {
+                    hub.$emit('getInput', this.inputChange);
+                }
+            },
+        })
+
+        // 中间显示列表组件
+        Vue.component('section-list', {
+            template: `<section class="main">
+                        <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
+                        <label for="toggle-all">Mark all as complete</label>
+                        <ul class="todo-list">
+                            <li :class="{completed:value.completed,editing:ipnutChangeTitle.id===value.id}" v-for="(value,index) in todos" :key="value.id">
+                                <div class="view"><input type="checkbox" class="toggle" v-model="value.completed">
+                                    <label @dblclick="onDblClickLable(value)">{{value.title}}</label>
+                                    <button class="destroy" @click="onClickList(value)"></button>
+                                </div>
+                                <input class="edit" v-model="ipnutChangeTitle.title" @keydown.esc="ipnutChangeTitle={}"  @blur="ipnutChangeTitle={}" @keydown.enter="onEnterInput(value)">
+                            </li>
+                        </ul>
+                    </section>`,
+            data: function() {
+                return {
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                    ipnutChangeTitle: {}
+                }
+            },
+            methods: {
+                onClickList: function(value) {
+                    if (value) {
+                        var index = this.todos.indexOf(value);
+                        this.todos.splice(index, 1);
+                    }
+                },
+                onDblClickLable: function(val) {
+                    this.ipnutChangeTitle = {};
+                    for (let value in val) {
+                        this.ipnutChangeTitle[value] = val[value];
+                    }
+                },
+                onEnterInput: function(item) {
+                    item.title = this.ipnutChangeTitle.title;
+                    this.ipnutChangeTitle = {};
+                }
+            },
+            created() {
+                hub.$on('getInput', (value) => {
+                    this.todos.push({
+                        id: +new Date(),
+                        title: value,
+                        completed: false
+                    })
+                });
+
+
+            },
+            created() {
+                let num = 0;
+                for (let i = 0; i < this.todos.length; i++) {
+                    if (!this.todos[i].completed) {
+                        num++;
+                    }
+                }
+                hub.$emit('getNum', num);
+            },
+            computed: {
+                allSelectState: {
+                    get: function() {
+
+                        return this.todos.every(value => value.completed);
+                    },
+                    set: function(value) {
+                        this.todos.forEach(element => element.completed = value);
+                    }
+                }
+            },
+            watch: {
+                todos: {
+                    handler(newVal, oldVal) {
+                        let num = 0;
+                        for (let i = 0; i < newVal.length; i++) {
+                            if (!newVal[i].completed) {
+                                num++;
+                            }
+                        }
+                        hub.$emit('getNum', num);
+                    },
+                    deep: true,
+                    immediate: true
+                }
+            }
+        })
+
+        // 底部选项组件
+        Vue.component('footer-change', {
+            template: ` <footer class="footer">
+                            <span class="todo-count">
+                                <strong>{{num}}</strong> item left</span>
+                            <ul class="filters">
+                                <li><a href="#/" class="selected">All</a></li>
+                                <li><a href="#/active">Active</a></li>
+                                <li><a href="#/completed">Completed</a></li>
+                            </ul>
+                            <button class="clear-completed">Clear completed</button>
+                        </footer>`,
+            data() {
+                return {
+                    num: 0
+                }
+            },
+            beforeUpdate() {
+                hub.$on('getNum', (val) => {
+                    console.log(111);
+                    this.num = val;
+                });
+            },
+
+        })
+        new Vue({
+            el: "#todoapp",
+        })
+    </script>
+</body>
+
+</html>

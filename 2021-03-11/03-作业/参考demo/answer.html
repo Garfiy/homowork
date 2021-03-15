@@ -20,23 +20,16 @@
         </header>
 
         <section class="main">
-
             <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
-
             <label for="toggle-all">Mark all as complete</label>
-
             <ul class="todo-list">
-
                 <li :class="{
                     completed:value.completed,
                     editing:ipnutChangeTitle.id===value.id
                 }" v-for="(value,index) in todos" :key="value.id" v-show=" selectState=='all' || ( selectState=='active' && !value.completed ) || (selectState=='completed' && value.completed)">
-
                     <div class="view"><input type="checkbox" class="toggle" v-model="value.completed">
-
                         <label @dblclick="onDblClickLable(value)">{{value.title}}</label>
                         <button class="destroy" @click="onClickRemoveOneItem(value)"></button>
-
                     </div>
 
                     <!-- 按下esc时 取消修改的数据内容 -->
@@ -49,8 +42,7 @@
         </section>
 
         <footer class="footer">
-            <span class="todo-count">
-                <strong>{{activeItemNum}}</strong> item left</span>
+            <span class="todo-count"><strong>{{activeItemNum}}</strong> item left</span>
             <ul class="filters">
                 <li v-for="(value,index) in selectList" :key="index"><a v-bind:class="{selected:selectState==value.toLocaleLowerCase()}" @click="selectState=value.toLocaleLowerCase()">{{value}}</a></li>
             </ul>
@@ -184,38 +176,11 @@
                     }
                     return num;
                 },
-                // 是否全选中
                 allSelectState: {
-                    // 获取值时 调用的方法
                     get: function() {
-                        // 判断是否全部选中
-                        // 方法一：
-                        // for (let i = 0; i < this.todos.length; i++) {
-                        //     // ！ 当有没完成的时候 全选按钮就不选中
-                        //     if (!this.todos[i].completed) {
-                        //         return false;
-                        //     }
-                        // }
-                        // // 当循环完成后 说明说有的任务都以完成
-                        // // 所以放回 true
-                        // return true;
-
-                        // 方法二：
-                        // every 判断数组每个数据是否符合条件
-                        // 如果所有数据都符合条件 则返回 true
-                        // 如果有一个数据不符合条件 则返回 false
                         return this.todos.every(value => value.completed);
                     },
-                    // 设置值时 调用的方法
                     set: function(value) {
-                        // 制定规矩
-                        // 方法一：
-                        // console.log(value);
-                        // for (let i = 0; i < this.todos.length; i++) {
-                        //     this.todos[i].completed = value;
-                        // }
-
-                        // 方法二：
                         this.todos.forEach(element => element.completed = value);
                     }
                 }
