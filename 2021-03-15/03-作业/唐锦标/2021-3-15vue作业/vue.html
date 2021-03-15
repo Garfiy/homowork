@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <eating></eating>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+    <script>
+        //第三方喊话中心
+        var hub = new Vue();
+        Vue.component('eating', {
+                template: `
+            <section id="todoapp" class="todoapp"> 
+                <todos-head></todos-head>
+                <todos-content></todos-content>
+                <todos-end></todos-end>
+            </section>`,
+            })
+            //头部
+        Vue.component('todos-head', {
+                template: ` 
+                <header class="header">
+                    <h1>todos</h1>
+                    <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onClickadd" v-model="inputTitle">
+                </header>`,
+                data() {
+                    return {
+                        todos: [{
+                            id: 1,
+                            title: '吃饭',
+                            completed: false
+                        }, {
+                            id: 2,
+                            title: '睡觉',
+                            completed: false
+                        }, {
+                            id: 3,
+                            title: '打豆豆',
+                            completed: true
+                        }],
+                        flag: true,
+                        inputTitle: ''
+                    }
+                },
+                methods: {
+                    onClickadd: function() {
+                        hub.$emit('getInput', this.inputTitle);
+                        console.log(this.inputTitle);
+                    },
+                },
+
+            })
+            // 身体
+        Vue.component('todos-content', {
+                template: `
+                <section class="main">
+                    <input id="toggle-all" type="checkbox" class="toggle-all" v-model="toggleStat">
+                    <label for="toggle-all" @click="onClickCheckAll">Mark all as complete</label>
+                    <ul class="todo-list">
+                        <li :class="value.completed?'completed':''" v-for="(value,i) in todos" :key="i" >
+                            <div class="view">
+                                <input type="checkbox" class="toggle" v-model="value.completed">
+                                <label for="toggle">{{value.title}}</label>
+                                <button class="destroy" @click="onCickDelete(i)"></button>
+                            </div>
+                            <input class="edit">
+                        </li>
+                    </ul>
+                </section>`,
+                data() {
+                    return {
+                        todos: [{
+                            id: 1,
+                            title: '吃饭',
+                            completed: false
+                        }, {
+                            id: 2,
+                            title: '睡觉',
+                            completed: false
+                        }, {
+                            id: 3,
+                            title: '打豆豆',
+                            completed: true
+                        }],
+                        flag: true,
+                        inputTitle: ''
+                    }
+                },
+                methods: {
+                    //删除
+                    onCickDelete: function(index) {
+                        this.todos.splice(index, 1)
+                    },
+                    //全选
+                    onClickCheckAll: function() {
+                        this.todos.forEach(val => {
+                            val.completed = !this.flag
+                        })
+                    },
+                },
+                created() {
+                    hub.$on('getInput', (val) => {
+                        this.todos.push({
+                            title: val,
+                            id: this.todos.length,
+                            completed: false,
+
+                        })
+                    })
+                },
+                computed: {
+                    toggleStat: {
+                        get() {
+                            return this.todos.every(item => item.completed)
+                        },
+                        set(val) {
+                            this.todos.forEach(todo => todo.completed = val)
+                        }
+                    },
+                }
+            })
+            // 底部
+        Vue.component('todos-end', {
+            template: `
+            <footer class="footer">
+                <span class="todo-count"><strong>{{leftCount}}</strong> item left</span>
+                <ul class="filters">
+                    <li><a href="#/" class="selected">All</a></li>
+                    <li><a href="#/active">Active</a></li>
+                    <li><a href="#/completed">Completed</a></li>
+                </ul>
+                <button class="clear-completed" @click="removeDone">Clear completed</button>
+            </footer>`,
+            data() {
+                return {
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                    flag: true,
+                    inputTitle: '',
+                    backupsArr: [],
+
+                }
+            },
+            methods: {
+                // 删除已完成
+                removeDone: function() {
+                    hub.$emit('clear', this.backupsArr);
+
+                },
+            },
+
+            computed: {
+                leftCount: function() {
+                    return this.todos.filter(item => !item.completed).length
+                },
+            },
+            created() {
+                hub.$on('clears', function() {
+                    this.todos = this.todos.filter(item => {
+                        console.log(item.completed);
+                        return !item.completed;
+                    });
+                    this.backupsArr = this.backupsArr.filter(item => {
+                        return !item.completed;
+                    });
+                })
+            },
+        })
+        new Vue({
+            el: "#app",
+        });
+    </script>
+</body>
+
+</html>

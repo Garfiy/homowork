@@ -124,6 +124,21 @@
             height: 300px;
             transform: translate(-50%, -50%);
         }
+        
+        .money h1 {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: red;
+        }
+        
+        .money button {
+            position: absolute;
+            left: 50%;
+            top: 56%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 
@@ -154,15 +169,19 @@
                                         <a href="javascript:;" @click="onClickNumber(i)">＋</a>
                                     </div>
                                     <div class="del" @click="onClickRemove(i)">×</div>
-                                </div>
+                                </div>                       
                             </div>
                             <div class="total">
-                                <input type="button" val="添加" @click="onClickAdd">
+                                <input type="button" value="添加" @click="onClickAdd">
                                 <span>总价：{{count}}</span>
                                 <button @click="onClickDollar">结算</button>
                             </div>
                         </div>
-                        <div class="money" ref="dollar"><img src="img/wx.png"/><img src="img/zfb.jpg"/></div>
+                        <div class="money" ref="dollar">
+                            <h1>请支付{{count}}元</h1>
+                            <button @click="onClickDn">取消</button>
+                            <img src="img/wx.png"/><img src="img/zfb.jpg"/>
+                            </div>
                     </div>
                     
                     `,
@@ -213,11 +232,13 @@
                         },
                         onClickRemove: function(i) {
                             this.newDatas.push(this.datas[i]);
+                            this.datas[i].num = 1
                             this.datas.splice(i, 1);
                         },
                         onClickAdd: function() {
                             if (this.datas.length < 5) {
                                 this.datas.push(this.newDatas[0]);
+                                console.log(this.datas.num);
                                 this.newDatas.splice(0, 1);
                             } else {
                                 alert('最多只能添加五中商品');
@@ -225,6 +246,9 @@
                         },
                         onClickDollar: function() {
                             this.$refs.dollar.style.display = 'block';
+                        },
+                        onClickDn: function() {
+                            this.$refs.dollar.style.display = 'none';
                         }
                     },
                     computed: {
