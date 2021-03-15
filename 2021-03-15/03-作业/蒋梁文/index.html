@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <my-increase></my-increase>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('my-increase', {
+            template: `<div><my-header></my-header>
+                       <my-main></my-main>
+                        <my-footer></my-footer></div>
+                       `
+        });
+        Vue.component('my-header', {
+            template: `<header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onEnterSubmit" v-model="inputTitle">
+        </header>`,
+            data() {
+                return {
+                    inputTitle: '',
+                    inputChangeTitle: '',
+                    selectState: 'all',
+                    selectList: ['All', 'Active', 'Completed'],
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                }
+            },
+            methods: {
+                onEnterSubmit: function() {
+                    if (!this.inputTitle || !this.inputTitle.trim()) {
+                        return;
+                    }
+                    let newObj = {};
+                    newObj.id = this.todos.length + 1;
+                    newObj.id = +new Date();
+                    newObj.title = this.inputTitle;
+                    newObj.completed = false;
+                    this.todos.push(newObj);
+                    this.inputTitle = '';
+                },
+            }
+        });
+        Vue.component('my-main', {
+            template: `<section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all" >
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li :class="{completed:value.completed,editing:inputChangeTitle.id===value.id}" v-for="(value,index) in todos" :key="value.id" 
+                v-show="selectState=='all'||(selectState=='active' && !value.completed) || (selectState=='completed' && value.completed)">
+                    <div class="view"><input type="checkbox" class="toggle" v-model="value.completed">
+                        <label @dblclick="onDblClickLable(value)">{{value.title}}</label>
+                        <button class="destroy" @click="onClickRemoveOneItme(value)"></button>
+                    </div>
+                    <input class="edit" v-model="inputChangeTitle.title" @keydown.esc="inputChangeTitle={}" v-focus="inputChangeTitle.id" 
+                    :data-id="inputChangeTitle.id"  @blur="inputChangeTitle={}" @keydown.enter="onEnterInput(value)">
+                </li>
+            </ul>
+        </section>`,
+            data() {
+                return {
+                    inputTitle: '',
+                    inputChangeTitle: '',
+                    selectState: 'all',
+                    selectList: ['All', 'Active', 'Completed'],
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                }
+            },
+            methods: {
+                onClickRemoveOneItme: function(item) {
+                    if (item) {
+                        let index = this.todos.indexOf(item);
+                        this.todos.splice(index, 1);
+                    }
+                }
+            },
+            allSelectState: {
+                get: function() {
+                    return this.todos.every(value => value.completed);
+                },
+                set: function(value) {
+                    this.todos.forEach(element => element.completed = value);
+                }
+            },
+            directives: {
+                'focus': {
+                    update: function(el, binding) {
+                        let curValue = binding.value;
+                        let inputValue = el.getAttribute('data-id');
+                        if (curValue == inputValue) {
+                            el.focus();
+                        }
+                    }
+                }
+            },
+        });
+        Vue.component('my-footer', {
+            template: `<footer class="footer">
+            <span class="todo-count">
+                <strong v-text="activeItemNum">2</strong> item left</span>
+            <ul class="filters">
+                <li v-for="(value,index) in selectList"><a href="#/" v-bind:class="{selected:selectState==value.toLocaleLowerCase()}" 
+                    @click="selectState=value.toLocaleLowerCase()">{{value}}</a></li>
+            </ul>
+            <button class="clear-completed" @click="onClickClearCompleted">Clear completed</button>
+        </footer>`,
+            data() {
+                return {
+                    inputTitle: '',
+                    inputChangeTitle: '',
+                    selectState: 'all',
+                    selectList: ['All', 'Active', 'Completed'],
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                }
+            },
+            methods: {
+                onClickClearCompleted() {
+                    for (let i = 0; i < this.todos.length;) {
+                        if (this.todos[i].completed) {
+                            this.todos.splice(i, 1);
+                        } else {
+                            i++;
+                        }
+                    }
+                }
+            },
+            computed: {
+                activeItemNum: function() {
+                    let num = 0;
+                    for (let i = 0; i < this.todos.length; i++) {
+                        if (!this.todos[i].completed) {
+                            num++;
+                        }
+                    }
+                    return num;
+                },
+            }
+        });
+        new Vue({
+            el: "#todoapp",
+        })
+    </script>
+</body>
+
+</html>
