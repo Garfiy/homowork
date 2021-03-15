@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <div-box></div-box>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var hup = new Vue();
+        Vue.component("div-box", {
+            template: `
+            <div>
+                <header-mdoex></header-mdoex>
+                <main-mdoex></main-mdoex>
+                <footer-mdoex></footer-mdoex>    
+            </div>
+            `
+        })
+        Vue.component("header-mdoex", {
+            template: `
+            <header class="header">
+                <h1>todos</h1>
+                <!-- 输入框 -->
+                <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onEnterSubmit" v-model="inputTitle">
+            </header>
+            `,
+            data: function () {
+                return {
+                    inputTitle: '', //是用户新增的内容 初始化为空字符串
+                }
+            },
+            methods: {
+                // 按回车键新增一条笔记
+                onEnterSubmit: function () {
+                    if (this.inputTitle) {
+                        hup.$emit("inputTitle-div", this.inputTitle);
+                        this.inputTitle = "";
+                    }
+                },
+            },
+
+        });
+        Vue.component("main-mdoex", {
+            template: `
+            <section class="main">
+                <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
+                <label for="toggle-all">Mark all as complete</label>
+                <ul class="todo-list">
+                    <li :class="{
+                        completed:value.completed,
+                        editing:ipnutChangeTitle.id===value.id
+                    }" v-for="(value,index) in todos" :key="value.id" v-show=" selectState=='all' || ( selectState=='active' && !value.completed ) || (selectState=='completed' && value.completed)">
+                        <div class="view"><input type="checkbox" class="toggle" v-model="value.completed">
+                            <label @dblclick="onDblClickLable(value)">{{value.title}}</label>
+                            <button class="destroy" @click="onClickRemoveOneItem(value)"></button>
+                        </div>
+                        <input class="edit" v-model="ipnutChangeTitle.title" @keydown.esc="ipnutChangeTitle={}" v-focus="ipnutChangeTitle.id" @blur="ipnutChangeTitle={}" :data-id="value.id" @keydown.enter="onEnterInput(value)">
+                    </li>
+                </ul>
+            </section>
+            `,
+            data: function () {
+                return {
+                    ipnutChangeTitle: {}, //保存想要修改的对象
+                    selectState: 'all', //记录当前选中的类型
+                    selectList: ['All', 'Active', 'Completed'], //状态数组
+                    ss: {
+                        id: null,
+                        title: '',
+                        completed: null
+                    },
+                    todos: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }]
+                }
+            },
+            methods: {
+                // 按回车键新增一条笔记
+                onEnterSubmit: function () {
+                    if (!this.inputTitle || !this.inputTitle.trim()) {
+                        return;
+                    }
+                    let newObj = {};
+                    newObj.id = +new Date();
+                    newObj.title = this.inputTitle;
+                    newObj.completed = false;
+                    this.todos.push(newObj);
+                    this.inputTitle = '';
+                },
+                // 删除的回调方法
+                onClickRemoveOneItem: function (item) {
+                    if (item) {
+                        let index = this.todos.indexOf(item);
+                        this.todos.splice(index, 1);
+                    }
+                },
+
+                // 双击文本框回调
+                onDblClickLable: function (item) {
+                    this.ipnutChangeTitle = {};
+                    for (let value in item) {
+                        this.ipnutChangeTitle[value] = item[value];
+                    }
+                },
+
+                // 确认要修改的内容
+                onEnterInput: function (item) {
+                    item.title = this.ipnutChangeTitle.title;
+                    this.ipnutChangeTitle = {};
+                },
+
+                // 点击清除已完成的任务
+                onClickClearCompleted() {
+                    this.todos = this.todos.filter(value => !value.completed);
+                }
+            },
+            directives: {
+                'focus': {
+                    updated:function(el) {
+                        console.log(111111111111111);
+                        el.focus();
+                    },
+                }
+            },
+            computed: {
+                allSelectState: {
+                    get: function () {
+                        return this.todos.every(value => value.completed);
+                    },
+                    set: function (value) {
+                        this.todos.forEach(element => element.completed = value);
+                    }
+                },
+            },
+            beforeCreate() {
+                hup.$on("inputTitle-div", (value) => {
+                    this.ss.id = +new Date();
+                    this.ss.title = value;
+                    this.ss.completed = false;
+                    this.todos.push(this.ss);
+                    this.ss = {
+                        id: null,
+                        title: '',
+                        completed: null
+                    }
+                })
+            },
+        });
+        Vue.component("footer-mdoex", {
+            template: `
+            <footer class="footer">
+                <span class="todo-count">
+                    <strong></strong> item left</span>
+                <ul class="filters">
+                    <li><a>all</a></li>
+                </ul>
+                <button class="clear-completed">Clear completed</button>
+            </footer>
+            `,
+
+        });
+        new Vue({
+            el: "#todoapp",
+        })
+    </script>
+</body>
+
+</html>
