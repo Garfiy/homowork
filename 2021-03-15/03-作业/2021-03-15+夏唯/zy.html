@@ -25,12 +25,12 @@
                             <h1>todos</h1>
                             <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="addTitle">
                         </header>`,
-            data: function() {
+            data: function () {
                 return {
                     addList: [],
                 }
             },
-            created: function() {
+            created: function () {
                 hub.$on('todoa-list', val => {
                     val.forEach(item => {
                         this.addList.push(item);
@@ -38,7 +38,7 @@
                 });
             },
             methods: {
-                addTitle: function(e) {
+                addTitle: function (e) {
                     var text = e.target.value.trim();
                     if (!text) {
                         return;
@@ -55,7 +55,6 @@
                 }
             }
         });
-
         Vue.component('todoa-list', {
             template: `<section class="main">
                             <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
@@ -71,7 +70,7 @@
                                 </li>
                             </ul>
                         </section>`,
-            data: function() {
+            data: function () {
                 return {
                     list: [{
                         id: 1,
@@ -90,7 +89,7 @@
                     currentEditing: {},
                 }
             },
-            created: function() {
+            created: function () {
                 hub.$on('todoa-head', val => {
                     this.list.push(val);
                 });
@@ -104,23 +103,23 @@
                     });
                 });
             },
-            mounted: function() {
+            mounted: function () {
                 hub.$emit('todoa-list', this.list);
             },
             methods: {
-                onClickRemove: function(val) {
+                onClickRemove: function (val) {
                     if (val) {
                         let index = this.list.indexOf(val);
                         this.list.splice(index, 1);
                     }
                 },
-                onDblclick: function(val) {
+                onDblclick: function (val) {
                     this.currentEditing = {};
                     for (let k in val) {
                         this.currentEditing[k] = val[k];
                     }
                 },
-                onEnter: function(item) {
+                onEnter: function (item) {
                     item.title = this.currentEditing.title;
                     this.currentEditing = {};
                 },
@@ -128,18 +127,18 @@
             computed: {
                 allSelectState: {
                     // 获取值时 调用的方法
-                    get: function() {
+                    get: function () {
                         return this.list.every(val => val.completed);
                     },
                     // 设置值时 调用的方法
-                    set: function(val) {
+                    set: function (val) {
                         this.list.forEach(item => item.completed = val);
                     }
                 }
             },
             directives: {
                 'focus': {
-                    update: function(el, binding) {
+                    update: function (el, binding) {
                         let curValue = binding.value;
                         let inputValue = el.getAttribute('data-id');
                         if (curValue == inputValue) {
@@ -161,14 +160,14 @@
                             </ul>
                             <button class="clear-completed" @click="onClickClear">Clear completed</button>
                         </footer>`,
-            data: function() {
+            data: function () {
                 return {
                     selectList: ['All', 'Active', 'Completed'],
                     screenList: [],
                     selectAll: 'all'
                 }
             },
-            created: function() {
+            created: function () {
                 hub.$on('todoa-list', val => {
                     val.forEach(item => {
                         this.screenList.push(item);
@@ -176,14 +175,14 @@
                 });
             },
             methods: {
-                onClickClear: function() {
+                onClickClear: function () {
                     console.log(this.screenList);
                     this.screenList = this.screenList.filter(val => !val.completed);
                     hub.$emit('todoa-footer', this.screenList);
                 }
             },
             computed: {
-                activeNum: function() {
+                activeNum: function () {
                     let num = 0;
                     for (let i = 0; i < this.screenList.length; i++) {
                         if (!this.screenList[i].completed) {
@@ -194,7 +193,7 @@
                 },
             },
             watch: {
-                selectAll: function() {
+                selectAll: function () {
                     hub.$emit('selectAll', this.selectAll);
                 }
             }
