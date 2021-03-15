@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/index.css">
+	</head>
+
+	<body>
+		<section id="todoapp" class="todoapp">
+			<notepad></notepad>
+		</section>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script>
+			var hub = new Vue();
+			// 记事本   一下一下来
+			var notepad = Vue.component('notepad', {
+				template: `<div><record></record><list></list><footer-cut></footer-cut></div>`,
+				computed: {
+
+				},
+
+			});
+			// 输入组件
+			var record = Vue.component('record', {
+				template: `  <header class="header">
+							<h1>todos</h1>
+							<input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onEnterSubmit" v-model="inputTitle">
+						</header>`,
+				data: function() {
+					return {
+						inputTitle: '', //是用户新增的内容 初始化为空字符串
+					};
+				},
+				methods: {
+					// 按回车键新增一条笔记
+					onEnterSubmit: function() {
+						// 判断当前输入框中是否有内容
+						// trim() 是去除字符串中的空格
+						// 如果inputTitle不为字符串对象 那么就没有trim这个方法
+						if (!this.inputTitle || !this.inputTitle.trim()) {
+							// 如果没有内容就跳出 不去新增数据
+							return;
+						}
+
+						let newObj = {}; //新增一个空数据对象
+						// id直接等于创建数据时的事件戳，已保证id的唯一性
+						newObj.id = +new Date();
+						// 用户输入的标题内容
+						newObj.title = this.inputTitle;
+						// 默认的新笔记是未完成的状态
+						newObj.completed = false;
+
+						// 将新内容增加到数据源中，并刷新视图
+						// 数据是兄弟组件传
+						hub.$emit('newObj', newObj);
+
+						// 清空输入框中的内容
+						this.inputTitle = '';
+					},
+				},
+
+			});
+			// 内容列表组件  //  <input>
+			var list = Vue.component('list', {
+				template: `<section class="main">
+							<input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">  
+							<label for="toggle-all">Mark all as complete</label>
+								<ul class="todo-list">
+									<li :class="{completed:value.completed,editing:ipnutChangeTitle.id===value.id }" 
+									v-for="(value,index) in todos" :key="value.id" v-show=" 
+									selectState=='all' || ( selectState=='active' && !value.completed ) || (selectState=='completed' && value.completed)">
+										<div class="view"><input type="checkbox" class="toggle" v-model="value.completed">
+											<label @dblclick="onDblClickLable(value)">{{value.title}}</label>
+											<button class="destroy" @click="onClickRemoveOneItem(value)"></button>
+										</div>
+											<input class="edit" v-model="ipnutChangeTitle.title" @keydown.esc="ipnutChangeTitle={}" 
+											v-focus="ipnutChangeTitle.id" @blur="ipnutChangeTitle={}" :data-id="value.id"
+											@keydown.enter="onEnterInput(value)">
+									</li>
+								</ul>
+							</section>`,
+				data: function() {
+					return {
+						ipnutChangeTitle: {}, //保存想要修改的对象
+						selectState: 'all', //记录当前选中的类型
+						num: 0, // 初始选择的个数
+						todos: [{
+							id: 1,
+							title: '吃饭',
+							completed: false
+						}, {
+							id: 2,
+							title: '睡觉',
+							completed: false
+						}, {
+							id: 3,
+							title: '打豆豆',
+							completed: true
+						}]
+					};
+				},
+				// 方法
+				methods: {
+					// 删除的回调方法
+					onClickRemoveOneItem: function(item) {
+
+						// item 是整个数据对象
+						if (item) {
+							// 这是获取要删除的数据在数组中的下标
+							let index = this.todos.indexOf(item);
+							// 从数组中删除index下标的数据
+							this.todos.splice(index, 1);
+						}
+					},
+					// 双击文本框回调
+					onDblClickLable: function(item) {
+
+						// 将想要改变的对象赋值给inputChangeTitle
+						// 对象不能简单的用等于号直接赋值，这样赋值的两个变量实际是一个变量
+						this.ipnutChangeTitle = {};
+						for (let value in item) {
+							// value 是item的每个键值对的 键名
+							// item[value] 是item的每个键值对的 值
+							this.ipnutChangeTitle[value] = item[value];
+						}
+					},
+
+					// 确认要修改的内容
+					onEnterInput: function(item) {
+						// 将修改后的内容复制给用来显示的数据
+						item.title = this.ipnutChangeTitle.title;
+						// 赋值后隐藏修改框
+						this.ipnutChangeTitle = {};
+					},
+				},
+				// 自定义指令
+				directives: {
+					'focus': {
+						// 当绑定的对象发生改变时 触发update回调
+						update: function(el, binding) {
+							// 触发指令时的值
+							let curValue = binding.value;
+
+							// input标签的唯一标识
+							// getAttribute 获取标签的属性值
+							let inputValue = el.getAttribute('data-id');
+
+							// 判断改变的对象和要改变的对象是否相等
+							if (curValue == inputValue) {
+								// 聚焦到要显示的对象上
+								el.focus();
+							}
+						}
+					}
+				},
+				// 看全选
+				computed: {
+					// 是否全选中
+					allSelectState: {
+						// 获取值时 调用的方法
+						get: function() {
+							// 判断是否全部选中
+							return this.todos.every(value => value.completed);
+						},
+						// 设置值时 调用的方法
+						set: function(value) {
+
+							// 制定规矩：
+							this.todos.forEach(element => element.completed = value);
+						}
+					},
+					setNum:function(){
+						let arr=[];
+						arr=this.todos.filter(val=> !val.completed);
+						this.num=arr.length;
+						return hub.$emit('num', this.num);
+					}
+				},
+				// 初始化
+				mounted: function() {
+					hub.$on('newObj', (val) => {
+						this.todos.push(val);
+					});
+					hub.$on('clear', (val) => {
+						this.todos = this.todos.filter(value => !value.completed);
+					});
+					hub.$on('select', (val) => {
+						this.selectState = val;
+						hub.$emit('state', val);
+					});
+					this.setNum;
+				},
+				beforeUpdate: function() {
+					this.setNum;
+				}
+
+			});
+			// 页脚
+
+			var footer = Vue.component('footer-cut', {
+				template: `	<footer class="footer">
+								<span class="todo-count">
+									<strong>{{num}}</strong> item left</span> 
+								<ul class="filters">
+									<li v-for="(value,index) in selectList" :key="index">
+										<a :class="{selected:state==value.toLowerCase()}" @click="onClickSelect(value.toLowerCase())">{{value}}</a>
+									</li>
+								</ul>
+								<button class="clear-completed" @click="onClickClearCompleted">Clear completed</button>
+							</footer>`,
+				data: function() {
+					return {
+						selectList: ['All', 'Active', 'Completed'], //状态数组
+						state: 'all',
+						num: 0,
+					};
+				},
+				methods: {
+					// 点击清除已完成的任务
+					onClickClearCompleted() {
+						// 循环所有的数据 
+						// 方法二：过滤
+						hub.$emit('clear', true);
+					},
+					onClickSelect(val) {
+						hub.$emit('select', val);
+					}
+				},
+				mounted: function() {
+					hub.$on('state', (val) => {
+						this.state = val;
+					});
+
+				},
+				beforeCreate: function() {
+					hub.$on('num', (val) => {
+						this.num = val;
+					});
+				}
+			});
+
+			new Vue({
+				el: "#todoapp",
+				data: {},
+				components: {
+					notepad
+				}
+			});
+		</script>
+	</body>
+
+</html>
