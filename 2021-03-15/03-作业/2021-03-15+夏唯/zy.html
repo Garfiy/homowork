@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <todoa></todoa>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var hub = new Vue();
+        Vue.component('todoa', {
+            template: '<div><todoa-head></todoa-head><todoa-list></todoa-list><todoa-footer></todoa-footer></div>',
+        });
+        Vue.component('todoa-head', {
+            template: ` <header class="header">
+                            <h1>todos</h1>
+                            <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="addTitle">
+                        </header>`,
+            data: function() {
+                return {
+                    addList: [],
+                }
+            },
+            created: function() {
+                hub.$on('todoa-list', val => {
+                    val.forEach(item => {
+                        this.addList.push(item);
+                    });
+                });
+            },
+            methods: {
+                addTitle: function(e) {
+                    var text = e.target.value.trim();
+                    if (!text) {
+                        return;
+                    }
+                    var id = this.addList.length + 1;
+                    var add = {
+                        id: id,
+                        title: text,
+                        completed: false
+                    };
+                    this.addList.push(add);
+                    hub.$emit('todoa-head', add);
+                    e.target.value = '';
+                }
+            }
+        });
+
+        Vue.component('todoa-list', {
+            template: `<section class="main">
+                            <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
+                            <label for="toggle-all">Mark all as complete</label>
+                            <ul class="todo-list">
+                                <li class="" v-for="(val,index) in list" :key="val.id" :class="{completed: val.completed, editing: val.id === currentEditing.id}">
+                                    <div class="view" v-show="selectAll=='all'||(selectAll=='active'&&!val.completed)||(selectAll=='completed'&&val.completed)">
+                                        <input type="checkbox" class="toggle" v-model="val.completed">
+                                        <label @dblclick="onDblclick(val)">{{val.title}}</label>
+                                        <button class="destroy" @click="onClickRemove(val)"></button>
+                                    </div>
+                                    <input class="edit" v-model="currentEditing.title" @keyup.esc="currentEditing={}" v-focus="currentEditing.id" :data-id="val.id" @blur="currentEditing={}" @keyup.enter="onEnter(val)">
+                                </li>
+                            </ul>
+                        </section>`,
+            data: function() {
+                return {
+                    list: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                    selectAll: 'all',
+                    currentEditing: {},
+                }
+            },
+            created: function() {
+                hub.$on('todoa-head', val => {
+                    this.list.push(val);
+                });
+                hub.$on('selectAll', val => {
+                    this.selectAll = val;
+                });
+                hub.$on('todoa-footer', val => {
+                    this.list = [];
+                    val.forEach(val => {
+                        this.list.push(val);
+                    });
+                });
+            },
+            mounted: function() {
+                hub.$emit('todoa-list', this.list);
+            },
+            methods: {
+                onClickRemove: function(val) {
+                    if (val) {
+                        let index = this.list.indexOf(val);
+                        this.list.splice(index, 1);
+                    }
+                },
+                onDblclick: function(val) {
+                    this.currentEditing = {};
+                    for (let k in val) {
+                        this.currentEditing[k] = val[k];
+                    }
+                },
+                onEnter: function(item) {
+                    item.title = this.currentEditing.title;
+                    this.currentEditing = {};
+                },
+            },
+            computed: {
+                allSelectState: {
+                    // 获取值时 调用的方法
+                    get: function() {
+                        return this.list.every(val => val.completed);
+                    },
+                    // 设置值时 调用的方法
+                    set: function(val) {
+                        this.list.forEach(item => item.completed = val);
+                    }
+                }
+            },
+            directives: {
+                'focus': {
+                    update: function(el, binding) {
+                        let curValue = binding.value;
+                        let inputValue = el.getAttribute('data-id');
+                        if (curValue == inputValue) {
+                            el.focus();
+                        }
+                    }
+                }
+            }
+        });
+
+        Vue.component('todoa-footer', {
+            template: ` <footer class="footer">
+                            <span class="todo-count">
+                                <strong>{{activeNum}}</strong> item left</span>
+                            <ul class="filters">
+                                <li v-for="(val,index) in selectList" :key="index">
+                                    <a href="#/" :class="{selected:selectAll==val.toLocaleLowerCase()}" @click="selectAll=val.toLocaleLowerCase()">{{val}}</a>
+                                </li>
+                            </ul>
+                            <button class="clear-completed" @click="onClickClear">Clear completed</button>
+                        </footer>`,
+            data: function() {
+                return {
+                    selectList: ['All', 'Active', 'Completed'],
+                    screenList: [],
+                    selectAll: 'all'
+                }
+            },
+            created: function() {
+                hub.$on('todoa-list', val => {
+                    val.forEach(item => {
+                        this.screenList.push(item);
+                    });
+                });
+            },
+            methods: {
+                onClickClear: function() {
+                    console.log(this.screenList);
+                    this.screenList = this.screenList.filter(val => !val.completed);
+                    hub.$emit('todoa-footer', this.screenList);
+                }
+            },
+            computed: {
+                activeNum: function() {
+                    let num = 0;
+                    for (let i = 0; i < this.screenList.length; i++) {
+                        if (!this.screenList[i].completed) {
+                            num++;
+                        }
+                    }
+                    return num;
+                },
+            },
+            watch: {
+                selectAll: function() {
+                    hub.$emit('selectAll', this.selectAll);
+                }
+            }
+        });
+        new Vue({
+            el: '#todoapp',
+        })
+    </script>
+</body>
+
+</html>
