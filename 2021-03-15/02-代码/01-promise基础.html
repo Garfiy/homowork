@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.body.innerText = 3;
+        // setTimeout(function() {
+        //     document.body.innerText = 2;
+
+        //     setTimeout(function() {
+        //         document.body.innerText = 1;
+
+        //         setTimeout(function() {
+        //             document.body.innerText = '';
+        //             alert('时间结束');
+        //         }, 1000);
+        //     }, 1000);
+        // }, 1000);
+
+        // let p3 = new Promise(function(resolve, reject) {
+        //     setTimeout(function() {
+        //         resolve(2);
+        //     }, 1000);
+        // });
+
+        // let p2 = new Promise(function(resolve, reject) {
+        //     setTimeout(function() {
+        //         resolve(1);
+        //     }, 1000);
+        // });
+
+        // let p1 = new Promise(function(resolve, reject) {
+        //     setTimeout(function() {
+        //         resolve(0);
+        //     }, 1000);
+        // });
+
+        // p3.then(function(value) {
+        //     document.body.innerText = value;
+
+        //     p2.then(function(value) {
+        //         document.body.innerText = value;
+
+        //         p1.then(function(value) {
+        //             document.body.innerText = value;
+        //         })
+        //     })
+        // })
+
+        // Promise 把之前嵌入式的异步写
+        // 装换为现在链式结构
+        // new Promise(function(resolve, reject) {
+        //     setTimeout(function() {
+        //         var flag = true;
+        //         if (flag) {
+        //             resolve();
+        //         } else {
+        //             reject('出错了');
+        //         }
+        //     }, 3000);
+        // }).then(function(value) {
+        //     console.log('123');
+        // }, function(reason) {
+        //     console.log(reason);
+        // });
+
+        // function callbakc(resolve, reject) {
+        //     setTimeout(function() {
+        //         var flag = true;
+        //         if (flag) {
+        //             resolve('hello word');
+        //         } else {
+        //             reject('出错了');
+        //         }
+        //     }, 3000);
+        // }
+        // new callbakc(function(value) {
+        //     console.log(value);
+        // }, function(reason) {
+        //     console.log(reason);
+        // })
+
+        // 注册一个创建Promise的方法
+        // function getPromise(value) {
+        //     return new Promise(function(resolve, reject) {
+        //         setTimeout(function() {
+        //             resolve(value);
+        //         }, 1000);
+        //     })
+        // }
+
+        // // 倒计时的流程
+        // getPromise(2).then(function(value) {
+        //     document.body.innerText = value;
+        //     return getPromise(1);
+        // }).then(function(value) {
+        //     document.body.innerText = value;
+        //     return getPromise(0);
+        // }).then(function(value) {
+        //     document.body.innerText = '';
+        //     alert('倒计时结束');
+        // });
+
+        // new Promise(function(resolve, reject) {
+        //     // resolve();
+        //     reject();
+        // }).then(function(value) {
+        //     console.log('then');
+        // }).catch(function(reason) {
+        //     console.log('catch');
+        // }).finally(function(data) {
+        //     console.log('finally');
+        // });
+    </script>
+</body>
+
+</html>

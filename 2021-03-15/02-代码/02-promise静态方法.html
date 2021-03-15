@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 封装一个异步请求方法
+        function Get(url) {
+            // 返回一个异步处理对象
+            return new Promise(function(resolve, reject) {
+                // 新建一个请求对象
+                var xhr = new XMLHttpRequest();
+                // 监听请求回调的内容
+                xhr.addEventListener('readystatechange', function() {
+                        // 判断是否是第四次回调
+                        // 且是否是成功的回调 200 
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            resolve(xhr.response);
+                        }
+                    })
+                    // 初始化请求方式和请求地址
+                xhr.open('get', url);
+                // 发送请求
+                xhr.send();
+            })
+        }
+
+        // Get('http://localhost:3000/data').then(function(value) {
+        //     console.log(value);
+        // });
+        // Get('http://localhost:3000/data1').then(function(value) {
+        //     console.log(value);
+        // });
+        // Get('http://localhost:3000/data2').then(function(value) {
+        //     console.log(value);
+        // });
+
+        // let p1 = Get('http://localhost:3000/a1');
+        // let p2 = Get('http://localhost:3000/a2');
+        // let p3 = Get('http://localhost:3000/a3');
+        // Promist.all 所有请求完成后再返回所有结果
+        // 请求的数组顺序  和 结果数组的顺序是相同的
+        // 并执行后面的逻辑
+        // Promise.all([p1, p2, p3]).then(function(value) {
+        //     console.log(value);
+        // })
+
+        let p1 = Get('http://localhost:3000/data');
+        let p2 = Get('http://localhost:3000/data1');
+        let p3 = Get('http://localhost:3000/data2');
+        // Promist.race 发出所有请求
+        // 只接收最快的请求的数据
+        // 其他请求的数据直接丢弃
+        Promise.race([p1, p2, p3]).then(function(value) {
+            console.log(value);
+        })
+    </script>
+</body>
+
+</html>
