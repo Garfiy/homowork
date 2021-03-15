@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div id="app">
+        <todos></todos>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var hub = new Vue();
+        Vue.component('todos', {
+            template: '<section id="todoapp" class="todoapp"><todoa-head></todoa-head><todos-main></todos-main><todos-footer></todos-footer></section>',
+        });
+        Vue.component('todoa-head', {
+            template: ` <header class="header">
+                            <h1>todos</h1>
+                            <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="addTitle">
+                        </header>`,
+            data: function() {
+                return {
+                    addList: [],
+                }
+            },
+            created: function() {
+                hub.$on('todos-main', val => {
+                    val.forEach(item => {
+                        this.addList.push(item);
+                    });
+                });
+            },
+            methods: {
+                addTitle: function(e) {
+                    var text = e.target.value.trim();
+                    if (!text) {
+                        return;
+                    }
+                    var id = this.addList.length + 1;
+                    var add = {
+                        id: id,
+                        title: text,
+                        completed: false
+                    };
+                    this.addList.push(add);
+                    hub.$emit('todoa-head', add);
+                    e.target.value = '';
+                }
+            }
+        });
+
+        Vue.component('todos-main', {
+            template: `<section class="main">
+                            <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
+                            <label for="toggle-all">Mark all as complete</label>
+                            <ul class="todo-list">
+                                <li class="" v-for="(val,index) in datas" :key="val.id" :class="{completed: val.completed, editing: val.id === amend.id}">
+                                    <div class="view" v-show="selectAll=='all'||(selectAll=='active'&&!val.completed)||(selectAll=='completed'&&val.completed)">
+                                        <input type="checkbox" class="toggle" v-model="val.completed">
+                                        <label @dblclick="onDblClickLable(item)">{{val.title}}</label>
+                                        <button class="destroy" @click="onClickRemoveOneItem(item)"></button>
+                                    </div>
+                                    <input class="edit" v-model="amend.title" @keyup.esc="amend={}" v-focus="amend.id" :data-id="val.id" @blur="amend={}" @keyup.enter="onEnter(val)">
+                                </li>
+                            </ul>
+                        </section>`,
+            data: function() {
+                return {
+                    datas: [{
+                        id: 1,
+                        title: '吃饭',
+                        completed: false
+                    }, {
+                        id: 2,
+                        title: '睡觉',
+                        completed: false
+                    }, {
+                        id: 3,
+                        title: '打豆豆',
+                        completed: true
+                    }],
+                    selectAll: 'all',
+                    amend: {},
+                }
+            },
+            created: function() {
+                hub.$on('todoa-head', val => {
+                    this.datas.push(val);
+                });
+                hub.$on('selectAll', val => {
+                    this.selectAll = val;
+                });
+                hub.$on('todos-footer', val => {
+                    this.datas = [];
+                    val.forEach(val => {
+                        this.datas.push(val);
+                    });
+                });
+            },
+            mounted: function() {
+                hub.$emit('todos-main', this.datas);
+            },
+            methods: {
+                onClickRemoveOneItem: function(item) {
+                    if (item) {
+                        let index = this.datas.indexOf(item);
+                        this.datas.splice(index, 1);
+                    }
+                },
+                onDblClickLable: function(item) {
+                    this.amend = {};
+                    for (let k in item) {
+                        this.amend[k] = item[k];
+                    }
+                },
+                onEnter: function(item) {
+                    item.title = this.amend.title;
+                    this.amend = {};
+                },
+            },
+            computed: {
+                allSelectState: {
+                    get: function() {
+                        return this.datas.every(val => val.completed);
+                    },
+                    set: function(val) {
+                        this.datas.forEach(item => item.completed = val);
+                    }
+                }
+            },
+            directives: {
+                'focus': {
+                    update: function(el, val) {
+                        let curValue = val.value;
+                        let inputValue = el.getAttribute('data-id');
+                        if (curValue == inputValue) {
+                            el.focus();
+                        }
+                    }
+                }
+            }
+        });
+
+        Vue.component('todos-footer', {
+            template: ` <footer class="footer">
+                            <span class="todo-count">
+                                <strong>{{activeItemNum}}</strong> item left</span>
+                            <ul class="filters">
+                                <li v-for="(val,index) in selectList" :key="index">
+                                    <a href="#" :class="{selected:selectAll==val.toLocaleLowerCase()}" @click="selectAll=val.toLocaleLowerCase()">{{val}}</a>
+                                </li>
+                            </ul>
+                            <button class="clear-completed" >Clear completed</button>
+                        </footer>`,
+            data: function() {
+                return {
+                    selectList: ['All', 'Active', 'Completed'],
+                    selectState: [],
+                    selectAll: 'all'
+                }
+            },
+            created: function() {
+                hub.$on('todos-main', val => {
+                    val.forEach(item => {
+                        this.selectState.push(item);
+                    });
+                });
+            },
+            computed: {
+                activeItemNum: function() {
+                    let num = 0;
+                    for (let i = 0; i < this.selectState.length; i++) {
+                        if (!this.selectState[i].completed) {
+                            num++;
+                        }
+                    }
+                    return num;
+                },
+            },
+            watch: {
+                selectAll: function() {
+                    hub.$emit('selectAll', this.selectAll);
+                }
+            }
+        });
+        new Vue({
+            el: '#app',
+        })
+    </script>
+</body>
+
+</html>
