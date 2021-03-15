@@ -13,10 +13,12 @@
 
 <body>
     <section id="todoapp" class="todoapp">
+
         <header class="header">
             <h1>todos</h1>
             <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="onKeyupEnterAdd" v-model="newTodo">
         </header>
+
         <section class="main">
             <input class="toggle-all" id="toggle-all" type="checkbox" :checked="checkAll" @click="onCheckAlls">
             <label for="toggle-all">Mark all as complete</label>
@@ -31,6 +33,7 @@
                 </li>
             </ul>
         </section>
+
         <footer class="footer">
             <span class="todo-count"><strong v-text="sum">0</strong> item left</span>
             <ul class="filters">
