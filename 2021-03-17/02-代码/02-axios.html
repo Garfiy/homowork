@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        // 公共地址前缀
+        let baseUrl = "http://localhost:3000/";
+        axios.defaults.baseURL = baseUrl;
+
+
+        // 声明一个请求拦截
+        axios.interceptors.request.use(function(request) {
+            // 请求成功
+
+            // 写入一个请求头
+            // request.headers.mytoken = "my card info";
+
+            console.log(request);
+            return request;
+        }, function(error) {
+            // 请求失败
+            console.log(error);
+        })
+
+        // 申明一个响应拦截器
+        axios.interceptors.response.use(function(response) {
+            console.log(response);
+            // 响应拦截器需要return
+            return response.data;
+        }, function(error) {
+            console.log(error);
+        })
+
+        // 发送一个get请求
+        // axios.get('adata').then(function(json) {
+        //     // 接收请求结束后的回调
+        //     console.log(json);
+        //     // 请求回调成功后 后端给的数据都在data属性里
+        //     console.log(json.data);
+        // })
+
+        // restful 形式传递参数 
+        // 传递的参数不需要声明参数名
+        // 直接写上参数值就行
+        // 多个参数的时候 也是直接用 / 分隔
+        // axios.get(baseUrl + 'axios/123').then(function(json) {
+        //     console.log(json.data);
+        // })
+
+        // 通过 params 形式传递参数
+        // axios.get(baseUrl + 'axios', {
+        //     // params 这个参数的声明属性 这个不能变
+        //     params: {
+        //         id: 123,
+        //     },
+        // }).then(function(json) {
+        //     console.log(json.data);
+        // })
+
+        // post 和 get 及时是请求地址相同；实际请求接口也是不同的
+        // post请求最常用的传参方法
+        // params 方法
+        axios.post(baseUrl + 'axios', {
+            uname: 'jerry',
+            pwd: '80分',
+        }).then(function(json) {
+            console.log(json.data);
+        });
+
+        // URLSearchParams 是js原生的对象
+        // let params = new URLSearchParams();
+        // params.append('uname', 'jerry');
+        // params.append('pwd', '90分');
+        // axios.post(baseUrl + 'axios', params).then(function(json) {
+        //     console.log(json.data);
+        // });
+    </script>
+</body>
+
+</html>

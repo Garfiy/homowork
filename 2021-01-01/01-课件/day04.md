@@ -259,7 +259,7 @@
 
       #1.2  GET参数传递  restful形式的URL  通过/ 的形式传递参数  即  id = 456 和id后台的配置有关   
         fetch('http://localhost:3000/books/456', {
-            	# get 请求可以省略不写 默认的是GET 
+            	# get 请求可以省略不写 默认的是GET
                 method: 'get'
             })
             .then(function(data) {
