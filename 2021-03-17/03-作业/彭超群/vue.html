@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../参考demo/css/base.css">
+    <link rel="stylesheet" href="../参考demo/css/index.css">
+    <script src="../参考demo/js/axios.js"></script>
+    <script src="../参考demo/js/vue.js"></script>
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <todos></todos>
+    </section>
+    <script>
+        axios.defaults.baseURL = 'http://localhost:3001/';
+
+        Vue.component('todos', {
+            template: `
+                <div>
+                    <my-header @onEnterSubmit="onEnterSubmit"></my-header>
+
+                    <my-list :selectState="selectState" :todos="todos" @onClickRemove="onClickRemove" @allSelectState="allSelectState"></my-list>
+
+                    <my-footer :activeItmeNum="activeItmeNum" :selectState="selectState" @onClickClearCompleted="onClickClearCompleted"  @onClickSelectState="onClickSelectState"></my-footer>
+                </div>    
+            `,
+            data() {
+                return {
+                    todos: [],
+                    selectState: 'all' //记录当前选中的类型
+                }
+            },
+            created() {
+                axios.get('list').then((ret) => {
+                    this.todos = ret.data;
+                });
+            },
+            //注册方法
+            methods: {
+                //按回车新建一条数据
+                onEnterSubmit: function(inputTitle) {
+                    //判断当前输入内容是否有内容
+                    //如果inputTitle不为字符串对象那么就没有trim这个方法
+                    if (!inputTitle || !inputTitle.trim()) {
+                        //如果没有直接跳出,不新增数据
+                        return;
+                    }
+                    axios.post('add', {
+                        title: inputTitle
+                    });
+                },
+                onClickRemove: function(v) {
+                    axios.delete('list/' + v.id);
+                },
+                //点击清除已完成的任务
+                onClickClearCompleted: function() {
+                    //循环所有的数据
+                    //判断是否需要删除,如果有就删除
+                    // this.todos = this.todos.filter(v => !v.completed);
+                    axios.delete('deleteall');
+                },
+                allSelectState: function(value) { //全选
+                    // this.todos.forEach(v => v.completed = value);
+                    if (value) {
+                        value = 1;
+                    } else {
+                        value = 0;
+                    }
+                    axios.get('all/' + value);
+                },
+                //切换显示状态的方法
+                onClickSelectState: function(v) {
+                    this.selectState = v;
+                }
+            },
+            computed: {
+                activeItmeNum: function() { //未完成的总数
+                    let num = 0;
+                    for (var i = 0; i < this.todos.length; i++) {
+                        if (!this.todos[i].completed) {
+                            num++;
+                        }
+                    }
+                    return num;
+                }
+            }
+        });
+        //头部组件
+        Vue.component('my-header', {
+            template: `
+                    <header class="header">
+                        <h1>todos</h1>
+                        <!-- 输入框 -->
+                        <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onEnterSubmit" v-model="inputTitle">
+                    </header>`,
+            data() {
+                return {
+                    inputTitle: '',
+                }
+            },
+            methods: {
+                onEnterSubmit: function() {
+                    //子组件做出抛事件 和 参数
+                    //具体操作由父组件完成
+                    this.$emit('onEnterSubmit', this.inputTitle);
+                    //清空输入框中的内容
+                    this.inputTitle = '';
+                }
+            },
+        });
+        //内容组件
+        Vue.component('my-list', {
+            template: `
+                    <section class="main">
+                        <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
+                        <label for="toggle-all">Mark all as complete</label>
+                        <ul class="todo-list">
+                            <li v-for="(k,i) in todos" :class="{completed:k.completed,editing:inputChangeTitle.id===k.id}" :key="k.id" v-show="selectState=='all'||(selectState=='active' && !k.completed)||(selectState=='completed' && k.completed)">
+                                <div class="view"><input type="checkbox" class="toggle" v-model="k.completed" @click="onClickOption(k)">
+                                    <label @dblclick="onDblclickLable(k)">{{k.title}}</label>
+                                    <button class="destroy" @click="onClickRemove(k)"></button>
+                                </div>
+                                <!-- 按下esc时 取消修改数据内容 -->
+                                <!-- keydown.esc esc的按键点击事件 -->
+                                <!-- v-focus 自定义指令 实现出现时自动聚焦 -->
+                                <!-- :data-id 自定义属性 确定input框的唯一性 -->
+                                <input class="edit" v-model="inputChangeTitle.title" @keydown.esc="inputChangeTitle={}" v-focus="inputChangeTitle.id" :data-id="k.id" @blur="onEnterInput(k)" @keydown.enter="onEnterInput(k)">
+                            </li>
+                        </ul>
+                    </section>
+                `,
+            data() {
+                return {
+                    inputChangeTitle: '', //保存想要修改的内容
+                }
+            },
+            props: ['selectState', 'todos'],
+            methods: {
+                //双击文本框回调
+                onDblclickLable: function(v) {
+                    //将想要改变的对象赋值给inputChangeTitle
+                    //对象不能用简单的等于号赋值,选择赋值的两个变量实际是一个变量
+                    this.inputChangeTitle = {};
+                    for (var k in v) {
+                        //k 是 v 的每个键值对的 键名
+                        //值 是 v[k]
+                        this.inputChangeTitle[k] = v[k];
+                    }
+                },
+                onClickRemove: function(v) {
+                    this.$emit('onClickRemove', v);
+                },
+                //确认要修改的内容
+                onEnterInput: function(v) {
+                    //将修改后的内容赋值给用来显示的数据
+                    v.title = this.inputChangeTitle.title;
+                    axios.put('list/' + v.id, {
+                        title: v.title
+                    });
+                    //赋值后隐藏修改框
+                    this.inputChangeTitle = {};
+                },
+                onClickOption: function(v) {
+
+                    axios.put('select/' + v.id, {
+                        val: !v.completed,
+                    });
+                }
+            },
+            computed: {
+                //是否全选中
+                allSelectState: {
+                    //获取值时 调用的方法
+                    get: function() {
+                        //没有修改props 所以不需要修改
+                        return this.todos.every(val => val.completed);
+                    },
+                    //设置值时 调用的方法
+                    set: function(value) { // value是调用元素的状态
+                        //修改了props里面的值 所以要抛出
+                        this.$emit('allSelectState', value);
+                        // this.todos.forEach(v => v.completed = value);
+                    }
+                }
+            },
+            //自定义指令
+            directives: {
+                'focus': {
+                    //当对象发生改变是触发
+                    update: function(el, binding) {
+                        ///触发指令时的值
+                        let curValue = binding.value;
+                        //input标签的唯一标识
+                        //getAttribute 获取标签的属性值
+                        let inputValue = el.getAttribute('data-id');
+                        //判断改变的对象和要改变的对象是否相等
+                        if (curValue == inputValue) {
+                            //聚焦到要显示的对象上
+                            el.focus();
+                        }
+                    }
+                }
+            },
+        });
+        //尾部组件
+        Vue.component('my-footer', {
+            template: `
+                    <footer class="footer">
+                        <span class="todo-count">
+                            <strong v-text="activeItmeNum"></strong> item left</span>
+                        <ul class="filters">
+                            <li v-for="(v,i) in selectList" :key="i"><a href="#/" :class="{selected:selectState==v.toLocaleLowerCase()}" @click="onClickSelectState(v)">{{v}}</a></li>
+                        </ul>
+                        <button class="clear-completed" @click="onClickClearCompleted">Clear completed</button>
+                    </footer>
+            `,
+            props: ['activeItmeNum', 'selectState'],
+            data() {
+                return {
+                    selectList: ['All', 'Active', 'Completed'],
+                }
+            },
+            methods: {
+                onClickClearCompleted: function() {
+                    //点击清除已完成的任务
+                    this.$emit('onClickClearCompleted');
+                },
+                //切换显示的内容状态
+                onClickSelectState: function(value) {
+                    this.$emit('onClickSelectState', value.toLocaleLowerCase());
+                }
+            },
+        });
+
+
+        new Vue({
+            el: "#todoapp",
+            data: {
+
+            },
+        });
+    </script>
+</body>
+
+</html>
