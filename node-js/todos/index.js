@@ -12,7 +12,6 @@ app.use('*', function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS'); //设置方法
 
     next();
-
 });
 
 // 启动静态资源服务

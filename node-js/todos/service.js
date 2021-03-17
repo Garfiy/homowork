@@ -1,4 +1,4 @@
-const data = require('./data.json');
+let data = require('./data.json');
 const path = require('path');
 const fs = require('fs');
 
@@ -25,18 +25,28 @@ let writeDataToFile = (res) => {
     });
 };
 
-// 验证图书名称是否存在
+// 改变全选状态
 exports.allchecked = (req, res) => {
     let flag = req.params.val;
-    console.log('flag-----------', flag)
-
     data.forEach(item => {
-            item.completed = Boolean(Number(flag))
-            console.log(data)
-        })
-        // 把内存中的数据写入文件
+        item.completed = Boolean(Number(flag));
+    });
+    // 把内存中的数据写入文件
     writeDataToFile(res);
 };
+
+// 改变当选状态
+exports.onechecked = (req, res) => {
+    let id = req.params.id;
+    let val = req.body.val;
+    data.forEach(item => {
+        if (item.id == id) {
+            item.completed = val;
+        }
+    })
+    // 把内存中的数据写入文件
+    writeDataToFile(res);
+}
 
 // 获取图书列表数据
 exports.getAllBooks = (req, res) => {
@@ -70,7 +80,7 @@ exports.toEditBook = (req, res) => {
     });
     res.json(book);
 };
-// 编辑图书更新数据
+// 修改内容
 exports.editBook = (req, res) => {
     let info = req.body;
     info.id = req.params.id;
@@ -102,15 +112,7 @@ exports.deleteBook = (req, res) => {
 };
 // 删除图书信息
 exports.deleteAllComplete = (req, res) => {
-    var a = data.filter(item => !item.completed)
-    fs.writeFile(path.join(__dirname, 'data.json'), JSON.stringify(a, null, 4), (err) => {
-        if (err) {
-            res.json({
-                status: 500
-            });
-        }
-        res.json({
-            status: 200
-        });
-    });
+    data = data.filter(item => !item.completed);
+    // 把内存中的数据写入文件
+    writeDataToFile(res);
 };

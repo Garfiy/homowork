@@ -20,6 +20,8 @@ router.delete('/deleteall', service.deleteAllComplete);
 // 验证图书名称是否存在
 // router.get('/books/book/:name', service.checkName);
 
+// 实现单选功能
+router.put('/select/:id',service.onechecked)
 // 实现全选功能
 router.get('/all/:val', service.allchecked);
 
