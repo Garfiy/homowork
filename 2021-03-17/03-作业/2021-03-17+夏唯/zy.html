@@ -55,9 +55,6 @@
                 // 点击清除已完成的任务
                 onClickClear() {
                     axios.delete('deleteall');
-                    console.log(this.todos);
-                    this.todos = this.todos.filter(val => !val.completed);
-                    console.log(this.todos);
                     this.list();
                 },
                 allSelectState: function(val) {
@@ -144,9 +141,6 @@
                     // 赋值后隐藏修改值
                     this.currentEditing = {};
                     this.$emit('onEnter', item);
-                },
-                list: function() {
-                    this.$emit('list');
                 }
             },
             computed: {
