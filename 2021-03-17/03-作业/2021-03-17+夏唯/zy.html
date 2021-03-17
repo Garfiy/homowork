@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <todoa></todoa>
+    </section>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        axios.defaults.baseURL = 'http://localhost:3001/';
+        Vue.component('todoa', {
+            template: `<div> 
+                            <todoa-header @addTitle=addTitle></todoa-header>
+                            <todoa-list :selectAll="selectAll" :todos="todos" @onClickRemove="onClickRemove" @allSelectState="allSelectState" @onEnter="onEnter"></todoa-list>
+                             <todoa-footer :activeNum="activeNum" :selectAll="selectAll" @onClickClear="onClickClear" @onClickSelect="onClickSelect"></todoa-footer>
+                        </div>`,
+            data: function() {
+                return {
+                    currentEditing: {},
+                    todos: [],
+                    selectAll: 'all',
+                }
+            },
+            created: function() {
+                this.list();
+            },
+            methods: {
+                list: function() {
+                    axios.get('list').then((val) => {
+                        this.todos = val.data;
+                    });
+                },
+                // 添加一个
+                addTitle: function(inputTitle) {
+                    axios.post('add', {
+                        title: inputTitle
+                    });
+                    this.list();
+                },
+                // 删除一个
+                onClickRemove: function(val) {
+                    axios.delete('list/' + val.id);
+                    this.list();
+                },
+                // 点击清除已完成的任务
+                onClickClear() {
+                    axios.delete('deleteall');
+                    console.log(this.todos);
+                    this.todos = this.todos.filter(val => !val.completed);
+                    console.log(this.todos);
+                    this.list();
+                },
+                allSelectState: function(val) {
+                    this.todos.forEach(item => item.completed = val);
+                },
+                onClickSelect: function(val) {
+                    this.selectAll = val;
+                },
+                onEnter: function(item) {
+                    axios.put('list/' + item.id, {
+                        title: item.title
+                    });
+                    this.list();
+                }
+            },
+            computed: {
+                activeNum: function() {
+                    let num = 0;
+                    for (let i = 0; i < this.todos.length; i++) {
+                        if (!this.todos[i].completed) {
+                            num++;
+                        }
+                    }
+                    return num;
+                }
+            }
+        });
+
+        Vue.component('todoa-header', {
+            template: ` <header class="header">
+                            <h1>todos</h1>
+                            <input placeholder="What needs to be done?" class="new-todo" @keyup.enter="addTitle" v-model="inputTitle">
+                        </header>`,
+            data: function() {
+                return {
+                    inputTitle: '',
+                }
+            },
+            methods: {
+                addTitle: function() {
+                    this.$emit('addTitle', this.inputTitle);
+                    this.inputTitle = '';
+                }
+            }
+        });
+
+        Vue.component('todoa-list', {
+            template: `  <section class="main">
+                                <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
+                                <label for="toggle-all">Mark all as complete</label>
+                                <ul class="todo-list">
+                                    <li class="" v-for="(val,index) in todos" :key="val.id" :class="{completed: val.completed, editing: val.id === currentEditing.id}">
+                                        <div class="view" v-show="selectAll=='all'||(selectAll=='active'&&!val.completed)||(selectAll=='completed'&&val.completed)">
+                                            <input type="checkbox" class="toggle" v-model="val.completed">
+                                            <label @dblclick="onDblclick(val)">{{val.title}}</label>
+                                            <button class="destroy" @click="onClickRemove(val)"></button>
+                                        </div>
+                                        <input class="edit" v-model="currentEditing.title" @keyup.esc="currentEditing={}" v-focus="currentEditing.id" :data-id="val.id" @blur="onEnter(val)" @keyup.enter="onEnter(val)">
+                                    </li>
+                                </ul>
+                            </section>`,
+            data: function() {
+                return {
+                    currentEditing: {},
+                }
+            },
+            props: ['selectAll', 'todos'],
+            methods: {
+                // 修改文本内容
+                onDblclick: function(val) {
+                    this.currentEditing = {}
+                    for (let k in val) {
+                        this.currentEditing[k] = val[k];
+                    }
+                },
+                onClickRemove: function(item) {
+                    // 抛出事件
+                    this.$emit('onClickRemove', item);
+                },
+                // 确认要修改的内容
+                onEnter: function(item) {
+                    // 将修改后的内容赋值给用来显示的数据
+                    item.title = this.currentEditing.title;
+                    // 赋值后隐藏修改值
+                    this.currentEditing = {};
+                    this.$emit('onEnter', item);
+                },
+                list: function() {
+                    this.$emit('list');
+                }
+            },
+            computed: {
+                // 是否全选中
+                allSelectState: {
+                    // 获取值时 调用的方法
+                    get: function() {
+                        // 没有修改prop里面的值 可以不用改
+                        return this.todos.every(val => val.completed);
+                    },
+                    set: function(val) {
+                        // 修改了参数里面的值 所以需要抛事件 让父组件修改
+                        this.$emit('allSelectState', val);
+                    }
+                }
+            },
+            directives: {
+                'focus': {
+                    update: function(el, binding) {
+                        // 触发的指令的值
+                        let curValue = binding.value;
+                        // getAttribute 获取标签的属性值
+                        let inputValue = el.getAttribute('data-id');
+                        if (curValue == inputValue) {
+                            el.focus();
+                        }
+                    }
+                }
+            }
+        });
+
+        Vue.component('todoa-footer', {
+            template: ` <footer class="footer">
+                                <span class="todo-count">
+                                    <strong>{{activeNum}}</strong> item left</span>
+                                <ul class="filters">
+                                    <li v-for="(val,index) in selectList" :key="index">
+                                        <a href="#/" :class="{selected:selectAll==val.toLocaleLowerCase()}" @click="onClickSelect(val)">{{val}}</a>
+                                    </li>
+                                </ul>
+                                <button class="clear-completed" @click="onClickClear">Clear completed</button>
+                            </footer>`,
+            data: function() {
+                return {
+                    selectList: ['All', 'Active', 'Completed'],
+                }
+            },
+            props: ['activeNum', 'selectAll'],
+            methods: {
+                // 清除已完成的任务
+                onClickClear: function() {
+                    this.$emit('onClickClear');
+                },
+                // 切换显示的内容状态
+                onClickSelect: function(val) {
+                    this.$emit('onClickSelect', val.toLocaleLowerCase());
+                }
+            }
+        });
+
+        new Vue({
+            el: "#todoapp",
+        })
+    </script>
+</body>
+
+</html>
