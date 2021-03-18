@@ -26,7 +26,7 @@
         <my-foot :activeItemNum="activeItemNum" :selectState="selectState" @onClickSelectState="onClickSelectState" @onClickClearCompleted="onClickClearCompleted"></my-foot>
 
         </div>`,
-            data: function() {
+            data: function () {
                 return {
                     selectState: 'all', //记录当前选中的类型
                     todos: [{
@@ -47,7 +47,7 @@
             // 注册方法
             methods: {
                 // 按回车键新增一条笔记
-                onEnterSubmit: function(inputTitle) {
+                onEnterSubmit: function (inputTitle) {
                     // 判断当前输入框中是否有内容
                     // trim() 是去除字符串中的空格
                     // 如果inputTitle不为字符串对象 那么就没有trim这个方法
@@ -68,7 +68,7 @@
                     this.todos.push(newObj);
                 },
                 // 删除的回调方法
-                onClickRemoveOneItem: function(item) {
+                onClickRemoveOneItem: function (item) {
                     // item 是整个数据对象
                     if (item) {
                         // 这是获取要删除的数据在数组中的下标
@@ -106,7 +106,7 @@
             },
             // 计算属性
             computed: {
-                activeItemNum: function() {
+                activeItemNum: function () {
                     let num = 0;
                     for (let i = 0; i < this.todos.length; i++) {
                         if (!this.todos[i].completed) {
@@ -125,13 +125,13 @@
             <!-- 输入框 -->
             <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onEnterSubmit" v-model="inputTitle">
             </header>`,
-            data: function() {
+            data: function () {
                 return {
                     inputTitle: '', //是用户新增的内容 初始化为空字符串
                 }
             },
             methods: {
-                onEnterSubmit: function() {
+                onEnterSubmit: function () {
                     // 子组件组抛出事件 和 参数 
                     // 具体操作由父组件完成
                     this.$emit('onEnterSubmit', this.inputTitle);
@@ -164,7 +164,7 @@
                 </li>
             </ul>
         </section>`,
-            data: function() {
+            data: function () {
                 return {
                     ipnutChangeTitle: {}, //保存想要修改的对象
                 };
@@ -172,12 +172,12 @@
             props: ['selectState', 'todos'],
             computed: {
                 allSelectState: {
-                    get: function() {
+                    get: function () {
                         // this.$emit('allSelectState', this.todos.every(value => value.completed));
                         // 没有修改prop里面的值 所以不用改
                         return this.todos.every(value => value.completed);
                     },
-                    set: function(value) {
+                    set: function (value) {
                         // 修改了prop里面的值  所以需要抛事件
                         // 让父组件修改
                         this.$emit('allSelectState', value);
@@ -187,12 +187,12 @@
             },
             methods: {
                 // 删除的回调方法
-                onClickRemoveOneItem: function(item) {
+                onClickRemoveOneItem: function (item) {
                     // 抛出事件
                     this.$emit('onClickRemoveOneItem', item);
                 },
                 // 双击文本框回调
-                onDblClickLable: function(item) {
+                onDblClickLable: function (item) {
                     // 将想要改变的对象赋值给inputChangeTitle
                     // 对象不能简单的用等于号直接赋值，这样赋值的两个变量实际是一个变量
                     this.ipnutChangeTitle = {};
@@ -203,7 +203,7 @@
                     }
                 },
                 // 确认要修改的内容
-                onEnterInput: function(item) {
+                onEnterInput: function (item) {
                     // 将修改后的内容复制给用来显示的数据
                     item.title = this.ipnutChangeTitle.title;
                     // 赋值后隐藏修改框
@@ -214,7 +214,7 @@
             directives: {
                 'focus': {
                     // 当绑定的对象发生改变时 触发update回调
-                    update: function(el, binding) {
+                    update: function (el, binding) {
                         // 触发指令时的值
                         let curValue = binding.value;
 
@@ -243,7 +243,7 @@
             <button class="clear-completed" @click="onClickClearCompleted">Clear completed</button>
         </footer>`,
             props: ['activeItemNum', 'selectState'],
-            data: function() {
+            data: function () {
                 return {
                     selectList: ['All', 'Active', 'Completed'], //状态数组
                 }

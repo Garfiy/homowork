@@ -41,7 +41,7 @@
 
         // 封装一下fetch方法
         function request(url, options) {
-            return fetch(url, options).then(function(value) {
+            return fetch(url, options).then(function (value) {
                 return value.text();
             })
         }
@@ -81,7 +81,7 @@
                 // 是告知后端参数的格式
                 'Content-Type': 'application/json',
             },
-        }).then(function(value) {
+        }).then(function (value) {
             console.log(value);
         });
 

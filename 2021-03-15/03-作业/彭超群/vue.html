@@ -36,7 +36,7 @@
                             <input placeholder="What needs to be done?" class="new-todo" v-model="title" @keyup.enter="onKeyupEnter">
                         </header>`,
             methods: {
-                onKeyupEnter: function() {
+                onKeyupEnter: function () {
                     if (this.title.trim() != '') {
                         this.list.id = +new Date();
                         this.list.title = this.title;
@@ -83,13 +83,13 @@
                 }
             },
             methods: {
-                onClickCheckAll: function() {
+                onClickCheckAll: function () {
                     this.checkAll = !this.checkAll;
                     this.todos.forEach(v => {
                         v.completed = this.checkAll;
                     });
                 },
-                onClickChecked: function(i) {
+                onClickChecked: function (i) {
                     this.todos[i].completed = !this.todos[i].completed;
                     let flag = true;
                     this.todos.forEach(v => {
@@ -100,13 +100,13 @@
                     });
                     this.checkAll = flag;
                 },
-                onClickRemove: function(v) {
+                onClickRemove: function (v) {
                     if (v) {
                         let index = this.todos.indexOf(v);
                         this.todos.splice(v, 1);
                     }
                 },
-                onDblclickInputShow: function(v) {
+                onDblclickInputShow: function (v) {
                     this.dblclick = {};
                     if (v) {
                         for (k in v) {
@@ -114,7 +114,7 @@
                         }
                     }
                 },
-                onKeyupEnterAment: function(v) {
+                onKeyupEnterAment: function (v) {
                     if (v) {
                         let index = this.todos.indexOf(v);
                         this.todos[index] = this.dblclick;
@@ -126,7 +126,7 @@
             directives: {
                 'focus': {
                     //当对象发生改变是触发
-                    update: function(el, binding) {
+                    update: function (el, binding) {
                         ///触发指令时的值
                         let curValue = binding.value;
                         //input标签的唯一标识
@@ -181,16 +181,16 @@
                 }
             },
             methods: {
-                onClickClearComleted: function() {
+                onClickClearComleted: function () {
                     hub.$emit('clear-completed', true); //选中的清除
                 },
-                onClickComleted: function() { //选中的显示
+                onClickComleted: function () { //选中的显示
                     hub.$emit('completed', true);
                 },
-                onClickActive: function() {
+                onClickActive: function () {
                     hub.$emit('active', true);
                 },
-                onClickAll: function() {
+                onClickAll: function () {
                     hub.$emit('all', 123);
                 }
             },
