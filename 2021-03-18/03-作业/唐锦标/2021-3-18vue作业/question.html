@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>三联地址选择器</h1>
+    <p id="app">
+        省:<select @change="onChangePro" v-model="proId">
+        <option :value="value.provinceId" v-for="(value,index) in pro" :key="value.provinceId">{{value.provinceName}}</option>
+        </select> 市: <select @change="onChangecity" v-model="cityId"><option :value="value.cityId" v-for="(value,index) in city" :key="value.cityId">{{value.cityName}}</option></select> 区: <select><option :value="value.areaId" v-for="(value,index) in district" :key="value.areaId">{{value.areaName}}</option>
+        </select></p>
+    <ol>
+        <li>通过接口获取省市区的具体数据</li>
+        <li>接口基准路径: http://210.22.120.218:8605/web</li>
+        <li>国家列表:
+            <ul>
+                <li>请求路径: /region/countryList</li>
+                <li>请求方式: GET</li>
+                <li>参数:无</li>
+            </ul>
+        </li>
+        <li>省级列表:
+            <ul>
+                <li>请求路径: /region/provinceList</li>
+                <li>请求方式: GET</li>
+                <li>参数: countriesId:number（参数名:参数类型）</li>
+            </ul>
+        </li>
+        <li>市级列表:
+            <ul>
+                <li>请求路径: /region/cityList</li>
+                <li>请求方式: GET</li>
+                <li>参数: provinceId:number</li>
+            </ul>
+        </li>
+        <li>区级列表:
+            <ul>
+                <li>请求路径: /region/areaList</li>
+                <li>请求方式: GET</li>
+                <li>参数: cityId:number</li>
+            </ul>
+        </li>
+        <li>接口响应结果 自己打印了看</li>
+    </ol>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        axios.defaults.baseURL = "http://210.22.120.218:8605/web";
+        axios.get('/region/provinceList?countriesId=1').then(val => {
+            // console.log(val.data.data);
+        });
+        new Vue({
+            el: '#app',
+            data: {
+                pro: [],
+                city: [],
+                district: [],
+                proId: 110000,
+                cityId: '110100'
+            },
+            methods: {
+                onChangePro: async function() {
+                    let val = await axios.get('/region/cityList?provinceId=' + this.proId).then(val => {
+                        this.city = JSON.parse(val.data.data);
+                        this.cityId = this.city[0].cityId;
+                    })
+                },
+                onChangecity: async function() {
+                    let ret = await axios.get('/region/areaList?cityId=' + this.cityId).then(val => {
+                        this.district = JSON.parse(val.data.data);
+                    })
+                }
+            },
+            async created() {
+                let val = await axios.get('/region/provinceList?countriesId=1');
+                this.pro = JSON.parse(val.data.data);
+
+                this.onChangePro();
+                this.onChangecity()
+            },
+            watch: {
+                cityId: function(val) {
+                    this.onChangecity();
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
