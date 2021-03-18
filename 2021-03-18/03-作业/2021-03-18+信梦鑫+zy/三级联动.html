@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        省:
+        <select v-model="first">
+            <option :value="val.provinceId" v-for="(val,index) in province" :key="val.provinceId">{{val.provinceName}}</option>
+        </select> 市: <select v-model="cityId">
+            <option :value="val.cityId" v-for="(val,index) in cityList" :key="val.cityId">{{val.cityName}}</option>
+        </select> 区: <select v-model="areaId">
+            <option :value="val.areaId" v-for="(val,index) in areaList" :key="val.areaId">{{val.areaName}}</option>
+        </select>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js "></script>
+    <script>
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web/';
+        axios.interceptors.response.use(function(json) {
+            if (json.status == 200) {
+                return json.data;
+            } else {
+                alert('请稍后再试');
+            }
+        });
+        new Vue({
+            el: '#app',
+            data: {
+                areaList: [],
+                province: [],
+                cityList: [],
+                first: '',
+                cityId: '',
+                areaId: '',
+            },
+            created: async function() {
+                var stateList = await axios.get('region/countryList');
+                var stateData = JSON.parse(stateList.data);
+                var stateId = this.getFirstId(stateData).countriesId;
+                var pro = await axios.get('region/provinceList/?countriesId=' + stateId);
+                this.province = JSON.parse(pro.data);
+                this.first = this.getFirstId(this.province).provinceId;
+                await this.getCity(this.first);
+                await this.getArea(this.cityId);
+
+            },
+            methods: {
+                getCity: async function(first) {
+                    var city = await axios.get('region/cityList/?provinceId=' + first);
+                    this.cityList = JSON.parse(city.data);
+                    this.cityId = this.getFirstId(this.cityList).cityId;
+                },
+                getArea: async function(cityId) {
+                    var area = await axios.get('region/areaList/?cityId=' + cityId);
+                    this.areaList = JSON.parse(area.data);
+                    this.areaId = this.getFirstId(this.areaList).areaId;
+                },
+                getFirstId: function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        return data[i];
+                        break;
+                    }
+                }
+            },
+            watch: {
+                first: function(val) {
+                    this.getCity(val);
+                    if (this.cityId == '') {
+                        return;
+                    }
+                    this.getArea(this.cityId);
+                },
+                cityId: function(val) {
+                    this.getArea(val);
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        select {
+            margin-right: 20px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <div>
+            省: <select @change="onCliickProvince" v-model="provId">
+                <option v-for="(v,i) in pro" :key='i' :value="i">{{ v.provinceName }}</option>
+            </select>
+            市: <select @change="onCliickCity">
+                <option v-for="(v,i) in city" :key='i' :value="i">{{ v.cityName }}</option>
+            </select>
+            区: <select @change="onCliickDistrict">
+                <option v-for="(v,i) in district" :key='i' :value="i">{{ v.areaName }}</option>
+            </select>
+        </div>
+    </div>
+    <script>
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web';
+        axios.interceptors.response.use(function (ret) {
+            return ret.data;
+        });
+        new Vue({
+            el: '#app',
+            data: {
+                province: [],
+                city: [],
+                district: [],
+                pro: [],
+                provId: 0,
+                cityId: 0,
+                districtId: 0
+            },
+            methods: {
+                onCliickProvince: async function () {
+                    let province = await axios.get('/region/provinceList?countriesId=1');
+                    let provinceJson = JSON.parse(province.data);
+                    this.pro = provinceJson;
+                    this.cityId = 0;
+                    this.districtId = 0;
+                    this.onCliickCity();
+                },
+                onCliickCity: async function () {
+                    let city = await axios.get('/region/cityList?provinceId=' + this.pro[this.provId].provinceId);
+                    let cityJson = JSON.parse(city.data);
+                    this.city = cityJson;
+                    this.districtId = 0;
+                    this.onCliickDistrict();
+                },
+                onCliickDistrict: async function () {
+                    let district = await axios.get('/region/areaList?cityId=' + this.city[this.cityId].cityId);
+                    let districtJson = JSON.parse(district.data);
+                    this.district = districtJson;
+                }
+            },
+            created() {
+                this.onCliickProvince();
+            },
+        })
+    </script>
+</body>
+
+</html>
