@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>三联地址选择器</h1>
+    <p id="app">
+        省:<select @change="onChangePro($event)">
+            <option :value="val.provinceId" v-for="(val,index) in prolist" :key="index">{{val.provinceName}}</option>
+        </select>
+        市: <select v-model="proId">
+            <option :value="val.cityId" v-for="(val,index) in citylist" :key="index">{{val.cityName}}</option>
+        </select>
+        区: <select>
+            <option :value="val.areaId" v-for="(val,index) in arealist" :key="index">{{val.areaName}}</option>
+        </select>
+    </p>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web';
+        // 声明响应拦截器
+        axios.interceptors.response.use(function (json) {
+            // 只有请求状态码为200 才算请求成功
+            if (json.status === 200) {
+                // 返回数据源
+                return json.data
+            } else {
+                alert('网络状态不好,请稍后再试')
+            }
+        })
+        new Vue({
+            el: '#app',
+            data: {
+                prolist: [],
+                citylist: [],
+                arealist: [],
+                proId: '110100',
+                cityId: ''
+            },
+            methods: {
+                onChangePro: function (e) {
+                    this.proId = e.target.value
+                    // 点击改变传参数 和下面一级绑定
+                    // console.log(e.target.value);
+                    // this.getCity(this.proId)
+                },
+                // 省的下拉事件
+                getPro: async function () {
+
+                    await axios.get('/region/provinceList/?countriesId=1').then(data => {
+                        this.prolist = JSON.parse(data.data);
+                    })
+                },
+                getCity: async function (id) {
+                    await axios.get('/region/cityList/?provinceId='+id).then(data => {
+                        this.citylist = JSON.parse(data.data);
+                    })
+                },
+                getArea: async function (id) {
+                    await axios.get('/region/areaList/?cityId='+id).then(data => {
+                        this.arealist = JSON.parse(data.data);
+                    })
+
+                }
+            },
+            // 初始化获取国家的countriesId 参数
+            created: function () {
+                this.getPro()
+                this.getCity('110000');
+                this.getArea('110100');
+
+            },
+        })
+
+    </script>
+</body>
+
+</html>
