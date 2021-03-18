@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>三联地址选择器</h1>
+    <p> 省:<select></select> 市: <select></select> 区: <select></select></p>
+    <ol>
+        <li>通过接口获取省市区的具体数据</li>
+        <li>接口基准路径: http://210.22.120.218:8605/web</li>
+        <li>国家列表:
+            <ul>
+                <li>请求路径: /region/countryList</li>
+                <li>请求方式: GET</li>
+                <li>参数:无</li>
+            </ul>
+        </li>
+        <li>省级列表:
+            <ul>
+                <li>请求路径: /region/provinceList</li>
+                <li>请求方式: GET</li>
+                <li>参数: countriesId:number（参数名:参数类型）</li>
+            </ul>
+        </li>
+        <li>市级列表:
+            <ul>
+                <li>请求路径: /region/cityList</li>
+                <li>请求方式: GET</li>
+                <li>参数: provinceId:number</li>
+            </ul>
+        </li>
+        <li>区级列表:
+            <ul>
+                <li>请求路径: /region/areaList</li>
+                <li>请求方式: GET</li>
+                <li>参数: cityId:number</li>
+            </ul>
+        </li>
+        <li>接口响应结果 自己打印了看</li>
+    </ol>
+</body>
+
+</html>
