@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>国家: <select name="" id="">
+                <option :value="item.countriesId" v-for="(item,index) in state" :key="item.countriesId">
+                    {{item.countriesName}}</option>
+            </select>
+        </p>
+        <p>省: <select name="" id="" v-model="proValue">
+                <option :value="item.provinceId" v-for="(item,index) in pro">{{item.provinceName}}</option>
+            </select>
+        </p>
+        <p>市: <select name="" id="" v-model="cityValue">
+                <option :value="item.cityId" v-for="(item,index) in city" :key="item.cityId">{{item.cityName}}</option>
+            </select>
+        </p>
+        <p>区: <select name="" id="" v-model="areaValue">
+                <option :value="item.areaId" v-for="(item,index) in area" :key="item.areaId">{{item.areaName}}</option>
+            </select>
+        </p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        axios.defaults.baseURL = "http://210.22.120.218:8605/web";
+        axios.interceptors.response.use((res) => {
+            var data = res.data;
+            return data;
+        }, function (err) {
+            console.log(err)
+        })
+        new Vue({
+            el: '#app',
+            data: {
+                state: [],
+                pro: [],
+                city: [],
+                area: [],
+                proValue: "110000",
+                cityValue: "110100",
+                areaValue: "110101",
+            },
+            created: async function () {
+                //国家
+                async function stateDate() {
+                    var state = await axios.get("/region/countryList");
+                    return state.data;
+                }
+                stateDate().then(data => {
+                    let newData = JSON.parse(data);
+                    this.state = newData;
+                })
+
+                //省
+                await this.proDate();
+
+                // //市
+                await this.cityDate();
+
+                // //区域
+                await this.areaDate();
+
+            },
+            methods: {
+                //省
+                async proDate() {
+                    async function proDate() {
+                        var pro = await axios.get("/region/provinceList/?countriesId=1");
+                        // console.log(pro);
+                        return pro.data;
+                    }
+                    proDate().then(data => {
+                        let newData = JSON.parse(data);
+                        this.pro = newData;
+                        this.proValue = this.pro[0].provinceId;
+                    })
+                },
+                //市
+                async cityDate() {
+                    // console.log(this);
+                    var that = this;
+                    async function cityDate() {
+                        var city = await axios.get("/region/cityList/?provinceId=" + that.proValue);
+                        // console.log(city);
+                        return city.data;
+                    }
+                    cityDate().then(data => {
+                        let newData = JSON.parse(data);
+                        this.city = newData;
+                        this.cityValue = this.city[0].cityId;
+                    })
+                },
+                async areaDate() {
+                    var that = this;
+                    async function areaDate() {
+                        var area = await axios.get("/region/areaList/?cityId=" + that.cityValue);
+                        // console.log(area);
+                        return area.data;
+                    }
+                    areaDate().then(data => {
+                        let newData = JSON.parse(data);
+                        this.area = newData;
+                        this.areaValue = this.area[0].areaId;
+                    })
+                }
+            },
+            watch: {
+                proValue: async function () {
+                    await this.cityDate();
+                    await this.areaDate();
+
+                },
+                cityValue: async function () {
+                    await this.areaDate();
+
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

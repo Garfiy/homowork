@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>国家: <select name="" id="">
+                <option :value="item.countriesId" v-for="(item,index) in state" :key="item.countriesId">
+                    {{item.countriesName}}</option>
+            </select>
+        </p>
+        <p>省: <select name="" id="" v-model="proValue">
+                <option :value="item.provinceId" v-for="(item,index) in pro">{{item.provinceName}}</option>
+            </select>
+        </p>
+        <p>市: <select name="" id=""  v-model="cityValue">
+                <option :value="item.cityId" v-for="(item,index) in city" :key="item.cityId">{{item.cityName}}</option>
+            </select>
+        </p>
+        <p>区: <select name="" id="" v-model="areaValue">
+                <option :value="item.areaId" v-for="(item,index) in area" :key="item.areaId">{{item.areaName}}</option>
+            </select>
+        </p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        axios.defaults.baseURL = "http://210.22.120.218:8605/web";
+        axios.interceptors.response.use((res) => {
+            var data = res.data;
+            return data;
+        }, function (err) {
+            console.log(err)
+        })
+        new Vue({
+            el: '#app',
+            data: {
+                state: [],
+                pro: [],
+                city: [],
+                area: [],
+                proValue: "110000",
+                cityValue: "110100",
+                areaValue: "110101",
+            },
+            created: function () {
+                this.getState();
+                this.getPro();
+                this.onChangePro();
+                this.onChangeCity();
+            },
+            methods: {
+                //获取国家
+                getState() {
+                    axios.get("/region/countryList").then((data) => {
+                        data = JSON.parse(data.data);
+                        this.state = data;
+                    })
+                },
+                ////获取省
+                getPro() {
+                    axios.get("/region/provinceList/?countriesId=1").then((data) => {
+                        data = JSON.parse(data.data);
+                        this.pro = data;
+                        this.proValue=this.pro[0].provinceId;
+                    })
+                },
+                //获取城市
+                onChangePro: function (event) {
+                    axios.get("/region/cityList/?provinceId=" + this.proValue).then((value) => {
+                        data = JSON.parse(value.data);
+                        this.city = data;
+                        this.cityValue=this.city[0].cityId;
+                    })
+                },
+                //获取区
+                onChangeCity: function (event) {
+                    axios.get("/region/areaList/?cityId=" + this.cityValue).then((value) => {
+                        data = JSON.parse(value.data);
+                        this.area = data;
+                        this.areaValue=this.area[0].areaId;
+
+                    })
+                },
+            },
+            watch:{
+                proValue:function(){
+                    this.onChangePro();
+                    this.onChangeCity();
+                },
+                cityValue:function(){
+                    this.onChangeCity();
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

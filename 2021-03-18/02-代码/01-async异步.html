@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        // 异步关键词的写法规范
+        // 只能修饰方法
+        async function queryData() {
+            let a1 = new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve(1);
+                    reject(2);
+                }, 10000);
+            });
+
+            let a2 = new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve(3);
+                    reject(4);
+                }, 1000);
+            });
+
+            return a2;
+        }
+
+        queryData().then(data => {
+            console.log(data);
+        }).catch(error => {
+            console.log(error);
+        })
+    </script>
+</body>
+
+</html>
