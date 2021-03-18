@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        省:<select v-model="proId">
+            <option :value="index" v-for="(value,index) in pro">{{value.provinceName}}</option>
+        </select> 市: <select v-model="cityId">
+            <option :value="index" v-for="(value,index) in city">{{value.cityName}}</option>
+        </select> 区: <select v-model="areaId">
+            <option :value="index" v-for="(value,index) in area">{{value.areaName}}</option>
+        </select>
+    </div>
+    <script>
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web';
+        axios.interceptors.response.use(function(ret) {
+            return ret.data;
+        });
+        var v = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    china: 1,
+                    pro: [],
+                    city: [],
+                    area: [],
+                    proId: 0,
+                    cityId: 0,
+                    areaId: 0,
+                }
+            },
+            methods: {
+                onSelectChangePre: async function() {
+                    let pro = await axios.get('/region/provinceList?countriesId=' + this.china);
+                    let proData = JSON.parse(pro.data);
+                    this.pro = proData;
+                    this.cityId = 0;
+                    this.areaId = 0;
+                    this.onSelectChangeCity();
+                },
+                onSelectChangeCity: async function() {
+                    let city = await axios.get('/region/cityList?provinceId=' + this.pro[this.proId].provinceId);
+                    let cityData = JSON.parse(city.data);
+                    this.city = cityData;
+                    this.areaId = 0;
+                    let area = await axios.get('/region/areaList?cityId=' + this.city[this.cityId].cityId);
+                    let areaData = JSON.parse(area.data);
+                    this.area = areaData;
+                },
+            },
+            created() {
+                this.onSelectChangePre();
+            },
+            watch: {
+                proId: function() {
+                    this.onSelectChangePre();
+                },
+                cityId: function() {
+                    this.onSelectChangeCity();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
