@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        省：<select @change="onChangePro" v-model="proId">
+            <option :value="value.provinceId" v-for="(value,index) in proList" :key="value.proId" >{{value.provinceName}}</option>
+        </select> 市：
+        <select @click="onChangeCity" v-model="citysId">
+            <option :value="value.cityId" v-for="(value,index) in cityList" :key="value.citysId" >{{value.cityName}}</option>
+        </select> 区：
+        <select name="" id="">
+            <option :value="value.areaId" v-for="(value,index) in areaList" :key="value.areaId" >{{value.areaName}}</option>
+        </select>
+    </div>
+    <script>
+        // 先设置请求基准地址
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web';
+
+        new Vue({
+            el: '#app',
+            data: {
+                arr: [],
+                counId: 1, // 国家的id
+                proId: 110000, //省的id
+                citysId: 110100, // 市的id
+                areaId: 110101, // 区的id
+                proList: [],
+                cityList: [],
+                areaList: [],
+            },
+            created() {
+                axios.get('/region/provinceList?countriesId=' + this.counId).then(val => {
+                    if (val.status == 200) {
+                        this.proList = JSON.parse(val.data.data);
+                        // console.log(this.proList);
+                    }
+                });
+                this.onChangePro();
+                this.onChangeCity();
+            },
+            methods: {
+                onChangePro: function() {
+                    axios.get('/region/cityList?provinceId=' + this.proId).then(val => {
+                        if (val.status == 200) {
+                            this.cityList = JSON.parse(val.data.data);
+                            this.citysId = this.cityList[0].cityId;
+                            this.onChangeCity();
+                        }
+                    });
+                },
+                onChangeCity: function() {
+                    axios.get('/region/areaList?cityId=' + this.citysId).then(val => {
+                        if (val.status == 200) {
+                            console.log(val);
+                            this.areaList = JSON.parse(val.data.data);
+                            this.areaId = this.areaList[0].areaId;
+                        }
+                    });
+                }
+            },
+
+        })
+    </script>
+</body>
+
+</html>
