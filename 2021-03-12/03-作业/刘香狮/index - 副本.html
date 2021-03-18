@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css" />
+	</head>
+	<body>
+		<div id="app">
+		<ul>
+			<shopping v-for="value, index in list" :product="value"></shopping>
+		</ul>
+		</div>
+
+		<script type="text/javascript">
+			Vue.component('shopping',{
+				props:['product'],
+				template:`<li>
+						<img :src="product.src">
+						<p>单价: {{product.price}}</p> 
+						<span class="color" >添加到购物车</span>
+					</li>`,
+				data:function(){
+						return {
+							price:1500
+						};
+							
+					}
+			});
+			
+			let app =new Vue({
+				el: '#app',
+				data: {
+					list: [
+						{
+							src: 'img/a.jpg',
+							price: 1500,
+							num: 1,
+							name: 'TCL'
+						}, {
+							src: 'img/b.jpg',
+							price: 1200,
+							num: 1,
+							name: '路由器'
+						},
+						{
+							src: 'img/c.jpg',
+							price: 1030,
+							num: 1,
+							name: 'Haier'
+						},
+						{
+							src: 'img/d.jpg',
+							price: 1400,
+							num: 1,
+							name: '小米	'
+						}, {
+							src: 'img/e.jpg',
+							price: 170,
+							num: 1,
+							name: 'QQTV'
+						},
+					],
+				}
+			});
+		</script>
+	</body>
+
+</html>
