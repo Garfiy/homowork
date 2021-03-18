@@ -40,11 +40,11 @@ exports.onechecked = (req, res) => {
     let id = req.params.id;
     let val = req.body.val;
     data.forEach(item => {
-        if (item.id == id) {
-            item.completed = val;
-        }
-    })
-    // 把内存中的数据写入文件
+            if (item.id == id) {
+                item.completed = val;
+            }
+        })
+        // 把内存中的数据写入文件
     writeDataToFile(res);
 }
 
