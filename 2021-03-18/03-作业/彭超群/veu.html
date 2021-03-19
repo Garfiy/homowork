@@ -13,11 +13,11 @@
 <body>
     <div id="app">
         省:<select @change="onSelectChangePre" v-model="proId">
-            <option :value="i" v-for="(v,i) in pro">{{v.provinceName}}</option>
+            <option :value="i" v-for="(v,i) in pro" :key="i">{{v.provinceName}}</option>
         </select> 市: <select @change="onSelectChangeCity" v-model="cityId">
-            <option :value="i" v-for="(v,i) in city">{{v.cityName}}</option>
+            <option :value="i" v-for="(v,i) in city" :key="i">{{v.cityName}}</option>
         </select> 区: <select @change="onSelectChangeArea" v-model="areaId">
-            <option :value="i" v-for="(v,i) in area">{{v.areaName}}</option>
+            <option :value="i" v-for="(v,i) in area" :key="i">{{v.areaName}}</option>
         </select>
     </div>
     <script>
