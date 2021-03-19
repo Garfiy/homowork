@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <b>省:</b>
+            <select v-model="proId">
+                <option v-bind:value="item.provinceId" v-for="(item,index) in proList" :key="item.provinceId">{{item.provinceName}}</option>
+            </select>
+
+            <b>市:</b>
+            <select v-model="cityId">
+                <option :value="item.cityId" v-for="(item,index) in cityList" :key="item.cityId">{{item.cityName}}</option>
+            </select>
+
+            <b>区:</b>
+            <select v-model="areaId">
+                <option :value="item.areaId" v-for="(item,index) in areaList" :key="item.areaId">{{item.areaName}}</option>
+            </select>
+
+        </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        // 申明基准地址
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web';
+
+        // 响应拦截器
+        axios.interceptors.response.use(function(json) {
+            // 判断请求是否正常（浏览器）
+            if (json.status) {
+                // 这里是判断返回的数据是否正常（后端）
+                if (json.data && json.data.code == 200) {
+                    // 将获取的数据进行基础处理
+                    // 并返回给请求
+                    return JSON.parse(json.data.data);
+                }
+            }
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                proId: '',
+                proList: [],
+                cityId: '',
+                cityList: [],
+                areaId: '',
+                areaList: [],
+            },
+            methods: {
+                // 获取国家列表的方法
+                // async 可以声明在具名方法前
+                async getCountryList() {
+                    let json = await axios.get('/region/countryList')
+                    console.log(json);
+                },
+                // 获取省级列表的方法
+                // async 必须声明在 function 关键词前
+                getProvinceList: async function() {
+                    // await 用在异步操作之前
+                    // 将异步操作变为同步操作
+                    let data = await axios.get('/region/provinceList' + '?countriesId=1');
+                    console.log(data);
+                    this.proList = data;
+                    this.proId = data[0].provinceId;
+                },
+                // 获取市级列表的方法
+                getCityList: async function() {
+                    let data = await axios.get('/region/cityList' + '?provinceId=' + this.proId)
+                    console.log(data);
+                    this.cityList = data;
+                    this.cityId = data[0].cityId;
+                },
+                // 获取区级列表的方法
+                getAreaList: async function() {
+                    let data = await axios.get('/region/areaList' + '?cityId=' + this.cityId)
+                    console.log(data);
+                    this.areaList = data;
+                    this.areaId = data[0].areaId;
+                },
+            },
+            created: function() {
+                this.getProvinceList();
+            },
+            watch: {
+                proId: function(newValue, oldValue) {
+                    this.getCityList();
+                },
+                cityId: function() {
+                    this.getAreaList();
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

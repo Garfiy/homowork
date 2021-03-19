@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <select-component v-for="(item,index) in componentList" :params="item" :key="index" @change-id="onChangeId(index,$event)">{{item.name}}:</select-component>
+        </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        // 申明基准地址
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web';
+
+        // 响应拦截器
+        axios.interceptors.response.use(function(json) {
+            // 判断请求是否正常（浏览器）
+            if (json.status) {
+                // 这里是判断返回的数据是否正常（后端）
+                if (json.data && json.data.code == 200) {
+                    // 将获取的数据进行基础处理
+                    // 并返回给请求
+                    return JSON.parse(json.data.data);
+                }
+            }
+        });
+
+        Vue.component('select-component', {
+            template: `<div><slot></slot>
+            <select v-model="id">
+                <option :value="item[params.idName]" v-for="(item,index) in list" :key="item[params.idName]">{{item[[params.valueName]]}}</option>
+            </select></div>`,
+            props: ['params'],
+            data: function() {
+                return {
+                    id: '',
+                    list: [],
+                };
+            },
+            watch: {
+                id: function() {
+                    this.$emit('change-id', this.id);
+                },
+                list: function() {
+                    this.id = this.list[0][this.params.idName];
+                },
+                'params.targetId': async function(value) {
+                    if (value) {
+                        let data = await axios.get(this.params.url + this.params.targetId);
+                        this.list = data;
+                        this.id = data[0][this.params.idName];
+                    }
+                }
+            }
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                componentList: [{
+                    selectId: '',
+                    name: '省',
+                    idName: 'provinceId',
+                    targetId: '',
+                    url: '/region/provinceList?countriesId=',
+                    valueName: 'provinceName',
+                }, {
+                    selectId: '',
+                    name: '市',
+                    idName: 'cityId',
+                    targetId: '',
+                    url: '/region/cityList?provinceId=',
+                    valueName: 'cityName',
+                }, {
+                    selectId: '',
+                    name: '区',
+                    idName: 'areaId',
+                    targetId: '',
+                    url: '/region/areaList?cityId=',
+                    valueName: 'areaName',
+                }],
+            },
+            mounted: function() {
+                this.componentList[0].targetId = '1';
+            },
+            methods: {
+                onChangeId: function(index, id) {
+                    this.componentList[index].selectId = id;
+                    if (index < this.componentList.length - 1) {
+                        this.componentList[index + 1].targetId = id;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
