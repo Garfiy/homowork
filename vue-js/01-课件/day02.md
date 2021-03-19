@@ -1041,13 +1041,15 @@ new Vue({
 	① beforeDestroy：实例销毁之前调用。
 	② destroyed：实例销毁后调用。
 
-![](img/lifecycle.png)
+![](images/lifecycle.png)
 
 
 
 
 
 
+
+​	
 
 
 
