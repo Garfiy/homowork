@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .cont {
+            width: 1000px;
+            height: 500px;
+            margin: 0 auto;
+            /* overflow: hidden; */
+            border: 1px solid #ccc;
+        }
+        
+        .cont h1 {
+            width: 100%;
+            line-height: 60px;
+            background-color: rgb(84, 92, 100);
+            text-align: center;
+            color: #fff;
+            font-weight: 400;
+        }
+        
+        .cont .left {
+            width: 25%;
+            height: 440px;
+            background-color: rgb(84, 92, 100);
+        }
+        
+        .cont .left li {
+            /* float: left; */
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            border-bottom: 1px solid #fff;
+            line-height: 40px;
+            background-color: rgb(160, 160, 160);
+            color: #fff;
+        }
+        
+        .left li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .content {
+            display: flex;
+        }
+        
+        .cont .right {
+            position: relative;
+            /* float: right; */
+            width: 750px;
+            height: 100%;
+            background-color: #fff;
+            text-align: center;
+        }
+        
+        .right h3 {
+            /* position: absolute;
+            left: 52%;
+            top: 80px; */
+            width: 100%;
+            line-height: 60px;
+            /* margin-bottom: 40px; */
+            text-align: center;
+        }
+        
+        .right table {
+            width: 100%;
+            margin: 0 auto 0;
+        }
+        
+        .right table th {
+            background-color: rgb(221, 221, 221);
+            text-align: center;
+            line-height: 40px;
+        }
+        
+        .right table td {
+            line-height: 40px;
+            border-bottom: 1px solid rgb(221, 221, 221);
+            border-left: 1px solid rgb(221, 221, 221);
+            border-right: 1px solid rgb(221, 221, 221);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <box-cont></box-cont>
+        <!-- <router-view></router-view> -->
+
+
+    </div>
+    <script>
+        //管理组件
+        Vue.component('box-cont', {
+            template: `
+                <div class="cont">
+            <h1>传智后台管理系统</h1>
+            <div class="content">
+                <ul class="left">
+                    <li><router-link to="/one">用户管理</router-link></li>
+                    <li><router-link to="/two">权限管理</router-link></li>
+                    <li><router-link to="/three">商品管理</router-link></li>
+                    <li><router-link to="/four">订单管理</router-link></li>
+                    <li><router-link to="/five">系统设置</router-link></li>
+                </ul>
+                <div class="right">
+                    <h3>{{$route.params.name}}</h3>
+                    <router-view></router-view>
+                    
+                </div>
+            </div>
+        </div>`,
+
+        });
+
+        const one = {
+            template: `<div class="right">
+                <h3>用户管理区域</h3>
+                    <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <th v-for="(val,idx) in ths" :value="val" :key="idx">{{val}}</th>
+                            </tr>
+                            <tr v-for="(value,index) in trs">
+                                <td>{{value.id}}</td>
+                                <td>{{value.name}}</td>
+                                <td>{{value.age}}</td>
+                                <td><a href="javascript:;" @click="goDetail(value.id)">{{value.operation}}</a></td>
+                            </tr>
+                    </table>
+                    
+                </div>`,
+            data: function() {
+                return {
+                    ths: ['编号', '姓名', '年龄', '操作'],
+                    trs: [{
+                        id: 1,
+                        name: '张三',
+                        age: 10,
+                        operation: '详情'
+                    }, {
+                        id: 2,
+                        name: '李四',
+                        age: 20,
+                        operation: '详情'
+                    }, {
+                        id: 3,
+                        name: '王五',
+                        age: 30,
+                        operation: '详情'
+                    }, {
+                        id: 4,
+                        name: '赵六',
+                        age: 40,
+                        operation: '详情'
+                    }],
+                }
+            },
+            methods: {
+                goDetail: function(id) {
+                    this.$router.push('/details/' + id);
+                }
+            },
+        }
+
+        const details = {
+            props: ['id'],
+            template: `<div>
+                <p>用户详情页--用户id为：{{id}}</p>
+                <button @click='goBack'>返回</button>
+                </div>`,
+            methods: {
+                goBack: function() {
+                    this.$router.go(-1);
+                }
+            },
+        }
+
+        const two = {
+            template: `<div  class="right">
+                <h3>权限管理区域</h3>
+                </div>`
+        }
+
+        const three = {
+            template: `<div class="right">
+                <h3>商品管理区域</h3>
+                </div>`
+        }
+
+        const four = {
+            template: `<div class="right">
+                <h3>订单管理区域</h3>
+                </div>`
+        }
+
+        const five = {
+            template: `<div class="right">
+                <h3>系统设置区域</h3>
+                </div>`
+        }
+
+
+
+
+        // 确定路由规则
+        var router = new VueRouter({
+            routes: [, {
+                path: '/one',
+                component: one,
+                name: 'one',
+            }, {
+                path: '/two',
+                component: two,
+                name: 'two',
+            }, {
+                path: '/three',
+                component: three,
+                name: 'three',
+            }, {
+                path: '/four',
+                component: four,
+                name: 'four'
+            }, {
+                path: '/five',
+                component: five,
+                name: 'five'
+            }, {
+                path: '/details/:id',
+                component: details,
+                name: 'details',
+                props: true
+            }]
+        });
+
+
+        new Vue({
+            el: "#app",
+            // 将路由绑定到vue实例中
+            data: {},
+            router,
+        });
+    </script>
+</body>
+
+</html>
