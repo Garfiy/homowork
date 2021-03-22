@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/zhuye">用户</router-link>
+        <router-link to="/keji">登录</router-link>
+
+        <router-view/>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
+    <script>
+        const zhuye = {
+            template: '<h1>用户</h1>',
+        }
+
+        const keji = {
+            template: `
+            <div>
+                <h1>登录</h1>
+                <router-link to="/keji/caijing">账户</router-link>
+                <router-link to="/keji/yule">手机</router-link>
+                <router-view/>
+            </div>
+            `,
+        }
+
+        const caijing = {
+            template: '<h1>账户</h1>',
+        }
+
+        const yule = {
+            template: '<h1>手机</h1>',
+        }
+
+        // 创建一个路由对象
+        let router = new VueRouter({
+            routes: [
+                // 初始化路由规则
+                {
+                    // 声明初始路由规则
+                    path: '/',
+                    // 重定向路由规则
+                    redirect: '/zhuye',
+                }, {
+                    path: '/zhuye',
+                    component: zhuye,
+                }, {
+                    path: '/keji',
+                    component: keji,
+                    children: [{
+                        path: '/keji/caijing',
+                        component: caijing,
+                    }, {
+                        path: '/keji/yule',
+                        component: yule,
+                    }]
+                },
+            ]
+        })
+
+        // 创建一个vue对象
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            router,
+        })
+    </script>
+</body>
+
+</html>

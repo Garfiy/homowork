@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="$router.push('/user')">跳转一</button>
+        <button @click="$router.push({path:'/user2'})">user2</button>
+
+        <!-- params 传参的时候 
+            需要用name去跳转 
+            不能用path跳转 -->
+        <button @click="$router.push({name:'user3',params:{id:1,name:'张三'}})">user3-name</button>
+        <button @click="$router.push({path:'/user3',params:{id:1,name:'张三'}})">user3-path</button>
+
+        <button @click="$router.push({path:'/user4',query:{id:2,name:'老四'}})">user4-path</button>
+        <button @click="$router.push({name:'user4',query:{id:2,name:'老四'}})">user4-name</button>
+
+        <br>
+        <button @click=($router.go(-100))>返回-100</button>
+        <button @click=($router.go(-2))>返回-2</button>
+        <button @click=($router.go(-1))>返回</button>
+        <button @click=($router.go(0))>1</button>
+        <button @click=($router.go(1))>2</button>
+        <button @click=($router.go(2))>3</button>
+        <button @click=($router.go(3))>4</button>
+        <button @click=($router.go(4))>5</button>
+        <button @click=($router.go(5))>6</button>
+        <button @click=($router.go(6))>7</button>
+
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+        let user = {
+            template: `
+                <div>
+                    用户信息表：
+                    <p>用户标识：{{$route.params.id}}</p>
+                    <p>用户名：{{$route.params.name}}</p>
+                    <br>
+                    <p>用户标识：{{$route.query.id}}</p>
+                    <p>用户名：{{$route.query.name}}</p>
+                </div>
+            `,
+        }
+
+        let router = new VueRouter({
+            routes: [{
+                path: '/user',
+                component: user,
+                name: 'user',
+            }, {
+                path: '/user2',
+                component: user,
+                name: 'user2',
+            }, {
+                path: '/user3',
+                component: user,
+                name: 'user3',
+            }, {
+                path: '/user4',
+                component: user,
+                name: 'user4',
+            }]
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            router,
+        })
+    </script>
+</body>
+
+</html>
