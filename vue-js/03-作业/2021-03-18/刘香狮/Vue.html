@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>三联地址选择器</h1>
+    <p id="app">
+        省:<select @change="getPro" @click="onClick($event)" v-model="proId" ref="pro">
+            <option :value="val.provinceId" v-for="(val,index) in prolist" :key="index" v-text="val.provinceName">
+            </option>
+        </select>
+        市: <select v-model="cityId" @change="getCity" ref="city">
+            <option :value="val.cityId" v-for="(val,index) in citylist" :key="index" v-text="val.cityName"></option>
+        </select>
+        区: <select>
+            <option :value="val.areaId" v-for="(val,index) in arealist" :key="index" v-text="val.areaName"></option>
+        </select>
+    </p>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+
+        axios.defaults.baseURL = 'http://210.22.120.218:8605/web';
+        // 声明响应拦截器
+        axios.interceptors.response.use(function (json) {
+            // 只有请求状态码为200 才算请求成功
+            if (json.status === 200) {
+                // 返回数据源
+                return json.data
+            } else {
+                alert('网络状态不好,请稍后再试')
+            }
+        })
+        new Vue({
+            el: '#app',
+            data: {
+                prolist: [],
+                citylist: [],
+                arealist: [],
+                proId: '110000',
+                cityId: '110100',
+            },
+            methods: {
+                onClick: function (e) {
+                    this.cityId = Number(e.target.value) + 100 + '';
+                },
+                getPro: async function () {
+                    await axios.get('/region/provinceList/?countriesId=1').then(data => {
+                        if (data.code == 200) {
+                            this.prolist = JSON.parse(data.data);
+                            this.getCity();
+                        }
+                    })
+                },
+                getCity: async function () {
+
+                    await axios.get('/region/cityList/?provinceId=' + this.proId).then(data => {
+                        if (data.code == 200) {
+                            this.citylist = JSON.parse(data.data);
+                            this.getArea();
+                        }
+                    })
+                },
+                getArea: async function () {
+                    await axios.get('/region/areaList/?cityId=' + this.cityId).then(data => {
+                        if (data.code == 200) {
+                            this.arealist = JSON.parse(data.data);
+                        }
+                    })
+
+                },
+            },
+            // 初始化
+            created: function () {
+                this.getPro()
+            },
+        })
+
+    </script>
+</body>
+
+</html>

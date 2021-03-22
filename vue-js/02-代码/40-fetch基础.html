@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 通用的请求地址
+        let baseUrl = 'http://localhost:3000/';
+        // 发出一个请求
+        // fetch('http://localhost:3000/a1').then(function(value) {
+        //     console.log(value);
+        //     // console.log(value.text());
+        //     // return value.text();
+        //     value.text().then(function(value) {
+        //         console.log(value);
+        //     });
+        // });
+
+        // fetch(baseUrl + 'a1').then(function(value) {
+        //     console.log(value);
+        //     // console.log(value.text());
+        //     // return value.text();
+        //     return value.text();
+        // }).then(function(value) {
+        //     console.log(value);
+        // });
+
+        // 有参数的get请求
+        // fetch(baseUrl + 'books?id=300').then(function(value) {
+        //     return value.text();
+        // }).then(function(value) {
+        //     // value 这里是最终后端给到的数据
+        //     console.log(value);
+        // });
+
+        // 封装一下fetch方法
+        function request(url, options) {
+            return fetch(url, options).then(function (value) {
+                return value.text();
+            })
+        }
+
+        // 没参数的post请求
+        // request(baseUrl + 'books', {
+        //     // 主动声明请求方式
+        //     method: 'post',
+        // }).then(function(value) {
+        //     console.log(value);
+        // });
+
+        // 有参数的post请求
+        // request(baseUrl + 'books', {
+        //     method: 'POST',
+        //     // 声明参数
+        //     body: "uname=lisi&pwd=123",
+        //     // 声明请求头
+        //     headers: {
+        //         // 是告知后端参数的格式
+        //         'Content-Type': 'application/x-www-form-urlencoded',
+        //     },
+        // }).then(function(value) {
+        //     console.log(value);
+        // });
+
+        // post带参请求 json格式
+        request(baseUrl + 'axios', {
+            method: 'POST',
+            // 声明参数
+            body: JSON.stringify({
+                uname: '张三',
+                pwd: '123'
+            }),
+            // 声明请求头
+            headers: {
+                // 是告知后端参数的格式
+                'Content-Type': 'application/json',
+            },
+        }).then(function (value) {
+            console.log(value);
+        });
+
+        // 获取结果的参数类型测试
+        // request(baseUrl + 'json').then(function(value) {
+        //     console.log(value);
+        // });
+
+        // fetch(baseUrl + 'json').then(function(value) {
+        //     // value.json() 可以获取请求结果的对象类型数据
+        //     return value.json();
+        // }).then(function(value) {
+        //     console.log(value);
+        // });
+    </script>
+</body>
+
+</html>
