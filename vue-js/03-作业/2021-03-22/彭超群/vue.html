@@ -216,6 +216,10 @@
                 path: '/',
                 component: app,
                 children: [{
+                    path: '/',
+                    //重新定义路由规则
+                    redirect: '/user'
+                }, {
                     path: '/user',
                     component: user,
                     name: 'user'
