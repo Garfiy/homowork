@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app" class="wrap">
+        <router-view></router-view>
+    </div>
+    <script>
+        const Access = {
+            template: `
+            <div class="qu-title">
+                <h3>权限管理</h3>
+            </div>`,
+        }
+
+        const Goods = {
+            template: `
+            <div class="qu-title">
+                <h3>商品管理</h3>
+            </div>`,
+        }
+
+        const Orders = {
+            template: `
+            <div class="qu-title">
+                <h3>订单管理</h3>
+            </div>`,
+        }
+
+        const Systems = {
+            template: `
+            <div class="qu-title">
+                <h3>系统管理</h3>
+            </div>`,
+        }
+
+
+        const app = {
+            template: `
+            <div  class="wrap">
+                <header class="title">传智后台管理系统</header>
+                <div class="con">
+                    <ul class="list">
+                        <li><router-link to="/users">用户管理</router-link></li>
+                        <li><router-link to="/accesses">权限管理</router-link></li>
+                        <li><router-link to="/goods">商品管理</router-link></li>
+                        <li><router-link to="/orders">订单管理</router-link></li>
+                        <li><router-link to="/systems">系统设置</router-link></li>
+                    </ul>
+                     <div class="user_control">
+                        <router-view></router-view>
+                    </div>
+                </div>
+                <footer>
+                    <span>版权信息</span>
+                </footer>
+            </div>`,
+        }
+
+        const UserInfo = {
+            props: ["id"],
+            template: `
+            <div>
+                <h5>用户详情</h5>
+                <p>id为: {{id}} 用户信息</p>
+                <button @click="goBack">返回用户详情页</button>
+            </div> `,
+            methods: {
+                goBack() {
+                    //当用户点击按钮，后退一页
+                    this.$router.go(-1);
+                }
+            }
+        }
+
+        const Users = {
+            template: `
+            <div>
+                <div class="qu-title">
+                    <h3>用户管理区域</h3>
+                </div>
+                <table cellpadding=0 cellspacing=0>
+                    <thead>
+                        <tr>
+                            <td>编号</td>
+                            <td>姓名</td>
+                            <td>年龄</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr :key="item.id" v-for="item in userList">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.age}}</td>
+                            <td><a href="javascript:;" @click="goDetail(item.id)">详情</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>`,
+            data: function () {
+                return {
+                    userList: [
+                        { id: 1, name: "张三", age: 18 },
+                        { id: 2, name: "李四", age: 19 },
+                        { id: 3, name: "王五", age: 20 },
+                        { id: 4, name: "赵六", age: 21 },
+                    ]
+                }
+            },
+            methods: {
+                goDetail(id) {
+                    this.$router.push("/userinfo/" + id);
+                }
+            }
+        }
+
+
+        let router = new VueRouter({
+            routes: [
+                {
+                    path: "/", component: app, children: [
+                        { path: "/users", component: Users },
+                        //添加一个/userinfo的路由规则
+                        { path: "/userinfo/:id", component: UserInfo, props: true },
+                        { path: "/accesses", component: Access },
+                        { path: "/goods", component: Goods },
+                        { path: "/orders", component: Orders },
+                        { path: "/systems", component: Systems },
+                    ]
+                }
+            ]
+        })
+
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            router: router,
+        })
+    </script>
+</body>
+
+</html>

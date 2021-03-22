@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list,
+        .content {
+            width: 200px;
+            float: left;
+            text-align: center;
+        }
+        
+        .list li {
+            line-height: 30px;
+            list-style: none;
+            background-color: #ccc;
+            border-bottom: 1px solid #fff;
+        }
+        
+        .list a {
+            text-decoration: none;
+        }
+        
+        .content {
+            width: 800px;
+        }
+        
+        .content th {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js "></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+        const app = {
+            template: `
+                    <div>
+                        <div class="list">
+                            <ul>
+                                <li>
+                                    <router-link to="/user">用户管理</router-link>
+                                </li>
+                                <li>
+                                    <router-link to="/authority">权限管理</router-link>
+                                </li>
+                                <li>
+                                    <router-link to="/shop">商品管理</router-link>
+                                </li>
+                                <li>
+                                    <router-link to="/order">订单管理</router-link>
+                                </li>
+                                <li>
+                                    <router-link to="/system">系统设置</router-link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <router-view></router-view>
+                        </div>
+                    </div>
+                     `
+        }
+        const user = {
+            template: `
+                        <div>
+                            <h1>用户管理区域</h1>
+                            <table width="800">
+                                <tr>
+                                    <th>编号</th>
+                                    <th>姓名</th>
+                                    <th>年龄</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tbody>
+                                    <tr v-for="(val,index) in list">
+                                        <td>{{val.id}}</td>
+                                        <td>{{val.name}}</td>
+                                        <td>{{val.age}}</td>
+                                        <td>
+                                            <button @click="$router.push({path:'/msg',query:{id:val.id}})">详情</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        `,
+            data: function() {
+                return {
+                    list: [{
+                        id: 1,
+                        name: '张三',
+                        age: 10,
+                        operation: '详情'
+                    }, {
+                        id: 2,
+                        name: '李四',
+                        age: 20,
+                        operation: '详情'
+                    }, {
+                        id: 3,
+                        name: '王五',
+                        age: 30,
+                        operation: '详情'
+                    }, {
+                        id: 4,
+                        name: '赵六',
+                        age: 40,
+                        operation: '详情'
+                    }]
+                }
+            }
+        }
+        const msg = {
+            template: `
+                    <div>
+                        <p>用户详情页---用户id为{{$route.query.id}}</p>
+                        <button @click="($router.go(-1))">返回</button>
+                    </div>`
+        }
+        const authority = {
+            template: '<h1>权限管理区域</h1>'
+        }
+        const shop = {
+            template: '<h1>商品管理区域</h1>'
+        }
+        const order = {
+            template: '<h1>订单管理区域</h1>'
+        }
+        const system = {
+            template: '<h1>用户管理区域</h1>'
+        }
+        let router = new VueRouter({
+            routes: [{
+                path: "/",
+                component: app,
+                redirect: '/user',
+                children: [{
+                    path: "/user",
+                    component: user
+                }, {
+                    path: '/msg',
+                    component: msg
+                }, {
+                    path: "/authority",
+                    component: authority
+                }, {
+                    path: "/shop",
+                    component: shop
+                }, {
+                    path: "/order",
+                    component: order
+                }, {
+                    path: "/system",
+                    component: system
+                }]
+            }]
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            router,
+        })
+    </script>
+</body>
+
+</html>

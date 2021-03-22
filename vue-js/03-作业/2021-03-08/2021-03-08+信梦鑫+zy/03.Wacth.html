@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods</p>
+        <p>
+            <!-- v-model 本质是v-bind:value 是绑定了select的value值 会根据选项变化自动变化 -->
+            <!-- @change 监听select标签的value值变化 当value值变化时 就会触发onChangePro方法 -->
+            省:<select name="" id="" v-model="pro">
+                <!-- :value="key" 动态绑定每个选项的唯一标识 -->
+                <!-- allData[0] 是数据源中所有省份的数据对象 -->
+                <!-- (value,key) 中value是对象的值 key是对象的间 key:value -->
+                <option :value="key" v-for="(value,key) in allData[0]" :key="key">{{value}}</option>
+
+            </select>
+        </p>
+
+        <p>
+            市:
+            <select name="" id="" v-model="city">
+                <option :value="key" v-for="(value,key) in allData[0+','+pro]" :key="key">{{value}}</option>
+            </select>
+        </p>
+        <p>
+            区:
+            <select name="" id="">
+                <option :value="key" v-for="(value,key) in allData[0+','+pro+','+city]" :key="key">{{value}}</option>
+            </select>
+        </p>
+    </div>
+    <script src="js/data.js"></script>
+    <script src="js/vue.js"></script>
+    <script>
+        // methods:  方法是需要我们自己去监听变化的事件,也需要我们自己控制监听的时间
+        //computed:  动态监听所关联过的属性的变化,当关联的属性发生变化时 会自动调用,只是赋值而不获取的变量,是不被监听变化的,不能通过v-model进行绑定
+        //   watch:  观察属性,观察data中的属性的变化,然后进行相应的操作   
+        new Vue({
+            el: "#app",
+            data: {
+                allData: data,
+                pro: '', //市的id
+                city: '', //区的id
+            },
+            created: function() {
+                this.pro = '110000';
+                this.city = '110100';
+            },
+            //观察属性
+            watch: {
+                //对象名 是对应的data里面的属性名
+                //对象值 属性发生变化时调用的方法
+                //value是改变后的值
+                pro: function(value) {
+                    let id;
+                    for (let key in this.allData[0 + ',' + value]) {
+                        id = key;
+                        break;
+
+                    }
+                    this.city = id;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

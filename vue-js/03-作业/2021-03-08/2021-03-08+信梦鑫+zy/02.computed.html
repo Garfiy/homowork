@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>methods</p>
+        <p>
+            <!-- v-model 本质是v-bind:value 是绑定了select的value值 会根据选项变化自动变化 -->
+            <!-- @change 监听select标签的value值变化 当value值变化时 就会触发onChangePro方法 -->
+            省:<select name="" id="" v-model="pro">
+                <!-- :value="key" 动态绑定每个选项的唯一标识 -->
+                <!-- allData[0] 是数据源中所有省份的数据对象 -->
+                <!-- (value,key) 中value是对象的值 key是对象的间 key:value -->
+                <option :value="key" v-for="(value,key) in allData[0]" :key="key">{{value}}</option>
+
+            </select>
+        </p>
+
+        <p>
+            市:
+            <select name="" id="" v-model="city">
+                <option :value="key" v-for="(value,key) in allData[0+','+pro]" :key="key">{{value}}</option>
+            </select>
+        </p>
+        <p>
+            区:
+            <select name="" id="">
+                <option :value="key" v-for="(value,key) in allData[0+','+pro+','+city2]" :key="key">{{value}}</option>
+            </select>
+        </p>
+    </div>
+    <script src="js/data.js"></script>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                allData: data,
+                pro: '', //市的id
+                city: '', //区的id
+            },
+            created: function() {
+                this.pro = '110000';
+                this.city = '110100';
+            },
+            //computed中的属性不能用v-model指定被用户修改
+            //当监听的数值改变时调用  (vue插件在运行 它会计算我们所有申明了的计算属性)
+            //对象的间 是新的变量的名
+            cityList: function() {
+                let list = this.allData[0 + ',' + this.pro];
+                //只有获取了的变量 才会进行监听变量的变化
+                //返回市的id
+                let id;
+                for (let key in list) {
+                    id = key;
+                    break;
+                }
+                //进行赋值的变量 是不会随变量变化触发计算属性的调用
+                this.city = id;
+                //computed 属性里的方法必须要return
+                return list;
+            }
+        })
+    </script>
+</body>
+
+</html>
