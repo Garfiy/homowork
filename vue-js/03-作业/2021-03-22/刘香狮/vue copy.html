@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .backstage {
+
+            width: 1360px;
+            height: 510px;
+            background-color: #545c64;
+            margin: 50px auto 0;
+        }
+
+        .backstage-text {
+            text-align: center;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 50px;
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+        }
+
+        .left-administration {
+            width: 268px;
+            height: 100%;
+            float: left;
+        }
+
+        ul {
+            padding-top: 2px;
+            width: 268px;
+            height: 240px;
+            background-color: #fff;
+        }
+
+        ul li {
+            line-height: 46px;
+            text-align: center;
+            background-color: #a0a0a0;
+            color: #fff;
+            margin-bottom: 2px;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        ul li:hover {
+            background-color: #545c64;
+            color: palevioletred;
+        }
+
+        .user-administration {
+            float: left;
+            width: 1092px;
+            height: 100%;
+            background-color: #fff;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 20px;
+            line-height: 68px;
+        }
+
+        table {
+            width: 1080px;
+            margin-left: 4px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #ddd;
+            height: 40px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        td {
+            text-align: center;
+            line-height: 40px;
+            border: 1px solid #ccc;
+            font-size: 12px;
+        }
+
+        a {
+            text-decoration: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="backstage">
+            <h1 class="backstage-text">后台管理系统</h1>
+            <div class="box">
+                <div class="left-administration">
+                    <ul>
+                        <li v-for="(v,i) in list" :key="v.id" v-text="v.text" @click="onClickCut(v)">
+                        </li>
+                    </ul>
+                </div>
+                <router-view></router-view>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+
+        // 模板都是一样的 就是th 和 td里面渲染的不一样 渲染的数据用变量接收 点击的时候用链接判断是那个链接内
+
+        // 订单模板
+        const orderForm = {
+            template: `
+                    <div class="user-administration">
+                        <h2>{{$route.query.text}}</h2>
+                        <table>
+                            <tr>
+                                <th>编号</th>
+                                <th>产品</th>
+                                <th>价格</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr v-for="(v,i) in userList" :key="v.id">
+                                <td v-text="v.id"></td>
+                                <td v-text="v.name"></td>
+                                <td v-text="v.age"></td>
+                                <td v-text="v.operation"></td>
+                            </tr>
+                        </table>
+                    </div>`,
+            data() {
+                return {
+                    userList: [
+                        {
+                            id: 1,
+                            name: 'Ad钙',
+                            age: 2 + '元',
+                            operation: '下单'
+                        },
+                        {
+                            id: 2,
+                            name: '旺仔',
+                            age: 5 + '元',
+                            operation: '下单'
+                        },
+                        {
+                            id: 3,
+                            name: '王老吉',
+                            age: 5 + '元',
+                            operation: '下单'
+                        },
+                        {
+                            id: 4,
+                            name: '红牛',
+                            age: 6 + '元',
+                            operation: '下单'
+                        },
+                        {
+                            id: 5,
+                            name: '快乐水',
+                            age: 2.5 + '元',
+                            operation: '下单'
+                        },
+                    ]
+                }
+            },
+        }
+
+        // 商品模板
+        const commodity = {
+            template: `
+                        <div class="user-administration">
+                            <h2>{{$route.query.text}}</h2>
+                            <table>
+                                <tr>
+                                    <th>编号</th>
+                                    <th>产品</th>
+                                    <th>价格</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr v-for="(v,i) in userList" :key="v.id">
+                                    <td v-text="v.id"></td>
+                                    <td v-text="v.name"></td>
+                                    <td v-text="v.age"></td>
+                                    <td v-text="v.operation"></td>
+                                </tr>
+                            </table>
+                        </div>`,
+            data() {
+                return {
+                    userList: [
+                        {
+                            id: 1,
+                            name: 'Ad钙',
+                            age: 2 + '元',
+                            operation: '详情'
+                        },
+                        {
+                            id: 2,
+                            name: '旺仔',
+                            age: 5 + '元',
+                            operation: '详情'
+                        },
+                        {
+                            id: 3,
+                            name: '王老吉',
+                            age: 5 + '元',
+                            operation: '详情'
+                        },
+                        {
+                            id: 4,
+                            name: '红牛',
+                            age: 6 + '元',
+                            operation: '详情'
+                        },
+                        {
+                            id: 5,
+                            name: '快乐水',
+                            age: 2.5 + '元',
+                            operation: '详情'
+                        },
+                    ]
+
+                }
+            },
+
+        }
+        // 用户管理模板
+        const uesr = {
+            template: `
+                <div class="user-administration">
+                    <h2>{{$route.query.text}}</h2>
+                    <table>
+                        <tr>
+                            <th>编号</th>
+                            <th>姓名</th>
+                            <th>年龄</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr v-for="(v,i) in userList" :key="v.id">
+                            <td v-text="v.id"></td>
+                            <td v-text="v.name"></td>
+                            <td v-text="v.age"></td>
+                            <td v-text="v.operation"></td>
+                        </tr>
+                    </table>
+                </div>`,
+            data() {
+                return {
+                    userList: [
+                        {
+                            id: 1,
+                            name: '张三',
+                            age: 18,
+                            operation: '详情'
+                        },
+                        {
+                            id: 2,
+                            name: '李四',
+                            age: 28,
+                            operation: '详情'
+                        },
+                        {
+                            id: 3,
+                            name: '王五',
+                            age: 20,
+                            operation: '详情'
+                        },
+                        {
+                            id: 4,
+                            name: '赵六',
+                            age: 17,
+                            operation: '详情'
+                        },
+                        {
+                            id: 5,
+                            name: '钱七',
+                            age: 26,
+                            operation: '详情'
+                        },
+                    ]
+
+                }
+            },
+        }
+
+        //    权限模板
+        const jurisdiction = {
+            template: `<div class="user-administration">
+                    <h2>{{$route.query.text}}</h2>
+                    <table>
+                        <tr>
+                            <th>编号</th>
+                            <th>姓名</th>
+                            <th>年龄</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr v-for="(v,i) in userList" :key="v.id">
+                            <td v-text="v.id"></td>
+                            <td v-text="v.name"></td>
+                            <td v-text="v.age"></td>
+                            <td v-text="v.operation"></td>
+                        </tr>
+                    </table>
+                </div>`,
+            data() {
+                return {
+                    userList: [
+                        {
+                            id: 1,
+                            name: '张三',
+                            age: 18,
+                            operation: '删除'
+                        },
+                        {
+                            id: 2,
+                            name: '李四',
+                            age: 28,
+                            operation: '删除'
+                        },
+                        {
+                            id: 3,
+                            name: '王五',
+                            age: 20,
+                            operation: '删除'
+                        },
+                        {
+                            id: 4,
+                            name: '赵六',
+                            age: 17,
+                            operation: '删除'
+                        },
+                        {
+                            id: 5,
+                            name: '钱七',
+                            age: 26,
+                            operation: '删除'
+                        },
+                    ]
+
+                }
+            },
+        }
+        // 创建路由
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/',
+                    component: uesr,
+                    redirect: '/uesr',
+                },
+                {
+                    path: '/user',
+                    component: uesr,
+                },
+                {
+                    path: '/jurisdiction',
+                    component: jurisdiction,
+                },
+                {
+                    path: '/commodity',
+                    component: commodity,
+
+                },{
+                    path: '/orderForm',
+                    component:orderForm
+                }
+            ]
+        })
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                // 数据
+                list: [{
+                    id: 1,
+                    url: '/user',
+                    text: '用户管理'
+                },
+                {
+                    id: 2,
+                    url: '/jurisdiction',
+                    text: '权限管理'
+                }, {
+                    id: 3,
+                    url: '/commodity',
+                    text: '商品管理'
+                }, {
+                    id: 4,
+                    url: 'orderForm',
+                    text: '订单管理'
+                },
+                {
+                    id: 5,
+                    text: '系统设置'
+                }],
+
+            },
+
+            // 挂载路由
+            router,
+            // 事件操作
+            methods: {
+                onClickCut(item) {
+                    let t = item.text + '区域'
+                    this.$router.push({ path: item.url, query: { text: t } })
+                }
+            },
+            created() {
+                let t = this.list[0].text + '区域'
+                this.$router.push({ path: this.list[0].url, query: { text: t } })
+            },
+        })
+    </script>
+</body>
+
+</html>
