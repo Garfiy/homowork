@@ -7,8 +7,6 @@
 - [ ] 能够实现命名路由以及编程式导航 
 - [ ] 理解并实现后台管理案例
 
-
-
 # 1.路由的概念
 
 路由的本质就是一种对应关系，比如说我们在url地址中输入我们要访问的url地址之后，浏览器要去请求这个url地址对应的资源。
@@ -28,7 +26,7 @@
 前端路由是基于hash值的变化进行实现的（比如点击页面中的菜单或者按钮改变URL的hash值，根据hash值的变化来控制组件的切换）
 核心实现依靠一个事件，即监听hash值变化的事件
 
-```
+```js
 window.onhashchange = function(){
     //location.hash可以获取到最新的hash值
     location.hash
@@ -36,7 +34,7 @@ window.onhashchange = function(){
 ```
 
 前端路由实现tab栏切换：
-```
+```js
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -139,7 +137,7 @@ window.onhashchange = function(){
 在页面中有一个vue实例对象，vue实例对象中有四个组件，分别是tab栏切换需要显示的组件内容
 在页面中有四个超链接，如下：
 
-```
+```js
 <a href="#/zhuye">主页</a> 
 <a href="#/keji">科技</a> 
 <a href="#/caijing">财经</a>
@@ -147,7 +145,7 @@ window.onhashchange = function(){
 ```
 当我们点击这些超链接的时候，就会改变url地址中的hash值，当hash值被改变时，就会触发onhashchange事件
 在触发onhashchange事件的时候，我们根据hash值来让不同的组件进行显示：
-```
+```js
 window.onhashchange = function() {
     // 通过 location.hash 获取到最新的 hash 值
     console.log(location.hash);
@@ -176,43 +174,58 @@ window.onhashchange = function() {
 Vue Router和Vue.js非常契合，可以一起方便的实现SPA(single page web application,单页应用程序)应用程序的开发。
 Vue Router依赖于Vue，所以需要先引入Vue，再引入Vue Router
 
-## 3.1Vue Router的特性：
+**Vue Router的特性：**
 
-支持H5历史模式或者hash模式
-支持嵌套路由
-支持路由参数
-支持编程式路由
-支持命名路由
-支持路由导航守卫
-支持路由过渡动画特效
-支持路由懒加载
-支持路由滚动行为
+- 支持H5历史模式或者hash模式
+- 支持嵌套路由
+- 支持路由参数
+- 支持编程式路由
+- 支持命名路由
+- 支持路由导航守卫
+- 支持路由过渡动画特效
+- 支持路由懒加载
+- 支持路由滚动行为
+
+
 
 # 4.Vue Router的使用步骤(★★★)
 
 ## A.导入js文件
 
+```html
 <script src="lib/vue_2.5.22.js"></script>
 <script src="lib/vue-router_3.0.2.js"></script>
+```
+
 ## B.添加路由链接:
 
-<router-link>是路由中提供的标签，默认会被渲染为a标签，to属性默认被渲染为href属性，
+```html
+<router-link></router-link>是路由中提供的标签，默认会被渲染为a标签，to属性默认被渲染为href属性
+```
 
 to属性的值会被渲染为#开头的hash地址
+
+```html
 <router-link to="/user">User</router-link>
 <router-link to="/login">Login</router-link>
+```
 
 ## C.添加路由填充位（路由占位符）
 
+```html
 <router-view></router-view>
+```
 
 ## D.定义路由组件
 
+```js
 var User = { template:"<div>This is User</div>" }
 var Login = { template:"<div>This is Login</div>" }
+```
 
 ## E.配置路由规则并创建路由实例
 
+```js
 var myRouter = new VueRouter({
     //routes是路由规则数组
     routes:[
@@ -222,14 +235,17 @@ var myRouter = new VueRouter({
         {path:"/login",component:Login}
     ]
 })
+```
 
 ## F.将路由挂载到Vue实例中
 
+```js
 new Vue({
     el:"#app",
     //通过router属性挂载路由对象
     router:myRouter
 })
+```
 
 ## 小结：
 
@@ -245,6 +261,8 @@ F.将路由挂载到Vue实例中
 
 路由重定向：可以通过路由重定向为页面设置默认展示的组件
 在路由规则中添加一条路由规则即可，如下：
+
+```js
 var myRouter = new VueRouter({
     //routes是路由规则数组
     routes: [
@@ -254,6 +272,9 @@ var myRouter = new VueRouter({
         { path: "/login", component: Login }
     ]
 })
+```
+
+
 
 # 5.嵌套路由，动态路由的实现方式
 
@@ -268,7 +289,7 @@ var myRouter = new VueRouter({
 /login/phone
 
 参考代码如下：
-```
+```js
 var User = { template: "<div>This is User</div>" }
 //Login组件中的模板代码里面包含了子级路由链接以及子级路由的占位符
     var Login = { template: `<div>
@@ -314,6 +335,7 @@ var User = { template: "<div>This is User</div>" }
 
 ## B.动态路由匹配(★★★)
 
+```js
 var User = { template:"<div>用户：{{$route.params.id}}</div>"}
 
 var myRouter = new VueRouter({
@@ -321,9 +343,9 @@ var myRouter = new VueRouter({
     routes: [
         //通过/:参数名  的形式传递参数 
         { path: "/user/:id", component: User },
-        
-    ]
+        ]
 })
+```
 
 ## 补充：
 
@@ -331,6 +353,7 @@ var myRouter = new VueRouter({
 
 ### 1.我们可以通过props来接收参数
 
+```js
 var User = { 
     props:["id"],
     template:"<div>用户：{{id}}</div>"
@@ -342,17 +365,22 @@ var myRouter = new VueRouter({
         //通过/:参数名  的形式传递参数 
         //如果props设置为true，route.params将会被设置为组件属性
         { path: "/user/:id", component: User,props:true },
-        
-    ]
+        ]
+
 })
+```
+
+
 
 ### 2.还有一种情况，我们可以将props设置为对象，那么就直接将对象的数据传递给
 
 组件进行使用
+
+```js
 var User = { 
     props:["username","pwd"],
     template:"<div>用户：{{username}}---{{pwd}}</div>"
-    }
+}
 
 var myRouter = new VueRouter({
     //routes是路由规则数组
@@ -360,13 +388,17 @@ var myRouter = new VueRouter({
         //通过/:参数名  的形式传递参数 
         //如果props设置为对象，则传递的是对象中的数据给组件
         { path: "/user/:id", component: User,props:{username:"jack",pwd:123} },
-        
     ]
 })
+```
+
+
 
 ### 3.如果想要获取传递的参数值还想要获取传递的对象数据，那么props应该设置为
 
 函数形式。
+
+```js
 var User = { 
     props:["username","pwd","id"],
     template:"<div>用户：{{id}} -> {{username}}---{{pwd}}</div>"
@@ -383,9 +415,11 @@ var myRouter = new VueRouter({
             return {username:"jack",pwd:123,id:route.params.id}
             } 
         },
-        
     ]
 })
+```
+
+
 
 # 7.命名路由以及编程式导航
 
@@ -393,21 +427,30 @@ var myRouter = new VueRouter({
 
 案例：
 
+```js
 var myRouter = new VueRouter({
     //routes是路由规则数组
     routes: [
         //通过name属性为路由添加一个别名
         { path: "/user/:id", component: User, name:"user"},
-        
     ]
 })
+```
 
 //添加了别名之后，可以使用别名进行跳转
+
+```html
 <router-link to="/user">User</router-link>
 <router-link :to="{ name:'user' , params: {id:123} }">User</router-link>
+```
 
 //还可以编程式导航
+
+```js
 myRouter.push( { name:'user' , params: {id:123} } )
+```
+
+
 
 ## B.编程式导航(★★★)
 
@@ -416,6 +459,8 @@ A.声明式导航：通过点击链接的方式实现的导航
 B.编程式导航：调用js的api方法实现导航
 
 Vue-Router中常见的导航方式：
+
+```js
 this.$router.push("hash地址");
 this.$router.push("/login");
 this.$router.push({ name:'user' , params: {id:123} });
@@ -424,6 +469,9 @@ this.$router.push({ path:"/login",query:{username:"jack"} });
 
 this.$router.go( n );//n为数字，参考history.go
 this.$router.go( -1 );
+```
+
+
 
 # 8.实现后台管理案例(★★★)
 
@@ -456,7 +504,7 @@ this.$router.go( -1 );
 
 希望是通过组件的形式展示页面的主体内容，而不是写死页面结构，所以我们可以定义一个根组件：
 
-```
+```js
 //只需要把原本页面中的html代码设置为组件中的模板内容即可
 const app = {
     template:`<div>
@@ -488,7 +536,7 @@ const app = {
 
 当我们访问页面的时候，默认需要展示刚刚创建的app根组件，我们可以创建一个路由对象来完成这个事情,然后将路由挂载到Vue实例对象中即可
 
-```
+```js
 const myRouter = new VueRouter({
     routes:[
         {path:"/",component:app}
@@ -502,9 +550,9 @@ const vm = new Vue({
     router:myRouter
 })
 ```
-#### 补充：到此为止，基本的js代码都处理完毕了，我们还需要设置一个路由占位符
+**补充：**到此为止，基本的js代码都处理完毕了，我们还需要设置一个路由占位符
 
-```
+```html
 <body>
   <div id="app">
     <router-view></router-view>
@@ -519,7 +567,7 @@ const vm = new Vue({
 
 先让我们更改根组件中的模板：更改左侧li为子级路由链接，并在右侧内容区域添加子级组件占位符
 
-```
+```js
 const app = {
     template:`<div>
         ........
@@ -548,7 +596,7 @@ const app = {
   }
 ```
 然后，我们要为子级路由创建并设置需要显示的子级组件
-```
+```js
 //建议创建的组件首字母大写，和其他内容区分
 const Users = {template:`<div>
     <h3>用户管理</h3>
@@ -632,7 +680,7 @@ template:`
 
 当用户列表展示完毕之后，我们可以点击列表中的详情来显示用户详情信息，首先我们需要创建一个组件，用来展示详情信息
 
-```
+```js
 const UserInfo = {
     props:["id"],
     template:`<div>
@@ -649,7 +697,7 @@ const UserInfo = {
   }
 ```
 然后我们需要设置这个组件的路由规则
-```
+```js
 const myRouter = new VueRouter({
     routes:[
         {path:"/",component:app , children:[
@@ -672,7 +720,7 @@ const vm = new Vue({
 })
 ```
 再接着给用户列表中的详情a连接添加事件
-```
+```js
 const Users = {
     data(){
         return {
