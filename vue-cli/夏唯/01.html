@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-text="text"></p>
+        速度 : <input type="text" @keyup="keyup" v-model="speed">
+        <button @click="itme1">开始</button>
+        <button @click="itme2">停止</button>
+    </div>
+
+    <br>
+    <div style="color: green;">
+        优
+    </div>
+
+    <script>
+        var v = new Vue({
+            el: '#app',
+            data: {
+                speed: 100,
+                flag: true,
+                text: '《春晓》 作者：孟浩然 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。',
+                text1: ''
+            },
+            methods: {
+                itme1: function() {
+                    if (this.flag) {
+                        this.flag = false;
+                        this.itme = setInterval(() => {
+                            this.text1 = this.text.substr(0, 1);
+                            this.text = this.text.substr(1) + this.text1;
+                        }, this.speed);
+                    }
+                },
+                itme2: function() {
+                    clearInterval(this.itme);
+                    this.flag = true;
+                },
+                keyup: function() {
+                    if (!this.flag) {
+                        clearInterval(this.itme);
+                        this.flag = true;
+                        this.itme1();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
