@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div id="app" class="wrap">
+        <header class="title">传智后台管理系统</header>
+        <div class="con">
+            <ul class="list">
+                <li>
+                    <router-link to="/uesrs">用户管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/authority">权限管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/commodity">商品管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/order">订单管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/system">系统设置</router-link>
+                </li>
+            </ul>
+            <router-view></router-view>
+        </div>
+        <footer>
+            <span>版本信息</span>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+        let uesrs = {
+            template: ` 
+            <div class="user_control">
+                <div class="qu-title">
+                    <h3>用户管理区域</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>编号</td>
+                            <td>姓名</td>
+                            <td>年龄</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in userList" :key="item.id">
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.age}}</td>
+                            <td><a @click="onClickMsg(index)">详情</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            `,
+            data() {
+                return {
+                    userList: [{
+                        id: 1,
+                        name: "张三",
+                        age: 18
+                    }, {
+                        id: 2,
+                        name: "李四",
+                        age: 19
+                    }, {
+                        id: 3,
+                        name: "王五",
+                        age: 20
+                    }, {
+                        id: 4,
+                        name: "老六",
+                        age: 21
+                    }, ]
+                }
+            },
+            methods: {
+                onClickMsg: function(i) {
+                    this.$router.push({
+                        name: 'msg',
+                        query: {
+                            id: this.userList[i].id,
+                            name: this.userList[i].name,
+                            age: this.userList[i].age
+                        }
+                    })
+                }
+            },
+        }
+        let authority = {
+            template: `<div><h2>权限管理</h2></div>`
+        }
+        let commodity = {
+            template: `<div><h2>商品管理</h2></div>`
+        }
+        let order = {
+            template: `<div><h2>订单管理</h2></div>`
+        }
+        let system = {
+            template: `<div><h2>系统管理</h2></div>`
+        }
+        let msg = {
+            template: `<div>
+                id:{{$route.query.id}}
+                <br>姓名:{{$route.query.name}}
+                <br>年龄:{{$route.query.age}}
+                <button @click="$router.go(-1)">返回</button></div>`
+        }
+        let myListRouter = new VueRouter({
+            routes: [{
+                path: '/uesrs',
+                component: uesrs
+            }, {
+                path: '/authority',
+                component: authority
+            }, {
+                path: '/commodity',
+                component: commodity
+            }, {
+                path: '/order',
+                component: order
+            }, {
+                path: '/system',
+                component: system
+            }, {
+                path: '/msg',
+                component: msg,
+                name: 'msg'
+            }]
+        })
+        new Vue({
+            el: '#app',
+            data: {},
+            router: myListRouter
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+        }
+
+        #app .head {
+
+            width: 100%;
+            height: 70px;
+            font-size: 30px;
+            color: #fff;
+            text-align: center;
+            line-height: 70px;
+            background-color: rgb(84, 92, 100);
+        }
+
+        #app .x-box {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #app .the-left {
+
+            width: 350px;
+            height: 780px;
+            background-color: rgb(84, 92, 100);
+        }
+
+        #app .the-left .item {
+            width: 350px;
+            height: 400px;
+            background: rgb(160, 160, 160);
+        }
+
+        #app .the-left .item li {
+            list-style: none;
+            height: 78px;
+            width: 350px;
+            text-align: center;
+            line-height: 78px;
+            border-bottom: 2px solid rgb(255, 255, 255);
+
+        }
+
+        #app .the-left .item li a {
+            color: #fff;
+        }
+
+        #app .the-right {
+            width: 100%;
+            height: 780px;
+        }
+
+        #app .tex {
+            width: 100%;
+            height: 120px;
+            font-size: 25px;
+            text-align: center;
+            line-height: 120px;
+        }
+
+        #app thead tr {
+
+            background: rgb(70, 77, 80);
+            margin-left: 5px;
+        }
+
+        #app thead tr td {
+            margin-right: 10px;
+        }
+
+        #app tr {
+            display: flex;
+            justify-content: space-around;
+            width: 1387px;
+            height: 50px;
+            line-height: 50px;
+            background: lightblue;
+        }
+
+        #app tbody tr {
+            padding-left: 8px;
+        }
+
+        .bs {
+            display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 80px;
+    align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <div id="app">
+        <div class="head">传智后台管理系统</div>
+        <div class="x-box">
+            <div class="the-left">
+                <div class="item">
+                    <li>
+                        <router-link to="/user">用户管理</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/jurisdiction">权限管理</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/commodity">商品管理</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/order">订单管理</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/system">系统设置</router-link>
+                    </li>
+                </div>
+            </div>
+            <div class="the-right">
+                <router-view />
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        const user = {
+            template: `<div class="the-right">
+                    <div class="tex">用户管理区域</div>
+                    <table cellpadding=0 cellspacing=0>
+                        <thead>
+                            <tr>
+                                <td>编号</td>
+                                <td>姓名</td>
+                                <td>年龄</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(k,i) in driagen" :key="i">
+                                <td>{{k.id}}</td>
+                                <td>{{k.name}}</td>
+                                <td>{{k.age}}</td>
+                                <td> <a @click="$router.push({name:'buttons',query:{id:k.id,name:k.name,age:k.age}})">详情</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>  `,
+            data() {
+                return {
+                    driagen: [{
+                        id: 1,
+                        name: 'x',
+                        age: 10,
+                    }, {
+                        id: 2,
+                        name: 'xx',
+                        age: 12,
+                    }, {
+                        id: 3,
+                        name: 'xxx',
+                        age: 14,
+                    }, {
+                        id: 4,
+                        name: 'xxxx',
+                        age: 16,
+                    }, {
+                        id: 5,
+                        name: 'xxxxx',
+                        age: 18,
+                    },]
+                }
+            }
+        }
+        const jurisdiction = {
+            template: `<div class="bs"><h1>权限管理</h1></div>`,
+        }
+        const commodity = {
+            template: `<div class="bs"><h1>商品管理</h1></div>`,
+        }
+        const order = {
+            template: `<div class="bs"><h1>订单管理</h1></div>`,
+        }
+        const system = {
+            template: `<div class="bs"><h1>系统设置</h1></div>`,
+        }
+        var buttons = {
+            template: `<div class="bs">id: {{$route.query.id}} name:{{$route.query.name}} age:{{$route.query.age}}<button @click="$router.go(-1)">返回</button></div>`
+        }
+        var router = new VueRouter({
+            routes: [{
+                path: '/',
+                component: user,
+                redirect: '/user',
+            }, {
+                path: '/user',
+                component: user,
+            }, {
+                path: '/jurisdiction',
+                component: jurisdiction,
+            }, {
+                path: '/commodity',
+                component: commodity,
+            }, {
+                path: '/order',
+                component: order,
+            }, {
+                path: '/system',
+                component: system,
+            }, {
+                path: '/buttons',
+                component: buttons,
+                name: "buttons"
+            }]
+        })
+        let vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            router,
+        })
+
+
+    </script>
+</body>
+
+</html>

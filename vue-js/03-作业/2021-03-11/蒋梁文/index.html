@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <section id="todoapp" class="todoapp">
+        <header class="header">
+            <h1>todos</h1>
+            <input placeholder="What needs to be done?" class="new-todo" @keydown.enter="onEnterSubmit" v-model="inputTitle">
+        </header>
+        <section class="main">
+            <input id="toggle-all" type="checkbox" class="toggle-all" v-model="allSelectState">
+            <label for="toggle-all">Mark all as complete</label>
+            <ul class="todo-list">
+                <li :class="{completed:value.completed,editing:inputChangeTitle.id===value.id}" v-for="(value,index) in todos" :key="value.id" v-show="selectState=='all'||(selectState=='active' && !value.completed) || (selectState=='completed' && value.completed)">
+                    <div class="view"><input type="checkbox" class="toggle" v-model="value.completed">
+                        <label @dblclick="onDblClickLable(value)">{{value.title}}</label>
+                        <button class="destroy" @click="onClickRemoveOneItme(value)"></button>
+                    </div>
+                    <input class="edit" v-model="inputChangeTitle.title" @keydown.esc="inputChangeTitle={}" v-focus="inputChangeTitle.id" :data-id="inputChangeTitle.id" :data-id="value.id" @blur="inputChangeTitle={}" @keydown.enter="onEnterInput(value)">
+                </li>
+            </ul>
+        </section>
+
+        <footer class="footer">
+            <span class="todo-count">
+                <strong v-text="activeItemNum">2</strong> item left</span>
+            <ul class="filters">
+                <li v-for="(value,index) in selectList"><a href="#/" v-bind:class="{selected:selectState==value.toLocaleLowerCase()}" @click="selectState=value.toLocaleLowerCase()">{{value}}</a></li>
+            </ul>
+            <button class="clear-completed" @click="onClickClearCompleted">Clear completed</button>
+        </footer>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#todoapp",
+            data: {
+                inputTitle: '', //是用户新增的内容 初始化为空字符串
+                inputChangeTitle: '', //保存想要修改的对象
+                selectState: 'all', //记录当前选中的类型
+                selectList: ['All', 'Active', 'Completed'], //状态数组
+                todos: [{
+                    id: 1,
+                    title: '吃饭',
+                    completed: false
+                }, {
+                    id: 2,
+                    title: '睡觉',
+                    completed: false
+                }, {
+                    id: 3,
+                    title: '打豆豆',
+                    completed: true
+                }]
+            },
+            methods: {
+                // 增加
+                onEnterSubmit: function() {
+                    if (!this.inputTitle || !this.inputTitle.trim()) {
+                        return;
+                    }
+                    let newObj = {};
+                    newObj.id = this.todos.length + 1;
+                    newObj.id = +new Date();
+                    newObj.title = this.inputTitle;
+                    newObj.completed = false;
+                    this.todos.push(newObj);
+                    this.inputTitle = '';
+                },
+                // 删除
+                onClickRemoveOneItme: function(item) {
+                    if (item) {
+                        let index = this.todos.indexOf(item);
+                        this.todos.splice(index, 1);
+                    }
+                },
+                // 双击文本框回调
+                onDblClickLable: function(item) {
+                    this.inputChangeTitle = {};
+                    for (let value in item) {
+                        this.inputChangeTitle[value] = item[value];
+                    }
+                },
+                // 确认要修改的内容
+                onEnterInput: function(item) {
+                    item.title = this.inputChangeTitle.title;
+                    this.inputChangeTitle = {};
+                },
+                //点击清除已完成的任务
+                onClickClearCompleted() {
+                    // 循环所有的数据
+                    for (let i = 0; i < this.todos.length;) {
+                        if (this.todos[i].completed) {
+                            this.todos.splice(i, 1);
+                        } else {
+                            i++;
+                        }
+                    }
+                }
+            },
+            // 自定义指令 esc
+            directives: {
+                'focus': {
+                    update: function(el, binding) {
+                        let curValue = binding.value;
+                        let inputValue = el.getAttribute('data-id');
+                        if (curValue == inputValue) {
+                            el.focus();
+                        }
+                    }
+                }
+            },
+            computed: {
+                activeItemNum: function() {
+                    let num = 0;
+                    for (let i = 0; i < this.todos.length; i++) {
+                        if (!this.todos[i].completed) {
+                            num++;
+                        }
+                    }
+                    return num;
+                },
+                // 是否全选中
+                allSelectState: {
+                    get: function() {
+                        return this.todos.every(value => value.completed);
+                    },
+                    set: function(value) {
+                        this.todos.forEach(element => element.completed = value);
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

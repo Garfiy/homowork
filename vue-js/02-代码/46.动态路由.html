@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/user/2/卿洋">2</router-link>
+        <router-link to="/user/6/钱棋">6</router-link>
+        <router-link to="/user">肖衡</router-link>
+        <router-link to="/user/10">jeck</router-link>
+
+        <router-view></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+        var user = {
+            template: `<div>用户id:{{$route.params.id}}
+                <br>id: {{id}}
+                <br>name: {{name}}
+                </div>`,
+            props: ['id', 'name'],
+        }
+
+        // 确定路由规则
+        var router = new VueRouter({
+            routes: [{
+                path: '/user/:id/:name',
+                component: user,
+                // 主动声明将变量保存到组件的props对象中
+                props: true,
+            }, {
+                path: '/user',
+                component: user,
+                props: {
+                    id: 1,
+                    name: '肖衡',
+                }
+            }, {
+                path: '/user/:id',
+                component: user,
+                props: function(abc) {
+                    return {
+                        id: abc.params.id,
+                        name: 'jeck',
+                    }
+                }
+            }]
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            // 将路由绑定到vue实例中
+            router,
+        })
+    </script>
+</body>
+
+</html>

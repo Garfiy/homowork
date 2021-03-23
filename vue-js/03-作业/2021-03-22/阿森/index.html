@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            width: 500px;
+            height: 300px;
+            margin: 0 auto;
+            border: 1px solid gray;
+        }
+
+        #app .header {
+            width: 100%;
+            height: 40px;
+            background-color: gray;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .body {
+            display: flex;
+            justify-content: space-around;
+            width: 500px;
+        }
+
+        .body-left {
+            width: 150px;
+            height: 260px;
+            text-align: center;
+
+        }
+
+        .body-left >p {
+            width: 100%;
+            background-color: yellow;
+            line-height: 30px;
+            margin-bottom: 2px;
+        }
+
+        .body-right {
+            width: 350px;
+            height: 260px;
+            background-color: red;
+        }
+
+        .body-right h1 {
+            width: 100%;
+            text-align: center;
+            line-height: 50px;
+            background-color: skyblue;
+        }
+
+        .body-right table {
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <table-box></table-box>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+        Vue.component('table-box', {
+            template: `
+            <div>
+                <table-head></table-head>
+                <table-body></table-body>
+            </div>`,
+            
+        })
+        //头部
+        Vue.component("table-head",{
+            template:`  <div class="header">
+                             <p>传智后台管理系统</p>
+                        </div>`,
+        })
+        //身体部分
+        Vue.component('table-body',{
+            template:`
+            <div class="body">
+                    <div class="body-left">
+                            <p><router-link  to="/user">用户管理</router-link></p>
+                            <p><router-link  to="/user1">权限管理</router-link></p>
+                            <p><router-link  to="/user2">商品管理</router-link></p>
+                            <p><router-link  to="/user3">订单管理</router-link></p>
+                            <p><router-link  to="/user4">系统管理</router-link></p>
+                    </div>
+                    <div class="body-right">
+                        <router-view></router-view>
+                        
+                    </div>
+                </div>
+            `,
+           
+        })
+        const yonghu = {
+            template: `
+            <div>
+                <h1>用户管理</h1>
+                <table border="1" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <th>编号</th>
+                                <th>姓名</th>
+                                <th>年龄</th>
+                                <th>操作</th>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in listData" :key="item.id">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.age}}</td>
+                                    <td><button @click="$router.push({name:'msg',query:{id:item.id,name:item.name,age:item.age}})">详情</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+            </div>
+            `,
+            data:function(){
+                return {
+                    listTab:['用户管理','权限管理','商品管理','订单管理','系统设置'],
+                    listData:[{
+                        id:1,
+                        name:'张三',
+                        age:18,
+                    },{
+                        id:2,
+                        name:'李四',
+                        age:18,
+                    },{
+                        id:3,
+                        name:'王五',
+                        age:18,
+                    },{
+                        id:4,
+                        name:'赵六',
+                        age:18,
+                    }]
+                }
+            }
+        }
+
+        const quanxian = {
+            template: `<h1>权限管理</h1>`,
+        }
+
+        const shangping = {
+            template: `<h1>商品管理</h1>`,
+        }
+
+        const dingdan = {
+            template: `<h1>订单管理</h1>`,
+        }
+        const xitong = {
+            template: `<h1>系统管理</h1>`,
+        }
+        const msg = {
+            template: `<div>{{$route.query.id}}==={{$route.query.name}} ==={{$route.query.age}}<button @click=($router.go(-1))>返回</button></div>`,
+        }
+
+        let router = new VueRouter({
+            routes:[{
+                path:'/user',
+                component: yonghu,
+                name: 'user',
+            },{
+                path:'/user1',
+                component: quanxian,
+                name: 'user1',
+            },{
+                path:'/user2',
+                component: dingdan,
+                name: 'user2',
+            },{
+                path:'/user3',
+                component: dingdan,
+                name: 'user3',
+            },{
+                path:'/user4',
+                component: xitong,
+                name: 'user4',
+            },{
+                path:'/msg',
+                component: msg,
+                name: 'msg',
+            }]
+        })
+        new Vue({
+            el: "#app",
+            data: {
+
+            },
+            router,
+        })
+    </script>
+</body>
+
+</html>

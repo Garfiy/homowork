@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div class="wrap" id="app">
+        <header class="title">传智后台管理系统</header>
+        <div class="con">
+            <ul class="list">
+                <li>
+                    <router-link to="/user">用户管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/jurisdiction">权限管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/commodity">商品管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/order">订单管理</router-link>
+                </li>
+                <li>
+                    <router-link to="/system">系统设置</router-link>
+                </li>
+            </ul>
+            <router-view></router-view>
+        </div>
+        <footer>
+            <span>版权信息</span>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+        var user = {
+            template: `
+                    <div class="user_control">
+                        <div class="qu-title">
+                            <h3>用户管理区域</h3>
+                        </div>
+                        <table cellpadding=0 cellspacing=0>
+                            <thead>
+                                <tr>
+                                    <td>编号</td>
+                                    <td>姓名</td>
+                                    <td>年龄</td>
+                                    <td>操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in datalist" :key="">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.age}}</td>
+                                    <td> <a @click="$router.push({name:'buttons',query:{id:item.id,name:item.name,age:item.age}})">详情</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `,
+            data() {
+                return {
+                    datalist: [{
+                        id: 1,
+                        name: '小红',
+                        age: 12
+                    }, {
+                        id: 2,
+                        name: '小明',
+                        age: 14
+                    }, {
+                        id: 3,
+                        name: '小黄',
+                        age: 15
+                    }, {
+                        id: 4,
+                        name: '小白',
+                        age: 16
+                    }]
+                }
+            },
+        }
+        var jurisdiction = {
+            template: `<div class="h3"><h3 >权限管理</h3></div>`
+        }
+        var commodity = {
+            template: `<div class="h3"><h3 >商品管理</h3></div>`
+        }
+        var order = {
+            template: `<div class="h3"><h3 >订单管理</h3></div>`
+        }
+        var system = {
+            template: `<div class="h3"><h3 >系统设置</h3></div>`
+        }
+        var buttons = {
+            template: `<div class="h3">id: {{$route.query.id}} name:{{$route.query.name}} age:{{$route.query.age}}<button @click="$router.go(-1)">返回</button></div>`
+        }
+
+        var router = new VueRouter({
+            routes: [{
+                path: '/',
+                component: user
+            }, {
+                path: '/user',
+                component: user
+            }, {
+                path: '/jurisdiction',
+                component: jurisdiction
+            }, {
+                path: '/commodity',
+                component: commodity
+            }, {
+                path: '/order',
+                component: order
+            }, {
+                path: '/system',
+                component: system
+            }, {
+                path: '/buttons',
+                component: buttons,
+                name: "buttons"
+            }]
+        })
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            //将路由绑定到Vue实例中
+            router,
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/zhuye">主页</router-link>
+        <router-link to="/keji">科技</router-link>
+        <router-link to="/caijing">财经</router-link>
+        <router-link to="/yule">娱乐</router-link>
+
+        <router-view/>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+
+    <script>
+        const zhuye = {
+            template: '<h1>主页信息</h1>',
+        }
+
+        const keji = {
+            template: '<h1>科技信息</h1>',
+        }
+
+        const caijing = {
+            template: '<h1>财经信息</h1>',
+        }
+
+        const yule = {
+            template: '<h1>娱乐信息</h1>',
+        }
+
+        // 创建一个路由对象
+        let router = new VueRouter({
+            routes: [
+                // 初始化路由规则
+                {
+                    // 声明初始路由规则
+                    path: '/',
+                    // 重定向路由规则
+                    redirect: '/zhuye',
+                }, {
+                    path: '/zhuye',
+                    component: zhuye,
+                }, {
+                    path: '/keji',
+                    component: keji,
+                }, {
+                    path: '/caijing',
+                    component: caijing,
+                }, {
+                    path: '/yule',
+                    component: yule,
+                }
+            ]
+        })
+
+        // 创建一个vue对象
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            router,
+        })
+    </script>
+</body>
+
+</html>
