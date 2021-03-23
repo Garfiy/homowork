@@ -1,0 +1,19 @@
+{
+  "name": "myapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "destroy": "^1.0.4",
+    "express": "^4.17.1",
+    "type-is": "^1.6.18",
+    "unpipe": "^1.0.0"
+  }
+}
