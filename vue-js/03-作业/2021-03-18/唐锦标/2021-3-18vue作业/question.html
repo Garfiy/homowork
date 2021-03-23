@@ -80,7 +80,6 @@
             async created() {
                 let val = await axios.get('/region/provinceList?countriesId=1');
                 this.pro = JSON.parse(val.data.data);
-
                 this.onChangePro();
                 this.onChangecity()
             },
