@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .grid {
   margin: auto;
   width: 530px;
@@ -27,4 +28,35 @@
   line-height: 30px;
   background-color: #F3DCAB;
   border-top: 1px solid #C2D89A;
+=======
+.grid {
+  margin: auto;
+  width: 530px;
+  text-align: center;
+}
+.grid table {
+  border-top: 1px solid #C2D89A;
+  width: 100%;
+  border-collapse: collapse;
+}
+.grid th,td {
+  padding: 10;
+  border: 1px dashed #F3DCAB;
+  height: 35px;
+  line-height: 35px;
+}
+.grid th {
+  background-color: #F3DCAB;
+}
+.grid .book {
+  padding-bottom: 10px;
+  padding-top: 5px;
+  background-color: #F3DCAB;
+}
+.grid .total {
+  height: 30px;
+  line-height: 30px;
+  background-color: #F3DCAB;
+  border-top: 1px solid #C2D89A;
+>>>>>>> 1f81595ab5356690dc75797e456a913ccb85d533
 }
