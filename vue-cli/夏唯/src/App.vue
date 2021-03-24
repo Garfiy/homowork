@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <div id="nav">
-    </div>
+    <!-- <el-button>默认按钮</el-button> -->
     <router-view />
   </div>
 </template>
 
-<style lang="less">
-</style>
+<style lang="less"></style>

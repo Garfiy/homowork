@@ -1,15 +1,37 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import r0323 from "../views/2021/03.23";
+import h0323 from "../views/homework/03-23";
+import myMenu from "../views/mymenu.vue";
 
 Vue.use(VueRouter);
 
 const routes = [{
-    path: '/',
-    redirect: '../views/2021/03.23',
+    // 根路由
+    path: "/",
+    // 路由重定向
+    redirect: "/homework",
 }, {
-    path: '/views/2021/03.23',
-    component: r0323,
+    // 路由地址
+    path: '/homework',
+    component: myMenu,
+    children: [{
+        // 子路由的路径可以写相对路径
+        path: "2021/0323",
+        component: h0323,
+    }, {
+        path: "2021/0324",
+        // 懒加载的模式 需要显示的时候才加载
+        component: () =>
+            import ('../views/homework/03-24'),
+    }]
+}, {
+    path: '/study',
+    component: myMenu,
+    children: [{
+        path: '2021/0324',
+        component: () =>
+            import ('../views/study/03-24/Dynamic.vue')
+    }]
 }];
 
 const router = new VueRouter({
