@@ -1,4 +1,4 @@
-# hello-world
+# cc
 
 ## Project setup
 ```
