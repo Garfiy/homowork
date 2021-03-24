@@ -12,7 +12,7 @@
 export default {
      data() {
             return{
-                speed: 100,
+            speed: 100,
             flag: true,
             text: '《春晓》 作者：孟浩然 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。',
             text1: ''
