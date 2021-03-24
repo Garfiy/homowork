@@ -1,17 +1,25 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import l323 from "../views/3/23";
+import h323 from "../views/homework/March/No23";
 
+import myMenu from "../views/homework/myMenu.vue";
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path:'/',
-    redirect:'../views/3/23',
+    path: '/',
+    redirect: '/homework',
   },
   {
-    path:'/views/3/23',
-    component:l323,
+    path: '/homework',
+    component: myMenu,
+    children: [
+      {
+        // 子路由的路径可以写相对路径
+        path: '3/23',
+        component: h323,
+      }
+    ]
   }
 
 ];
