@@ -16,13 +16,21 @@
         <el-submenu index="2">
             <template slot="title">study</template>
                <el-menu-item-group>
-                <el-menu-item index="/study/2021/0324">动态路由</el-menu-item>
+                 <template slot="title">2021-03-24笔记</template>
+                <el-menu-item index="/study/2021/0324class">命名路由</el-menu-item>
+
+                <el-menu-item index="/study/2021/0324/传">动态路由params</el-menu-item>
+                <el-menu-item index="/study/2021/0324?name=参">动态路由query</el-menu-item>
+                <el-menu-item @click="$router.push({path:'/study/2021/0324',query:{name:'编程导航query'}})">编程式导航query</el-menu-item>
+                <el-menu-item @click="$router.push({name:'编程导航',params:{name:'编程导航params'}})">编程式导航params</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
     </el-menu>
   </el-col>
   <el-col :span="21">
+    <router-view name="header"></router-view>
     <router-view></router-view>
+    <router-view name="footer"></router-view>
   </el-col>
 </el-row>
 </template>

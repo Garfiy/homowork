@@ -28,9 +28,26 @@ const routes = [{
     path: '/study',
     component: myMenu,
     children: [{
+        path: '2021/0324/:name',
+        name: '编程导航',
+        component: () =>
+            import ('../views/study/03-24/Dynamic.vue')
+    }, {
         path: '2021/0324',
         component: () =>
             import ('../views/study/03-24/Dynamic.vue')
+    }, {
+        path: '2021/0324class',
+        // 命名视图为多个时
+        // component要加s
+        components: {
+            default: () =>
+                import ('../views/homework/03-24'),
+            header: () =>
+                import ('../views/homework/03-24'),
+            footer: () =>
+                import ('../views/homework/03-24')
+        }
     }]
 }];
 
