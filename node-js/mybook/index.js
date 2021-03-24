@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 28d269a1dc963caf7fb0753febb703578a6c6e8c
 const express = require('express');
 const path = require('path');
 const router = require('./router.js');
@@ -26,6 +29,8 @@ app.use(router);
 // 监听端口
 app.listen(3000, () => {
     console.log('running...');
+<<<<<<< HEAD
+=======
 =======
 const express = require('express');
 const path = require('path');
@@ -55,4 +60,5 @@ app.use(router);
 app.listen(3000, () => {
     console.log('running...');
 >>>>>>> 1f81595ab5356690dc75797e456a913ccb85d533
+>>>>>>> 28d269a1dc963caf7fb0753febb703578a6c6e8c
 });
