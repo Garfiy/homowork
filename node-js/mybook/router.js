@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 28d269a1dc963caf7fb0753febb703578a6c6e8c
 /*
   路由模块
 */
@@ -20,6 +23,8 @@ router.delete('/books/:id',service.deleteBook);
 // 验证图书名称是否存在
 router.get('/books/book/:name',service.checkName);
 
+<<<<<<< HEAD
+=======
 =======
 /*
   路由模块
@@ -43,4 +48,5 @@ router.delete('/books/:id',service.deleteBook);
 router.get('/books/book/:name',service.checkName);
 
 >>>>>>> 1f81595ab5356690dc75797e456a913ccb85d533
+>>>>>>> 28d269a1dc963caf7fb0753febb703578a6c6e8c
 module.exports = router;

@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 28d269a1dc963caf7fb0753febb703578a6c6e8c
 .grid {
   margin: auto;
   width: 530px;
@@ -28,6 +31,8 @@
   line-height: 30px;
   background-color: #F3DCAB;
   border-top: 1px solid #C2D89A;
+<<<<<<< HEAD
+=======
 =======
 .grid {
   margin: auto;
@@ -59,4 +64,5 @@
   background-color: #F3DCAB;
   border-top: 1px solid #C2D89A;
 >>>>>>> 1f81595ab5356690dc75797e456a913ccb85d533
+>>>>>>> 28d269a1dc963caf7fb0753febb703578a6c6e8c
 }
