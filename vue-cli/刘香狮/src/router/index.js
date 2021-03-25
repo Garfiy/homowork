@@ -5,6 +5,12 @@ import h323 from "../views/homework/March/No23";
 import myMenu from "../views/homework/myMenu.vue";
 
 Vue.use(VueRouter);
+const originalReplace = VueRouter.prototype.push;
+
+// 解决编程式导航连点报错
+VueRouter.prototype.push = function push(location) {
+  return originalReplace.call(this, location).catch(err => err);
+};
 
 // 根路由
 const routes = [
@@ -33,6 +39,10 @@ const routes = [
         // component:function(){
         //   return import('../views/homework/March/No24');
         // }
+      },
+      {
+        path:'2021/0325',
+        component:()=> import('../views/homework/March/No25')
       }
     ]
   }, {
@@ -40,6 +50,36 @@ const routes = [
     path: '/study',
     component: myMenu,
     children: [
+      {
+        path: '03/25/03',
+        component: () => import('../views/study/March/No25/s03.vue'),
+        props: route => {
+          return {
+            id: route.query.id,
+          }
+        }
+      },
+      {
+        path: '03/25/03/:id',
+        component: () => import('../views/study/March/No25/s03.vue'),
+        // 将路由上的参数传到组件的props属性中
+        props: true
+        
+      },
+      {
+        path: '03/25/02',
+        // alias 表示为路由器的别名
+        alias: '/liebiao',
+        redirect: () => {
+          let flag = true;
+          if (flag) {
+            return '/homework/2021/0324';
+            // 默认是返回一个path  需要返回 指定name 就返回一个带name的对象
+          } else {
+            return '03/24class';
+          }
+        }
+      },
       {
         path: '03/24/:name', //params 传参 地址后面/加参数
         // 只有index和app文件名 可以不用声明  其他的文件都要声明
@@ -60,7 +100,26 @@ const routes = [
           header: () => import('../views/homework/March/No24'),
           footer: () => import('../views/homework/March/No24'),
         }
-      }
+      },
+      {
+        path: '03/25yesterday',
+        component: () => import('../views/study/March/No25/Homeworkyesterday.vue')
+      },
+      {
+        path: '03/25/01',
+        // 重定向可以传递对象值
+        redirect: {
+          // name 为其他路由的别名 跳转到指定的路由
+          // name: '编程导航',
+
+          // path 有斜杠会从根路由开始
+          //  无斜杠就是原本的父级
+          path: '/homework/2021/0323',
+          params: {
+            name: '123',
+          }
+        }
+      },
     ]
   }
 
