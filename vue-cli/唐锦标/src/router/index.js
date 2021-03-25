@@ -16,6 +16,7 @@ VueRouter.prototype.push = function push(location) {
 const routes = [{
     path: '/',
     redirect: '/homework'
+<<<<<<< HEAD
 }, {
     path: '/homework',
     component: MyMenu,
@@ -74,6 +75,25 @@ const routes = [{
             }
         }
     }, {
+=======
+}, {
+    path: '/homework',
+    component: MyMenu,
+    children: [{
+        //子路由的路径可以写相对路径
+        path: '2021/0323',
+        component: h0323,
+    }, {
+        //子路由的路径可以写相对路径
+        path: '2021/0324',
+        component: () =>
+            import ('../views/2021/0324/index.vue'),
+    }]
+}, {
+    path: '/study',
+    component: MyMenu,
+    children: [{
+>>>>>>> 626a9c2dd39e444afb2f96080f4e595929b4cc91
         path: '2021/0324/:name',
         name: '编程导航',
         component: () =>

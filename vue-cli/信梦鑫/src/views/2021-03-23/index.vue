@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p v-text="text"></p>
         速度 : <input type="text" @keyup="keyup" v-model="speed">
         <button @click="start">开始</button>
         <button @click="end">停止</button>
