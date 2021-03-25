@@ -14,6 +14,11 @@ const routes = [{
     path: '/homework',
     component: MyMenu,
     children: [{
+        path: '2021/0325',
+        component: function() { //普通函数
+            return import ('../views/2021/0325/index.vue');
+        }
+    }, {
         //子路由的路径可以写相对路径
         path: '2021-03-23',
         component: H123,
@@ -33,6 +38,44 @@ const routes = [{
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0325/03',
+        //将路由上参数传到组件的props属性中
+        props: route => {
+            return {
+                id: route.query.id,
+            }
+        },
+        component: () =>
+            import ('../views/2021/0325/c03.vue'),
+    }, {
+        path: '2021/0325/03/:id',
+        //将路由上参数传到组件的props属性中
+        props: true,
+        component: () =>
+            import ('../views/2021/0325/c03.vue'),
+    }, {
+        path: '2021/0325/02',
+        alias: '/liebiao',
+        redirect: () => {
+            let flag = true;
+            if (flag) {
+                return '/homework/2021/0324';
+            } else {
+                return '2021/0324class';
+            }
+        }
+    }, {
+        path: '2021/0325/01',
+        //重定向可以传递对象值
+        redirect: {
+            // name: '编程导航',
+            //   斜杠(/)开头 那么就从根路由开启导航
+            path: '/homework/2021/0324',
+            params: {
+                name: '123'
+            }
+        }
+    }, {
         path: '2021/0324/:name',
         name: '编程导航',
         component: () =>
@@ -51,7 +94,7 @@ const routes = [{
                 import ('../views/2021/0324/index.vue'),
             footer: () =>
                 import ('../views/2021/0324/index.vue'),
-        }
+        },
     }]
 }];
 
