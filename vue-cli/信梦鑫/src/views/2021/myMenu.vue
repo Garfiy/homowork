@@ -1,0 +1,48 @@
+<template>
+<!-- 一行 -->
+<el-row>
+    <!-- 列 -->
+    <el-col :span="3"> 
+      <!-- 菜单标签 -->
+      <el-menu :router="true">
+          <!-- 一级标签 -->
+          <el-submenu index="1">
+              <template slot="title">homework</template>
+               <el-menu-item-group>
+          <el-menu-item index="/homework/2021-03-23">20210323</el-menu-item>
+          <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
+        </el-menu-item-group>
+          </el-submenu>
+          <!-- 第二个 一级标签 -->
+          <el-submenu index="2">
+              <template slot="title">study</template>
+              <el-menu-item-group>
+                <el-menu-item index="/study/2021/0324class">命名路由</el-menu-item>
+
+                <el-menu-item index="/study/2021/0324/cc">动态路由params传参</el-menu-item>
+                <el-menu-item index="/study/2021/0324?name=123">动态路由query传参</el-menu-item>
+                <el-menu-item @click="$router.push({path:'/study/2021/0324',query:{name:'编程导航query'}})">编程式导航query</el-menu-item>
+                <el-menu-item @click="$router.push({name:'编程导航',params:{ name:'params编程导航' }})">编程式导航params</el-menu-item>
+              </el-menu-item-group>
+          </el-submenu>
+      </el-menu>
+    </el-col>
+
+    <!-- 放视图 -->
+    <el-col :span="21">
+      <router-view name="header"></router-view>
+      <router-view></router-view>
+      <router-view name="footer"></router-view>
+    </el-col>
+</el-row>
+
+</template>
+
+<style lang="less">
+
+</style>
+<script>
+export default {
+    
+}
+</script>

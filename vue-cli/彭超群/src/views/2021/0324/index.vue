@@ -25,7 +25,6 @@
         <el-input
           v-model="input2"
           placeholder="请输入数字"
-          @keydown.enter="onClickResult"
           type="number"
         ></el-input>
       </el-col>
@@ -33,7 +32,7 @@
         <el-button @click="onClickResult">=</el-button>
       </el-col>
       <el-col :span="3">
-        <el-alert v-text="text" type="success"> </el-alert>
+        <el-tag v-text="text"></el-tag>
       </el-col>
     </el-row>
   </div>
@@ -42,8 +41,8 @@
 export default {
   data() {
     return {
-      input1: "0",
-      input2: "0",
+      input1: "",
+      input2: "",
       options: [
         {
           value: "+",
@@ -63,7 +62,7 @@ export default {
         },
       ],
       value: "+",
-      text: "0",
+      text: " ",
     };
   },
   methods: {
