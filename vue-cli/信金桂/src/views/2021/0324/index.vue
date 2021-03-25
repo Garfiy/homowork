@@ -25,7 +25,7 @@
      <el-col :span="2">
           <el-input v-model="num2" placeholder="请输入内容" @keyup.enter.space="two" ref="jjd"></el-input>
         <!-- <input type="text" v-model='num2' @keyup.enter.space="two" ref="jjd"> -->
-         </el-col>
+    </el-col>
         <el-button type="info" @click="equal">=</el-button>
         <!-- <button @click="equal">=</button> -->
         <span v-text="result"></span>
@@ -59,26 +59,25 @@ export default {
                 }, ],
                 value: ''
                 }
-                },
-            methods: {
-                equal: function() {
-                    if (this.way == '+') {
-                        this.result = parseInt(this.num1) + parseInt(this.num2);
-                    } else if (this.way == '-') {
-                        this.result = this.num1 - this.num2;
-                    } else if (this.way == '*') {
-                        this.result = this.num1 * this.num2;
-                    } else if (this.way == '/') {
-                        this.result = this.num1 / this.num2;
-                    }
-                },
-                one: function() {
-                    this.$refs.jjd.focus();
-                },
-                two: function() {
-                    this.equal();
-                }
-
+        },
+     methods: {
+        equal: function() {
+            if (this.way == '+') {
+                this.result = parseInt(this.num1) + parseInt(this.num2);
+            } else if (this.way == '-') {
+                this.result = this.num1 - this.num2;
+            } else if (this.way == '*') {
+                this.result = this.num1 * this.num2;
+            } else if (this.way == '/') {
+                this.result = this.num1 / this.num2;
             }
+        },
+        one: function() {
+            this.$refs.jjd.focus();
+        },
+        two: function() {
+            this.equal();
+            }
+        }
 }
 </script>
