@@ -13,6 +13,7 @@
         :name="item.name"
       >
         {{ item.content }}
+        
         添加小东西: <i :class="item.content"></i>
       </el-tab-pane>
     </el-tabs>
