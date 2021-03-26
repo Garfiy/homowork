@@ -37,11 +37,9 @@
                   @click="$router.push({name:'编程导航',params:{name : '编程导航params版'}})"
                 >编程式导航</el-menu-item>
               </el-menu-item-group>
-
             </el-submenu>
 
             <el-submenu index="2-2">
-
               <span slot="title">3-25号</span>
 
               <el-menu-item-group>
@@ -53,13 +51,19 @@
                 <template slot="title">上课</template>
                 <el-menu-item index="/study/03/25/01">路由重定向01</el-menu-item>
                 <el-menu-item index="/study/03/25/02">路由重定向02</el-menu-item>
-                    <!-- 找到指定别名的路由 -->
+                <!-- 找到指定别名的路由 -->
                 <el-menu-item index="/liebiao">别名路由</el-menu-item>
                 <!-- 路由传参 -->
-                <el-menu-item index="/study/03/25/03/200"> 路由params传参</el-menu-item>
-                <el-menu-item index="/study/03/25/03?id=100"> 路由query传参</el-menu-item>
+                <el-menu-item index="/study/03/25/03/200">路由params传参</el-menu-item>
+                <el-menu-item index="/study/03/25/03?id=100">路由query传参</el-menu-item>
               </el-menu-item-group>
-
+            </el-submenu>
+            <el-submenu index="2-3">
+              <span slot="title">3-26号</span>
+              <el-menu-item-group>
+                <template slot="title">作业</template>
+                <el-menu-item index="/study/03/26yesterday">3-25号作业</el-menu-item>
+              </el-menu-item-group>
             </el-submenu>
           </el-submenu>
         </el-menu>

@@ -25,6 +25,8 @@ const routes = [
     path: '/homework',
     component: myMenu,
     children: [
+      
+
       {
         // 子路由
         // 子路由的路径可以写相对路径
@@ -41,8 +43,8 @@ const routes = [
         // }
       },
       {
-        path:'2021/0325',
-        component:()=> import('../views/homework/March/No25')
+        path: '2021/0325',
+        component: () => import('../views/homework/March/No25')
       }
     ]
   }, {
@@ -50,6 +52,10 @@ const routes = [
     path: '/study',
     component: myMenu,
     children: [
+      {
+        path: '03/26yesterday',
+        component: () => import('../views/study/March/No26/Homeworkyesterday.vue')
+      },
       {
         path: '03/25/03',
         component: () => import('../views/study/March/No25/s03.vue'),
@@ -64,7 +70,7 @@ const routes = [
         component: () => import('../views/study/March/No25/s03.vue'),
         // 将路由上的参数传到组件的props属性中
         props: true
-        
+
       },
       {
         path: '03/25/02',

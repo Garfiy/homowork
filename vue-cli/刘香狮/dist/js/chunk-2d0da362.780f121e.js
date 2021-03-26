@@ -1,2 +1,2 @@
 (window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0da362"],{"6b44":function(e,r,n){"use strict";n.r(r);var s=function(){var e=this,r=e.$createElement,n=e._self._c||r;return n("div",[n("p",[e._v("父组件的值："+e._s(e.id))]),n("p",[e._v("params.id : "+e._s(e.$route.params.id))]),n("p",[e._v("query.id : "+e._s(e.$route.query.id))])])},u=[],i={props:["id"]},p=i,t=n("2877"),a=Object(t["a"])(p,s,u,!1,null,null,null);r["default"]=a.exports}}]);
-//# sourceMappingURL=chunk-2d0da362.9c7bb899.js.map
+//# sourceMappingURL=chunk-2d0da362.780f121e.js.map
