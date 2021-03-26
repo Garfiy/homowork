@@ -42,6 +42,17 @@
                 <el-menu-item index="/study/2021/0325/03?id=456">路由query传参</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+            <el-submenu index="2-3">
+              <span slot="title">2021-03-26笔记</span>
+              <el-menu-item-group>
+                  <template slot="title">作业</template>
+                  <el-menu-item index="/study/2021/0326">03-25作业</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group>
+                <template slot="title">上课笔记</template>
+                <el-menu-item index="/study/2021/0325/01">路由重定向规则01</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
         </el-submenu>
     </el-menu>
   </el-col>

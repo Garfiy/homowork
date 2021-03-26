@@ -39,6 +39,10 @@ const routes = [{
     path: '/study',
     component: myMenu,
     children: [{
+            path: "2021/0326",
+            component: () =>
+                import ('../views/study/03-26/zy03-25.vue')
+        }, {
             path: "2021/0325/03",
             props: route => {
                 return {
