@@ -22,24 +22,20 @@
             <template slot="title">study</template>
             <template slot="title">学习</template>
 
-            <el-submenu index="2-1">
-              <span slot="title">3-24号</span>
-
+            <el-submenu index="03/26">
+              <span slot="title">3-26号</span>
+              <el-menu-item-group>
+                <template slot="title">作业</template>
+                <el-menu-item index="/study/03/26yesterday">3-25号作业</el-menu-item>
+              </el-menu-item-group>
               <el-menu-item-group>
                 <template slot="title">上课</template>
-                <el-menu-item index="/study/03/24class">命名路由</el-menu-item>
-                <el-menu-item index="/study/03/24/云">动态路由 params</el-menu-item>
-                <el-menu-item index="/study/03/24?name=云">动态路由 query</el-menu-item>
-                <el-menu-item
-                  @click="$router.push({path:'/study/03/24',query:{name : '编程导航query版'}})"
-                >编程式导航</el-menu-item>
-                <el-menu-item
-                  @click="$router.push({name:'编程导航',params:{name : '编程导航params版'}})"
-                >编程式导航</el-menu-item>
+                <el-menu-item index="/study/03/26/01">组件内前置守卫
+                
+                </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-
-            <el-submenu index="2-2">
+            <el-submenu index="03/25">
               <span slot="title">3-25号</span>
 
               <el-menu-item-group>
@@ -58,11 +54,20 @@
                 <el-menu-item index="/study/03/25/03?id=100">路由query传参</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-submenu index="2-3">
-              <span slot="title">3-26号</span>
+            <el-submenu index="03/24">
+              <span slot="title">3-24号</span>
+
               <el-menu-item-group>
-                <template slot="title">作业</template>
-                <el-menu-item index="/study/03/26yesterday">3-25号作业</el-menu-item>
+                <template slot="title">上课</template>
+                <el-menu-item index="/study/03/24class">命名路由</el-menu-item>
+                <el-menu-item index="/study/03/24/云">动态路由 params</el-menu-item>
+                <el-menu-item index="/study/03/24?name=云">动态路由 query</el-menu-item>
+                <el-menu-item
+                  @click="$router.push({path:'/study/03/24',query:{name : '编程导航query版'}})"
+                >编程式导航</el-menu-item>
+                <el-menu-item
+                  @click="$router.push({name:'编程导航',params:{name : '编程导航params版'}})"
+                >编程式导航</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </el-submenu>
