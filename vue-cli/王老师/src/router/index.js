@@ -35,6 +35,10 @@ const routes = [{
         // 箭头函数
         component: () =>
             import ('../views/2021/0324/index.vue'),
+    }, {
+        path: '2021/0325',
+        component: () =>
+            import ('../views/2021/0325/index.vue')
     }]
 }, {
     // 学习的内容
@@ -102,7 +106,39 @@ const routes = [{
 }];
 
 const router = new VueRouter({
+    // mode: 'history',
     routes,
+});
+
+const flag = true;
+// 全局前置守卫
+// 使用守卫时，需要先实例化
+router.beforeEach((to, from, next) => {
+    // console.log(to);
+    // console.log(from);
+    // console.log(next);
+    // 这个方法是路由继续执行的方法
+    // 如果不执行这个方法~路由定向就会停止
+    // next();
+
+    if (flag) {
+        next();
+    } else {
+        // console.log(to.path);
+        // console.log(from.path);
+        if (to.path == '/homework') {
+            // 去的路由和来的路由相同时
+            next();
+        } else {
+            next(from.path);
+        }
+    }
+});
+
+// 全局后置守卫
+router.afterEach((to, from) => {
+    console.log(to);
+    console.log(from);
 });
 
 export default router;
