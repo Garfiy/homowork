@@ -39,6 +39,10 @@ const routes = [
         // component:function(){
         //   return import('../views/homework/March/No24');
         // }
+      },
+      {
+        path:'2021/0325',
+        component:()=> import('../views/homework/March/No25')
       }
     ]
   }, {
