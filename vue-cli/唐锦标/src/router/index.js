@@ -6,6 +6,13 @@ import MyMenu from '../views/myMenu.vue';
 
 Vue.use(VueRouter);
 
+
+// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
+
 const routes = [{
     path: '/',
     redirect: '/homework'
@@ -21,11 +28,52 @@ const routes = [{
         path: '2021/0324',
         component: () =>
             import ('../views/2021/0324/index.vue'),
+    }, {
+        path: '2021/0325',
+        component: () =>
+            import ('../views/2021/0325/index.vue'),
     }]
 }, {
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0325/03',
+        //蒋路由上的参数传到组件的props属性中
+        props: route => {
+            return {
+                id: route.query.id
+            }
+        },
+        component: () =>
+            import ('../views/2021/0325/s03.vue'),
+    }, {
+        path: '2021/0325/03/:id',
+        //蒋路由上的参数传到组件的props属性中
+        props: true,
+        component: () =>
+            import ('../views/2021/0325/s03.vue'),
+    }, {
+        path: '2021/0325/02',
+        alias: '/liebiao',
+        // component: MyMenu
+        redirect: () => {
+            let flag = false;
+            if (flag) {
+                return '2021/0324'
+            } else {
+                return '2021/0324class'
+            }
+        }
+    }, {
+        path: '2021/0325/01',
+        redirect: {
+            path: '/homework/2021/0324',
+            // name: '编程导航',
+            params: {
+                name: '123'
+            }
+        }
+    }, {
         path: '2021/0324/:name',
         name: '编程导航',
         component: () =>
