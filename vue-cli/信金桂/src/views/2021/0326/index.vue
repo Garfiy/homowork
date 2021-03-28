@@ -45,8 +45,6 @@
     <el-button>取消</el-button>
     <div v-html="form.arr">content</div>
   </el-form-item>
- 
-    
 </el-form>
 </div>
 </template>
