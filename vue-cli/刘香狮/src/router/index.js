@@ -12,6 +12,7 @@ VueRouter.prototype.push = function push(location) {
   return originalReplace.call(this, location).catch(err => err);
 };
 
+
 // 根路由
 const routes = [
   // 路由重定向
@@ -25,6 +26,8 @@ const routes = [
     path: '/homework',
     component: myMenu,
     children: [
+      
+
       {
         // 子路由
         // 子路由的路径可以写相对路径
@@ -39,13 +42,39 @@ const routes = [
         // component:function(){
         //   return import('../views/homework/March/No24');
         // }
+      },
+      {
+        path: '2021/0325',
+        component: () => import('../views/homework/March/No25')
       }
     ]
-  }, {
-    // 学习
+  },
+   // 学习
+  {
+   
     path: '/study',
     component: myMenu,
     children: [
+      {
+        path:'03/26/01',
+        // 路由内前置守卫
+        beforeEnter: (to, from, next) => {
+          // console.log(to);
+          // console.log(from);
+          // console.log(next);
+          // 不加这个会进不来链接
+          next()
+        },
+        
+        component: () => import('../views/study/March/No26/s01.vue'),
+        meta:{
+          title:'msg',
+        }
+      },
+      {
+        path: '03/26yesterday',
+        component: () => import('../views/study/March/No26/Homeworkyesterday.vue')
+      },
       {
         path: '03/25/03',
         component: () => import('../views/study/March/No25/s03.vue'),
@@ -60,7 +89,7 @@ const routes = [
         component: () => import('../views/study/March/No25/s03.vue'),
         // 将路由上的参数传到组件的props属性中
         props: true
-        
+
       },
       {
         path: '03/25/02',
@@ -123,6 +152,17 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  scrollBehavior(to,from,savedPosition){
+    to,from,savedPosition
+    // 记录了当前浏览器的滚动位置 // savedPosition
+    // return savedPosition   只是返回开始的位置
+    // x 横向滚动
+    // y 竖向滚动
+    return {
+      x:0,
+      y:0
+    }
+  }
 });
 
 export default router;
