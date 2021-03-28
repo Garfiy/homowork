@@ -71,11 +71,11 @@
   }
 </script>
 
-<style lang="less">
-   i {
+<style lang="less" scoped>
+   .el-tab-pane {
        font-size: 50px;
    }
-   i:hover{
+  .el-tab-pane:hover{
        color: #0ae;
    }
 </style>
