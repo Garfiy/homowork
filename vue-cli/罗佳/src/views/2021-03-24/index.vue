@@ -15,7 +15,7 @@
       </el-select>
     </el-col>
     <el-col :span='3'>
-      <el-input v-model="inputs" placeholder="请输入内容" @blur="onKeydownfeel"></el-input>
+      <el-input v-model="inputs" placeholder="请输入内容" @change="onKeydownfeel"></el-input>
     </el-col>
     <el-col :span="1">
       <el-button size="small" @click="onClickResult">=</el-button>
