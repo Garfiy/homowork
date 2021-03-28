@@ -65,7 +65,7 @@
       },
       getTub(){ 
         let result= Math.floor(Math.random() * this.tub.length);
-        console.log(result);
+        // console.log(result);
         // return Math.round( Math.random(0,this.tub.length-1));
         return this.tub[result]
       }
