@@ -74,9 +74,7 @@
         }else{
            this.form.delivery='no';
         }
-
          this.form.arr='活动名称为：' + this.form.name + '<br>互动区域为：'+this.form.region + '<br>活动时间为：'+ this.form.date1 + this.form.date2 +'<br>即时配送:'+ this.form.delivery+'<br>活动性质为：'+this.form.type+'<br>特殊资源Wie：' +this.form.type+'<br>活动形式为：'+this.form.desc;
-
       }
     }
   }
