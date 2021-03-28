@@ -46,6 +46,16 @@ const routes = [
       {
         path: '2021/0325',
         component: () => import('../views/homework/March/No25')
+      },
+      {
+        path :'2021/0327',
+        component:()=>import ('../views/homework/March/N027'),
+        children:[
+          {
+            path:'form',
+            component:()=>import('../views/homework/March/N027/form.vue')
+          }
+        ]
       }
     ]
   },
