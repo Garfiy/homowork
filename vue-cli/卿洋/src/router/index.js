@@ -31,16 +31,16 @@ const routes = [{
 
         // 箭头函数
         component: () =>
-            import ('../views/2021/0324'),
+            import('../views/2021/0324'),
 
     }, {
         path: '2021/0325',
         component: () =>
-            import ('../views/2021/0325'),
+            import('../views/2021/0325'),
     }, {
         path: '2021/0326',
         component: () =>
-            import ('../views/2021/0326'),
+            import('../views/2021/0326'),
     }]
 }, {
     // 学习路由
@@ -51,7 +51,7 @@ const routes = [{
             path: '2021/0326/01',
             // 组件内部前置路由守卫
             component: () =>
-                import ('../views/2021/0326/S01.vue'),
+                import('../views/2021/0326/S01.vue'),
             beforeEnter(to, from, next) {
                 // console.log(to, from, next);
                 next();
@@ -68,14 +68,14 @@ const routes = [{
             },
 
             component: () =>
-                import ('../views/2021/0325/S03.vue'),
+                import('../views/2021/0325/S03.vue'),
 
         }, {
             path: '2021/0325/03/:id',
             // 将路由上的参数传到组件的props属性中
             props: true,
             component: () =>
-                import ('../views/2021/0325/S03.vue'),
+                import('../views/2021/0325/S03.vue'),
 
         }, {
             path: '2021/0325/02',
@@ -105,23 +105,23 @@ const routes = [{
             path: '2021/0324/:name',
             name: '编程式导航',
             component: () =>
-                import ('../views/2021/0324/Dynamic.vue'),
+                import('../views/2021/0324/Dynamic.vue'),
         },
         {
             path: '2021/0324',
             component: () =>
-                import ('../views/2021/0324/Dynamic.vue'),
+                import('../views/2021/0324/Dynamic.vue'),
         },
         {
             path: '2021/0324class',
             components: {
                 // 命名视图为多个时 component + s 
                 default: () =>
-                    import ('../views/2021/0324/index.vue'),
+                    import('../views/2021/0324/index.vue'),
                 header: () =>
-                    import ('../views/2021/0324/index.vue'),
+                    import('../views/2021/0324/index.vue'),
                 footer: () =>
-                    import ('../views/2021/0324/index.vue'),
+                    import('../views/2021/0324/index.vue'),
             },
         }
     ]
