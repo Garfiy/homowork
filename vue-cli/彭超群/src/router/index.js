@@ -16,9 +16,14 @@ const routes = [{
     redirect: '/homework',
 
 }, {
+    // 作业路由
     path: '/homework',
     component: MyMenu,
     children: [{
+        path: '2021/0328',
+        component: () =>
+            import ('../views/2021/0328/index.vue')
+    }, {
         path: '2021/0325',
         component: () =>
             import ('../views/2021/0325/index.vue')
@@ -33,10 +38,25 @@ const routes = [{
         component: H0323
     }]
 }, {
-    // 学习的内容
+    // 学习路由
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0326/s01',
+
+        //组件内部前置路由守卫
+        beforeEnter: (to, from, next) => {
+            console.log(to);
+            console.log(from);
+            // console.log(next);
+            next();
+        },
+        meta: {
+            title: 'msg',
+        },
+        component: () =>
+            import ('../views/2021/0326/s01.vue')
+    }, {
         path: '2021/0325/s03',
         //将路由上的参数传到组件的props属性中
         props: route => {
@@ -98,8 +118,51 @@ const routes = [{
     }]
 }];
 
+
 const router = new VueRouter({
+    // mode: 'history',
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        //记录了当前浏览器的滚动位置
+        // return savedPosition
+        savedPosition;
+        return {
+            y: 0,
+            x: 0
+        }
+    }
 });
+
+const flag = true;
+
+// 全局前置守卫
+//使用守卫时 需要先实例化
+router.beforeEach((to, from, next) => {
+    // console.log(to);
+    // console.log(from);
+    // console.log(next);
+
+    //这个方法是路由继续执行的方法
+    //如果不执行这个方法 路定向就会停止
+    // next();
+
+    if (flag) {
+        next();
+    } else {
+        // console.log(to.path);
+        // console.log(from.path);
+        // 去的路由和来的路由相同时
+        if (to.path == '/homework') {
+            next();
+        } else {
+            next(from.path);
+        }
+    }
+});
+// 全局后置守卫
+// router.afterEach((to, from) => {
+//     console.log(to);
+//     console.log(from);
+// });
 
 export default router;
