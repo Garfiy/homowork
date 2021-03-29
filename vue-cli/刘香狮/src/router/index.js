@@ -46,17 +46,6 @@ const routes = [
       {
         path: '2021/0325',
         component: () => import('../views/homework/March/No25')
-      },
-      {
-        path :'2021/0327',
-        component:()=>import ('../views/homework/March/N027'),
-        children:[
-          {
-            name:'activity',
-            path:'form',
-            component:()=>import('../views/homework/March/N027/form.vue')
-          }
-        ]
       }
     ]
   },
@@ -66,18 +55,6 @@ const routes = [
     path: '/study',
     component: myMenu,
     children: [
-      {
-        path:'03/29/02',
-        component:()=>import('../views/study/March/No29/s02.vue')
-      },
-      {
-        path:'03/29/01',
-        component:()=>import('../views/study/March/No29/s01.vue'),
-      },
-      {
-        path:'03/29yesterday',
-        component:()=> import('../views/study/March/No29/Homeworkyesterday.vue')
-      },
       {
         path:'03/26/01',
         // 路由内前置守卫

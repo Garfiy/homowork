@@ -41,11 +41,41 @@ const routes = [{
         path: '2021/0326',
         component: () =>
             import ('../views/2021-03-26/index.vue')
+    }, {
+        path: '2021/0329',
+        component: () =>
+            import ('../views/2021-03-29/formdata.vue')
+    }, {
+        path: '2021/0329/12',
+        component: () =>
+            import ('../views/2021-03-29/table.vue')
     }]
 }, {
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0329/01',
+        component: () =>
+            import ('../views/2021-03-29/S01.vue')
+    }, {
+        path: '2021/0329/02',
+        component: () =>
+            import ('../views/2021-03-29/S02.vue')
+    }, {
+        path: '2021/0326/01',
+        component: () =>
+            import ('../views/2021-03-26/S01.vue'),
+        // 组件内部前置路由守卫
+        beforeEnter(to, from, next) {
+            // console.log(to);
+            // console.log(from);
+            // console.log(next);
+            next();
+        },
+        meta: {
+            title: 'msg',
+        },
+    }, {
         path: '2021-03-25/03',
         // 将路由上参数传到组件的props属性中
         props: router => {
@@ -99,6 +129,47 @@ const routes = [{
 
 const router = new VueRouter({
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        to,
+        from,
+        savedPosition;
+        // 记录了当前浏览器的滚动位置
+        // return savedPosition
+        // x 横向轮动
+        // y 竖向滚动
+        return { x: 0, y: 0, }
+    }
 });
+
+const flag = true;
+// 全局前置守卫
+// 使用守卫时，需要先实例化
+router.beforeEach((to, from, next) => {
+    // console.log(to);
+    // console.log(from);
+    // console.log(next);
+    // 这个方法是路由继续执行的方法
+    // 如果不执行这个方法~路由定向就会停止
+    // next();
+
+    if (flag) {
+        next();
+    } else {
+        // console.log(to.path);
+        // console.log(from.path);
+        if (to.path == '/homework') {
+            // 去的路由和来的路由相同时
+            next();
+        } else {
+            next(from.path);
+        }
+    }
+});
+
+// 全局后置守卫
+// router.afterEach((to, from) => {
+// console.log(to);
+// console.log(from);
+// });
 
 export default router;

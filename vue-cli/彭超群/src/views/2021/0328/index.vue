@@ -14,8 +14,8 @@
           </el-form-item>
           <el-form-item label="活动区域" prop="region">
             <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="区域一"></el-option>
-              <el-option label="区域二" value="区域二"></el-option>
+              <el-option value="区域一"></el-option>
+              <el-option value="区域二"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="活动时间" required>
@@ -35,14 +35,18 @@
                 <el-time-picker
                   placeholder="选择时间"
                   v-model="ruleForm.date2"
-                  value-format="hh:mm:ss"
+                  value-format="HH:mm:ss"
                   style="width: 100%"
                 ></el-time-picker>
               </el-form-item>
             </el-col>
           </el-form-item>
           <el-form-item label="即时配送" prop="delivery">
-            <el-switch v-model="ruleForm.delivery"></el-switch>
+            <el-switch
+              v-model="ruleForm.delivery"
+              active-value="是"
+              inactive-value="否"
+            ></el-switch>
           </el-form-item>
           <el-form-item label="活动性质" prop="type">
             <el-checkbox-group v-model="ruleForm.type">
@@ -70,31 +74,14 @@
         </el-form>
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="10">
-        <div v-show="flag">
-          <h3>活动内容</h3>
-          <div>活动名称: {{ ruleForm.name }}</div>
-          <div>活动区域: {{ ruleForm.region }}</div>
-          <div>活动时间: {{ ruleForm.date1 }} ---- {{ ruleForm.date2 }}</div>
-          <div>即时配送: {{ delivery }}</div>
-          <div>
-            活动性质:
-            <span v-for="(k, i) in ruleForm.type" :key="i"
-              >&nbsp;{{ k }}&nbsp;</span
-            >
-          </div>
-          <div>特殊资源: {{ ruleForm.resource }}</div>
-          <div>活动形式: {{ ruleForm.desc }}</div>
-        </div>
-      </el-col>
-    </el-row>
   </div>
 </template>
 
 
 <script>
 import indexVue from "../0323/index.vue";
+import dataTable from '../../../store/table';
+
 export default {
   data() {
     return {
@@ -108,8 +95,6 @@ export default {
         date1: "",
         date2: "",
       },
-      flag: false,
-      delivery: false,
       rules: {
         date1: [
           {
@@ -151,15 +136,10 @@ export default {
     submitForm(formName) {
       indexVue.__file = "2021/0328/submit/" + this.ruleForm;
       this.$refs[formName].validate((valid) => {
-        this.flag = false;
+        this.isShow = false;
         if (valid) {
-          console.log(valid);
-          this.flag = valid;
-          if (this.ruleForm.delivery) {
-            this.delivery = "是";
-          } else {
-            this.delivery = "否";
-          }
+          dataTable.onclickSbumit(this.ruleForm);
+          this.$router.push({path:'/homework/2021/0329'});
         } else {
           console.log("error submit!!");
           return false;
@@ -167,17 +147,8 @@ export default {
       });
     },
     resetForm(formName) {
-      this.flag = false;
       this.$refs[formName].resetFields();
     },
-  },
-  watch: {
-    ruleForm: {
-      handler: function () {
-        this.flag = false;
-      },
-      deep: true,
-    },
-  },
+  }
 };
 </script>

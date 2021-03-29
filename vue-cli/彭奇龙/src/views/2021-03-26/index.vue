@@ -128,7 +128,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //   alert("submit!");
-          console.log(this.ruleForm);
+          // console.log(this.ruleForm);
+          var str = "";
+          this.ruleForm.type.forEach((element) => {
+            str += element + "&nbsp";
+          });
           this.summed =
             "活动名称：" +
             this.ruleForm.name +
@@ -137,7 +141,7 @@ export default {
             "<br>活动时间：" +
             this.formatTime(this.ruleForm.date2) +
             "<br>活动性质：" +
-            this.ruleForm.type[0] +
+            str +
             "<br>特殊资源：" +
             this.ruleForm.resource +
             "<br>活动形式：" +
