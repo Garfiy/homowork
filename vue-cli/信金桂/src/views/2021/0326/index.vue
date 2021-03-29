@@ -38,11 +38,10 @@
   </el-form-item>
   <el-form-item label="活动形式">
     <el-input type="textarea" v-model="form.desc"></el-input>
-    
   </el-form-item>
   <el-form-item>
     <el-button type="primary" @click="onSubmit">立即创建</el-button>
-    <el-button>取消</el-button>
+    <el-button @click="onSubmitQ">取消</el-button>
     <div v-html="form.arr">content</div>
   </el-form-item>
  
@@ -77,9 +76,13 @@
            this.form.delivery='no';
         }
 
-         this.form.arr='活动名称为：' + this.form.name + '<br>互动区域为：'+this.form.region + '<br>活动时间为：'+ this.form.date1 + this.form.date2 +'<br>即时配送:'+ this.form.delivery+'<br>活动性质为：'+this.form.type+'<br>特殊资源Wie：' +this.form.type+'<br>活动形式为：'+this.form.desc;
+         this.form.arr='活动名称为：' + this.form.name + '<br>互动区域为：'+this.form.region + '<br>活动时间为：'+ this.form.date1 + this.form.date2 +'<br>即时配送:'+ this.form.delivery+'<br>活动性质为：'+this.form.type+'<br>特殊资源为：' +this.form.resource +'<br>活动形式为：'+this.form.desc;
 
-      }
+      },
+       onSubmitQ(){
+      this.form.arr='';
     }
+    },
+   
   }
 </script>
