@@ -30,9 +30,12 @@
               </el-menu-item-group>
               <el-menu-item-group>
                 <template slot="title">上课</template>
+                 <el-menu-item index="/study/03/29/01">计数器1
+                </el-menu-item>
+                 <el-menu-item index="/study/03/29/02">计数器2
+                </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-
             <el-submenu index="03/26">
               <span slot="title">3-26号</span>
               <el-menu-item-group>
@@ -42,7 +45,6 @@
               <el-menu-item-group>
                 <template slot="title">上课</template>
                 <el-menu-item index="/study/03/26/01">组件内前置守卫
-                
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
