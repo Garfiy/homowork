@@ -14,27 +14,29 @@
           </el-form-item>
           <el-form-item label="活动区域" prop="region">
             <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option label="上海" value="上海"></el-option>
+              <el-option label="北京" value="北京"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="活动时间" required style="width: 40vw">
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item prop="date1">
                 <el-date-picker
                   type="date"
                   placeholder="选择日期"
                   v-model="ruleForm.date1"
+                  value-format="yyyy-MM-dd"
                   style="width: 100%"
                 ></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col class="line" :span="2" style="text-align: center">-</el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item prop="date2">
                 <el-time-picker
                   placeholder="选择时间"
                   v-model="ruleForm.date2"
+                  value-format="hh:mm:ss"
                   style="width: 100%"
                 ></el-time-picker>
               </el-form-item>
@@ -61,8 +63,7 @@
             <el-input type="textarea" v-model="ruleForm.desc"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button
-            >
+            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -97,7 +98,6 @@ export default {
         ],
         date1: [
           {
-            type: "date",
             required: true,
             message: "请选择日期",
             trigger: "change",
@@ -105,7 +105,6 @@ export default {
         ],
         date2: [
           {
-            type: "date",
             required: true,
             message: "请选择时间",
             trigger: "change",
@@ -128,20 +127,21 @@ export default {
   },
   methods: {
     submitForm(formName) {
-        
       this.$refs[formName].validate((valid) => {
-          
         if (valid) {
-            console.log(this.ruleForm);
-          this.$router.push({path:'/homework/2021/0327/form'});
+          this.$router.push({
+            name: "activity",
+            params: { tableData: this.ruleForm },
+          });
         } else {
-          this.$message.error('请确保带*号都已填选');
+          this.$message.error("请确保带*号都已填选");
           return false;
         }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.$router.push({ path: "/homework/2021/0327" });
     },
   },
 };

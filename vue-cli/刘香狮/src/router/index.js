@@ -52,6 +52,7 @@ const routes = [
         component:()=>import ('../views/homework/March/N027'),
         children:[
           {
+            name:'activity',
             path:'form',
             component:()=>import('../views/homework/March/N027/form.vue')
           }
