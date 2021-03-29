@@ -9,6 +9,7 @@ const routes = [{
     path: '/', //根路由
     redirect: '/homework', //路由重定向
 
+<<<<<<< HEAD
 }, {
     //路由地址
     path: '/homework',
@@ -28,6 +29,27 @@ const routes = [{
         //懒加载的模式,在需要显示的时候才加载
         component: function() { //普通函数
                 return import ('../views/2021/0324/index.vue');
+=======
+    },
+    {
+        //路由地址
+        path: '/homework',
+        component: MyMenu,
+        children: [{
+            path: '2021/0329',
+            component: function() { //普通函数
+                return import ('../views/2021/0329/index.vue');
+            }
+        }, {
+            path: '2021/0326',
+            component: function() { //普通函数
+                return import ('../views/2021/0326/index.vue');
+            }
+        }, {
+            path: '2021/0325',
+            component: function() { //普通函数
+                return import ('../views/2021/0325/index.vue');
+>>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
             }
             //箭头函数
             // component:()=>import ('../views/2021/0324/index.vue'),
@@ -48,6 +70,7 @@ const routes = [{
         component: () =>
             import ('../views/2021/0325/c03.vue'),
     }, {
+<<<<<<< HEAD
         path: '2021/0325/03/:id',
         //将路由上参数传到组件的props属性中
         props: true,
@@ -62,6 +85,59 @@ const routes = [{
                 return '/homework/2021/0324';
             } else {
                 return '2021/0324class';
+=======
+        //学习的内容
+        path: '/study',
+        component: MyMenu,
+        children: [{
+            path: '2021/0329/01',
+            component: () =>
+                import ('../views/2021/0329/c1.vue'),
+        }, {
+            path: '2021/0329/02',
+            component: () =>
+                import ('../views/2021/0329/c2.vue'),
+        }, {
+            path: '2021/0326/01',
+            component: () =>
+                import ('../views/2021/0326/c1.vue'),
+            //组建内部前置路由守卫
+            beforeEnter(to, from, next) {
+                // console.log(to);
+                // console.log(from);
+                // console.log(next);
+                next();
+            },
+            meta: {
+                title: 'cc',
+            },
+        }, {
+            path: '2021/0325/03',
+            //将路由上参数传到组件的props属性中
+            props: route => {
+                return {
+                    id: route.query.id,
+                }
+            },
+            component: () =>
+                import ('../views/2021/0325/c03.vue'),
+        }, {
+            path: '2021/0325/03/:id',
+            //将路由上参数传到组件的props属性中
+            props: true,
+            component: () =>
+                import ('../views/2021/0325/c03.vue'),
+        }, {
+            path: '2021/0325/02',
+            alias: '/liebiao',
+            redirect: () => {
+                let flag = true;
+                if (flag) {
+                    return '/homework/2021/0324';
+                } else {
+                    return '2021/0324class';
+                }
+>>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
             }
         }
     }, {

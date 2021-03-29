@@ -34,11 +34,54 @@ const routes = [{
         // 懒加载的模式 需要显示的时候才加载
         component: () =>
             import ('../views/homework/03-25'),
+<<<<<<< HEAD
+=======
+    }, {
+        path: "2021/0326",
+        // 懒加载的模式 需要显示的时候才加载
+        component: () =>
+            import ('../views/homework/03-26'),
+    }, {
+        path: "2021/0329",
+        // 懒加载的模式 需要显示的时候才加载
+        component: () =>
+            import ('../views/homework/03-29'),
+>>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
     }]
 }, {
     path: '/study',
     component: myMenu,
     children: [{
+<<<<<<< HEAD
+=======
+            path: "2021/0329/01",
+            component: () =>
+                import ('../views/study/03-29/s02.vue')
+        }, {
+            path: "2021/0329/02",
+            component: () =>
+                import ('../views/study/03-29/s03.vue')
+        }, {
+            path: "2021/0329",
+            component: () =>
+                import ('../views/study/03-29/s01.vue')
+        }, {
+            path: '2021/0326/01',
+            // 组件内置前置路由守卫
+            beforeEnter: (to, from, next) => {
+                next();
+            },
+            component: () =>
+                import ('../views/study/03-26/s01.vue'),
+            meta: {
+                title: 'msg',
+            }
+        }, {
+            path: "2021/0326",
+            component: () =>
+                import ('../views/study/03-26/zy03-25.vue')
+        }, {
+>>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
             path: "2021/0325/03",
             props: route => {
                 return {

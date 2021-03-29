@@ -33,12 +33,44 @@ const routes = [{
         path:'2021/0325',
         component: () =>
             import ('../views/2021/0325/index.vue'),
+<<<<<<< HEAD
+=======
+    },{
+        path:'2021/0326',
+        component: () =>
+            import ('../views/2021/0326/index.vue'),
+    },{
+        path:'2021/0329',
+        component: () =>
+            import ('../views/2021/0329/index.vue'),
+>>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
     }]
 }, {
     // 学习的内容
     path: '/study',
     component: MyMenu,
     children: [{
+<<<<<<< HEAD
+=======
+        path:"2021/0329/01",
+        component:()=>import("../views/2021/0329/s01.vue"),
+    },{
+        path:"2021/0329/02",
+        component:()=>import("../views/2021/0329/s02.vue"),
+    },{
+        path:"2021/0326/01",
+        component:()=>import("../views/2021/0326/s01.vue"),
+        beforeEnter:(to,from,next)=> {
+            // console.log(to);
+            // console.log(from);
+            // console.log(next);
+            next();
+        },
+        meta:{
+            title:"msg",
+        }
+    },{
+>>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
         path:"2021/0325/03",
         //将路由上参数传到组件的props属性中
         props: route => {
@@ -97,7 +129,7 @@ const routes = [{
             footer: () =>
                 import ('../views/2021/0324/index.vue'),
         }
-    }]
+    },]
 }];
 
 const router = new VueRouter({
