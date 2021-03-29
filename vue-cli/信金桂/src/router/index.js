@@ -41,6 +41,10 @@ const routes = [{
         path: '2021/0326',
         component: () =>
             import ('../views/2021/0326'),
+    }, {
+        path: '2021/0329',
+        component: () =>
+            import ('../views/2021/0329'),
     }, ]
 }, {
     // 学习路由
@@ -50,7 +54,7 @@ const routes = [{
     children: [{
             path: '2021/0329/01',
             component: () =>
-                import ('../views/2021/0329/S01.vue'),
+                import ('../views/2021/0329/S03.vue'),
         }, {
             path: '2021/0329/02',
             component: () =>

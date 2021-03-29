@@ -1,6 +1,8 @@
 export default {
-    num: 1,
-    changeNum(num) {
-        this.num = num;
+    // num: 1,
+    ruleForm: [],
+    changeNum(ruleForm) {
+        this.ruleForm = ruleForm;
     },
+    // ruleForm: '',
 }
