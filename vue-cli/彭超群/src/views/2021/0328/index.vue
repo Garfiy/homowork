@@ -23,7 +23,7 @@
               <el-form-item prop="date1">
                 <el-date-picker
                   placeholder="选择日期"
-                  v-model="date1"
+                  v-model="ruleForm.date1"
                   value-format="yyyy-MM-dd"
                   style="width: 100%"
                 ></el-date-picker>
@@ -34,7 +34,7 @@
               <el-form-item prop="date2">
                 <el-time-picker
                   placeholder="选择时间"
-                  v-model="date2"
+                  v-model="ruleForm.date2"
                   value-format="hh:mm:ss"
                   style="width: 100%"
                 ></el-time-picker>
@@ -76,7 +76,7 @@
           <h3>活动内容</h3>
           <div>活动名称: {{ ruleForm.name }}</div>
           <div>活动区域: {{ ruleForm.region }}</div>
-          <div>活动时间: {{ date1 }} ---- {{ date2 }}</div>
+          <div>活动时间: {{ ruleForm.date1 }} ---- {{ ruleForm.date2 }}</div>
           <div>即时配送: {{ delivery }}</div>
           <div>
             活动性质:
@@ -110,9 +110,21 @@ export default {
       },
       flag: false,
       delivery: false,
-      date1: "",
-      date2: "",
       rules: {
+        date1: [
+          {
+            required: true,
+            message: "请选择日期",
+            trigger: "change",
+          },
+        ],
+        date2: [
+          {
+            required: true,
+            message: "请选择时间",
+            trigger: "change",
+          },
+        ],
         name: [
           { required: true, message: "请输入活动名称", trigger: "blur" },
           { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
@@ -165,7 +177,7 @@ export default {
         this.flag = false;
       },
       deep: true,
-    }
+    },
   },
 };
 </script>
