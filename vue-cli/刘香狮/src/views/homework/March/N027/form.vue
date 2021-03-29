@@ -6,7 +6,7 @@
       <el-table-column prop="region" label="活动区域" width="120"></el-table-column>
       <el-table-column prop="date2" label="时间" width="120"></el-table-column>
       <el-table-column prop="delivery" label="及时配送" width="80"></el-table-column>
-      <el-table-column prop="type" label="活动性质" width="120"></el-table-column>
+      <el-table-column prop="type" label="活动性质" width="160"></el-table-column>
       <el-table-column prop="resource" label="特殊资源" width="120"></el-table-column>
       <el-table-column prop="desc" label="活动形式" width="120"></el-table-column>
     </el-table>

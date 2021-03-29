@@ -67,6 +67,10 @@ const routes = [
     component: myMenu,
     children: [
       {
+        path:'03/29yesterday',
+        component:()=> import('../views/study/March/No29/Homeworkyesterday.vue')
+      },
+      {
         path:'03/26/01',
         // 路由内前置守卫
         beforeEnter: (to, from, next) => {
