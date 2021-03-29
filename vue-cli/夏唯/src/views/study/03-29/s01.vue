@@ -1,17 +1,13 @@
 <template>
   <div>
-    <el-form
-      :model="ruleForm"
-      :rules="rules"
-      ref="ruleForm"
-      label-width="100px"
-      class="demo-ruleForm"
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
     >
       <el-form-item label="活动名称" prop="name">
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="活动区域" prop="region">
         <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+          <!-- label属性可以省略 value属性不能省略 -->
           <el-option value="上海">上海</el-option>
           <el-option value="北京">北京</el-option>
         </el-select>
@@ -19,33 +15,22 @@
       <el-form-item label="活动时间" required>
         <el-col :span="11">
           <el-form-item prop="date1">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="ruleForm.date1"
-              style="width: 100%"
-              value-format="yyyy / MM / dd"
+            <!-- data-picker标签 是自带了参数格式化的 -->
+            <!-- value-format 确定结果的格式化形式 -->
+            <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%" value-format="yyyy / MM / dd"
             ></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col class="line" :span="2">-</el-col>
         <el-col :span="11">
           <el-form-item prop="date2">
-            <el-time-picker
-              placeholder="选择时间"
-              v-model="ruleForm.date2"
-              style="width: 100%"
-              value-format="A hh: mm: ss"
+            <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%" value-format="A hh: mm: ss"
             ></el-time-picker>
           </el-form-item>
         </el-col>
       </el-form-item>
       <el-form-item label="即时配送" prop="delivery">
-        <el-switch
-          v-model="ruleForm.delivery"
-          active-value="是"
-          inactive-value="否"
-        ></el-switch>
+        <el-switch v-model="ruleForm.delivery" active-value="是" inactive-value="否"></el-switch>
       </el-form-item>
       <el-form-item label="活动性质" prop="type">
         <el-checkbox-group v-model="ruleForm.type">
@@ -65,31 +50,27 @@
         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >立即创建</el-button
-        >
+        <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
     <div v-show="isShow">
-      <p>活动名称: {{ ruleForm.name }}</p>
-      <p>活动区域: {{ ruleForm.region }}</p>
-      <p>活动时间(日期): {{ ruleForm.date1 }}</p>
-      <p>活动时间(时间): {{ ruleForm.date2 }}</p>
-      <p>即时配送: {{ ruleForm.delivery }}</p>
-      <p>活动性质: {{ ruleForm.type.join(", ") }}</p>
-      <p>特殊资源: {{ ruleForm.resource }}</p>
-      <p>活动形式: {{ ruleForm.desc }}</p>
+      <p>活动名称: {{ruleForm.name}}</p>
+      <p>活动区域: {{ruleForm.region}}</p>
+      <p>活动时间(日期): {{ruleForm.date1}}</p>
+      <p>活动时间(时间): {{ruleForm.date2}}</p>
+      <p>即时配送: {{ruleForm.delivery}}</p>
+      <p>活动性质: {{ruleForm.type.join(", ")}}</p>
+      <p>特殊资源: {{ruleForm.resource}}</p>
+      <p>活动形式: {{ruleForm.desc}}</p>
     </div>
   </div>
 </template>
 <script>
-import store from "../../../store/store";
-
 export default {
   data() {
     return {
-      isShow: false,
+      isShow:false,
       ruleForm: {
         name: "",
         region: "",
@@ -100,8 +81,14 @@ export default {
         resource: "",
         desc: "",
       },
+      // rules的参数名 需要和表单对象同名
       rules: {
+        // 每个规则的值都是数组
+        // 数组中每个对象都是一条规则,因为参数的校验不止一条规则,所以需要用数组保存规则
         name: [
+          // required: 表示是否是必须填写的
+          // message: 表示错误的提示文字
+          // trigger: 触发检测规则的时机(blur: 是在失去焦点时进行检测)
           { required: true, message: "请输入活动名称", trigger: "blur" },
           { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
         ],
@@ -141,9 +128,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.isShow = true;
-          store.form.push(this.ruleForm);
-          this.$router.push("/homework/2021/0329");
+          this.isShow=true;
         } else {
           console.log("error submit!!");
           return false;
