@@ -5,12 +5,12 @@
     max-height="250">
     <el-table-column
       prop="name"
-      label="内容"
+      label="活动名称"
       width="100">
     </el-table-column>
     <el-table-column
       prop="region"
-      label="内容"
+      label="活动地点"
       width="100">
     </el-table-column>
     <!-- <el-table-column
@@ -25,22 +25,22 @@
     </el-table-column> -->
     <el-table-column
       prop="delivery"
-      label="内容"
+      label="及时配送"
       width="120">
     </el-table-column>
     <el-table-column
       prop="type"
-      label="内容"
+      label="活动性质"
       width="200">
     </el-table-column>
       <el-table-column
       prop="resource"
-      label="内容"
+      label="特殊资源"
       width="140">
     </el-table-column>
        <el-table-column
       prop="desc"
-      label="内容"
+      label="活动形式"
       width="120">
     </el-table-column>
     <el-table-column
