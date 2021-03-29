@@ -8,7 +8,7 @@
     </el-table-column>
     <el-table-column prop="region" label="活动区域" width="120">
     </el-table-column>
-    <el-table-column prop="type" label="活动性质" width="300">
+    <el-table-column prop="type" label="活动性质"   :formatter="formatter" width="500">
     </el-table-column>
     <el-table-column prop="resource" label="特殊资源" width="120">
     </el-table-column>
@@ -32,7 +32,6 @@
 
   <script>
 import store from "../../../store/store";
-console.log(store.form);
 export default {
   data() {
     return {
@@ -43,6 +42,10 @@ export default {
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
+     formatter(row, column) {
+       column;
+       return row.type.join(", ");
+      }
   },
 };
 </script>
