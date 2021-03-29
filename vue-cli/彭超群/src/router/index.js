@@ -20,6 +20,10 @@ const routes = [{
     path: '/homework',
     component: MyMenu,
     children: [{
+        path: '2021/0329',
+        component: () =>
+            import ('../views/2021/0329/index.vue')
+    }, {
         path: '2021/0328',
         component: () =>
             import ('../views/2021/0328/index.vue')
@@ -42,6 +46,14 @@ const routes = [{
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0329/s02',
+        component: () =>
+            import ('../views/2021/0329/s02.vue')
+    }, {
+        path: '2021/0329/s01',
+        component: () =>
+            import ('../views/2021/0329/s01.vue')
+    }, {
         path: '2021/0326/s01',
 
         //组件内部前置路由守卫
