@@ -15,6 +15,11 @@ const routes = [{
         path: '/homework',
         component: MyMenu,
         children: [{
+            path: '2021/0329',
+            component: function() { //普通函数
+                return import ('../views/2021/0329/index.vue');
+            }
+        }, {
             path: '2021/0326',
             component: function() { //普通函数
                 return import ('../views/2021/0326/index.vue');
@@ -45,6 +50,14 @@ const routes = [{
         path: '/study',
         component: MyMenu,
         children: [{
+            path: '2021/0329/01',
+            component: () =>
+                import ('../views/2021/0329/c1.vue'),
+        }, {
+            path: '2021/0329/02',
+            component: () =>
+                import ('../views/2021/0329/c2.vue'),
+        }, {
             path: '2021/0326/01',
             component: () =>
                 import ('../views/2021/0326/c1.vue'),

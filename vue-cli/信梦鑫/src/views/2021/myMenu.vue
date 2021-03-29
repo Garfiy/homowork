@@ -13,6 +13,7 @@
           <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
           <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
           <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
+          <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
         </el-menu-item-group>
           </el-submenu>
           <!-- 第二个 一级标签 -->
@@ -27,6 +28,19 @@
                   </el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
+
+             
+              <el-submenu index="03-29">
+                 <template slot="title">0329</template>
+
+                 <el-menu-item-group>
+                   <el-menu-item index="/study/2021/0329/01">计数器1</el-menu-item>
+                   <el-menu-item index="/study/2021/0329/02">计数器2</el-menu-item>
+                 
+                 </el-menu-item-group>
+
+              </el-submenu>
+
 
               <el-submenu index="03-25">
                  <template slot="title">0325</template>
