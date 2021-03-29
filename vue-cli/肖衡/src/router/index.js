@@ -37,12 +37,22 @@ const routes = [{
         path:'2021/0326',
         component: () =>
             import ('../views/2021/0326/index.vue'),
+    },{
+        path:'2021/0329',
+        component: () =>
+            import ('../views/2021/0329/index.vue'),
     }]
 }, {
     // 学习的内容
     path: '/study',
     component: MyMenu,
     children: [{
+        path:"2021/0329/01",
+        component:()=>import("../views/2021/0329/s01.vue"),
+    },{
+        path:"2021/0329/02",
+        component:()=>import("../views/2021/0329/s02.vue"),
+    },{
         path:"2021/0326/01",
         component:()=>import("../views/2021/0326/s01.vue"),
         beforeEnter:(to,from,next)=> {
@@ -113,7 +123,7 @@ const routes = [{
             footer: () =>
                 import ('../views/2021/0324/index.vue'),
         }
-    }]
+    },]
 }];
 
 
