@@ -12,8 +12,8 @@
       </el-form-item>
       <el-form-item label="活动区域" prop="region">
         <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+          <el-option label="上海" value="上海"></el-option>
+          <el-option label="北京" value="北京"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="活动时间" required>
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import store from '../../../store/stores'
+
 export default {
   data() {
     return {
@@ -137,7 +139,7 @@ export default {
             "<br>活动时间：" +
             this.formatTime(this.ruleForm.date2) +
             "<br>活动性质：" +
-            this.ruleForm.type[0] +
+            this.ruleForm.type +
             "<br>特殊资源：" +
             this.ruleForm.resource +
             "<br>活动形式：" +
@@ -147,6 +149,9 @@ export default {
           return false;
         }
       });
+      let from = this.ruleForm;
+      this.$router.push("/homework/2021/0329");
+      store.changeNum(from);
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -157,6 +162,7 @@ export default {
       /* 在日期格式中，月份是从0开始的，因此要加0
        * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
        * */
+      
       var month =
         date.getMonth() + 1 < 10
           ? "0" + (date.getMonth() + 1)
@@ -168,10 +174,7 @@ export default {
         date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
       var seconds =
         date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      var millSconds =
-        date.getMilliseconds() < 10
-          ? "0" + date.getMilliseconds()
-          : date.getMilliseconds();
+     
       // 拼接
       return (
         year +
@@ -184,9 +187,7 @@ export default {
         ":" +
         minutes +
         ":" +
-        seconds +
-        ":" +
-        millSconds
+        seconds
       );
     },
   },
