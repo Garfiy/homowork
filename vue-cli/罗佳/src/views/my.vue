@@ -9,7 +9,6 @@
             <el-menu-item index="/homework/2021/0323">选项1</el-menu-item>
             <el-menu-item index="/homework/2021/0324">选项2</el-menu-item>
             <el-menu-item index="/homework/2021/0325">选项3</el-menu-item>
-            <el-menu-item index="/homework/2021/0326">选项4</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -21,7 +20,7 @@
             <el-menu-item @click="$router.push({name:'编程导航',params:{name:'params深刻的健康'}})">动态路由params深刻的健康</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-      </el-menu> 
+      </el-menu>
     </el-col>
     <el-col :span="21">
       <router-view name="header"></router-view>

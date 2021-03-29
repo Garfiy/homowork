@@ -13,7 +13,6 @@
             <el-menu-item index="/homework/2021/0323">20210323</el-menu-item>
             <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
             <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
-            <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <!-- 再来一个一级标签 -->

@@ -32,27 +32,11 @@ const routes = [{
         path: '2021/0325',
         component: () =>
             import ('../views/2021/0325/index.vue'),
-    }, {
-        path: '2021/0326',
-        component: () =>
-            import ('../views/2021/0326/index.vue'),
     }]
 }, {
     path: '/study',
     component: MyMenu,
     children: [{
-        path: '2021/0326/01',
-        component: () =>
-            import ('../views/2021/0326/s01.vue'),
-        // 组件内部前置路由守卫
-        beforeEnter(to, from, next) {
-            // console.log(to);
-            // console.log(from);
-            // console.log(next);
-            next();
-        },
-
-    }, {
         path: '2021/0325/03',
         //蒋路由上的参数传到组件的props属性中
         props: route => {
@@ -111,38 +95,8 @@ const routes = [{
     }]
 }];
 
-
-
 const router = new VueRouter({
-    // mode: 'history',
     routes,
 });
 
-//全局前置守卫
-//使用守卫时需要先实例化
-
-const flag = true
-router.beforeEach((to, from, next) => {
-    console.log(to);
-    console.log(from);
-    console.log(next);
-    //这个方法时路由继续执行的方法
-    // 如果不执行这个方法，那么路由定向就会停止
-    // next();
-    if (flag) {
-        next()
-    } else {
-        if (to.path == '/homework') {
-            //去的路由和来的路由相同时
-            next()
-        } else {
-            next(from.path)
-        }
-    }
-})
-
-// router.afterEach((to, from) => {
-//     console.log(to);
-//     console.log(from);
-// })
 export default router;
