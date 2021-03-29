@@ -1,0 +1,28 @@
+<template>
+  <el-input-number
+    v-model="num"
+    @change="handleChange"
+    :min="1"
+    :max="10"
+    label="描述文字"
+  ></el-input-number>
+</template>
+
+<script>
+// 引用仓库对象
+import store from "../../../store/store";
+
+export default {
+  data() {
+    return {
+      num: store.num,
+    };
+  },
+  methods: {
+    handleChange(value) {
+      store.changeNum(value);
+      console.log(value);
+    },
+  },
+};
+</script>
