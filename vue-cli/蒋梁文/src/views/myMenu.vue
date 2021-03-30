@@ -12,6 +12,8 @@
               <el-menu-item index="/homework/2021/0323">20210323</el-menu-item>
               <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
               <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
+              <el-menu-item index="/homework/2021/0328">20210328</el-menu-item>
+              <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <!-- 再来一个一级标签 -->
@@ -27,12 +29,20 @@
                     <el-menu-item index="/liebiao">路由重定向3</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
+            <el-submenu index="0329">
+              <template slot="title">0329</template>
+              <el-menu-item-group>
+              <el-menu-item index="/study/2021/0329/s01.vue">计数器1</el-menu-item>
+              <el-menu-item index="/study/2021/0329/s02.vue">计数器2</el-menu-item>
+            </el-menu-item-group>
+            </el-submenu>
             <el-submenu index="03-24">
               <!-- 起个名字 -->
               <template slot="title">0324</template>
               <el-menu-item-group>
                   <!-- 小标签 -->
                   <template slot="title">学习</template>
+
                 <el-menu-item index="/study/2021/0324/Dynamic.vue"
                   >命名路由</el-menu-item
                 >
