@@ -192,6 +192,5 @@ export default {
         millSconds
       );
     },
-
-    }
-   }
+  }
+}
