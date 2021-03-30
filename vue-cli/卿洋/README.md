@@ -1,4 +1,4 @@
-# hello-world
+# yang
 
 ## Project setup
 ```
