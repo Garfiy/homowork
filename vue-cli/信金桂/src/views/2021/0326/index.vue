@@ -59,8 +59,7 @@
         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="}" @click="submitForm('ruleForm')"
-          >立即创建</el-button>
+        <el-button type="}" @click="submitForm('ruleForm')">立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -69,8 +68,8 @@
 </template>
 
 <script>
-import store from '../../../store/store';
-store;
+import store from "../../../store/store";
+
 export default {
   data() {
     return {
@@ -126,8 +125,8 @@ export default {
   },
   methods: {
     submitForm(formName) {
-    this.$router.push('/homework/2021/0329');
-    store.changeNum(this.ruleForm);
+      this.$router.push("/homework/2021/0329");
+      store.changeNum(this.ruleForm);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //   alert("submit!");
@@ -148,7 +147,6 @@ export default {
           console.log("error submit!!");
           return false;
         }
-      
       });
     },
     resetForm(formName) {
@@ -192,5 +190,6 @@ export default {
         millSconds
       );
     },
-  }
-}
+  },
+};
+</script>
