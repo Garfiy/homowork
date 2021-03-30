@@ -84,8 +84,6 @@
   </div>
 </template>
 <script>
-import store from "../../../store/store";
-
 export default {
   data() {
     return {
@@ -142,8 +140,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.isShow = true;
-          store.form.push(this.ruleForm);
-          this.$router.push("/homework/2021/0330");
         } else {
           console.log("error submit!!");
           return false;
