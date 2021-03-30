@@ -34,7 +34,7 @@
             <el-time-picker
               placeholder="选择时间"
               v-model="ruleForm.date2"
-              value-format="hh:mm:ss"
+              value-format="HH:mm:ss"
               style="width: 100%"
             ></el-time-picker>
           </el-form-item>
