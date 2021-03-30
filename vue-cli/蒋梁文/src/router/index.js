@@ -33,12 +33,43 @@ const routes = [{
         // 需要显示的模式，在需要显示的时候才加载
         component: () =>
             import ('../views/2021/0325/index.vue'),
+    }, {
+        // 子路由的路径可以写成相对路径
+        path: '2021/0328',
+        // 需要显示的模式，在需要显示的时候才加载
+        component: () =>
+            import ('../views/2021/0328/index.vue'),
+    }, {
+        path: '2021/0329',
+        component: () =>
+            import ('../views/2021/0329/index.vue'),
     }]
 }, {
     // 学习的内容
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0329/s01',
+        component: () =>
+            import ('../views/2021/0329/s01.vue'),
+    }, {
+        path: '2021/0329/s02',
+        component: () =>
+            import ('../views/2021/0329/s02.vue'),
+    }, {
+        path: '2021/0326/s01',
+        component: () =>
+            import ('../views/2021/0326/s01.vue'),
+        // 组件内部前置路由守卫
+        beforeEnter(to, from, next) {
+            console.log(to);
+            console.log(from);
+            console.log(next());
+        },
+        meta: {
+            title: 'msg',
+        }
+    }, {
         path: '2021/0325/S03',
         props: router => {
             return {
