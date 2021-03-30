@@ -13,17 +13,13 @@
             <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
             <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
             <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
-<<<<<<< HEAD
             <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
-=======
->>>>>>> parent of b32d113 (彭超群)
           </el-menu-item-group>
         </el-submenu>
         <!-- 再来一个一级标签 -->
         <el-submenu index="2">
           <template slot="title">study</template>
 
-<<<<<<< HEAD
           <el-submenu index="03-29">
             <template slot="title">0329</template>
             
@@ -37,8 +33,6 @@
             </el-menu-item-group>
           </el-submenu>
 
-=======
->>>>>>> parent of b32d113 (彭超群)
           <el-submenu index="03-26">
             <template slot="title">0326</template>
             
@@ -74,12 +68,6 @@
                 <el-menu-item @click="$router.push({name:'编程导航',params : { name : 'params编程导航' } })">编程式导航params</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> parent of b32d113 (彭超群)
         </el-submenu>
       </el-menu>
     </el-col>
