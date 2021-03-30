@@ -1,14 +1,9 @@
 export default {
-    // num: 1,
-    ruleForm: [],
-    changeNum(ruleForm) {
-        this.ruleForm = ruleForm;
-
-    },
-
     num: 1,
-    changeNums(num) {
+    changeNum(num) {
         this.num = num;
     },
-    // ruleForm: '',
+
+    // 保存29号里的表格中的数据
+    tableData: [],
 }
