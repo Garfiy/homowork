@@ -12,19 +12,14 @@
           <el-menu-item index="/homework/2021-03-23">20210323</el-menu-item>
           <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
           <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
-<<<<<<< HEAD
-=======
           <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
           <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
->>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
         </el-menu-item-group>
           </el-submenu>
           <!-- 第二个 一级标签 -->
           <el-submenu index="2">
               <template slot="title">study</template>
 
-<<<<<<< HEAD
-=======
               <el-submenu index="03-26">
                  <template slot="title">0326</template>
                 <el-menu-item-group>
@@ -47,7 +42,6 @@
               </el-submenu>
 
 
->>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
               <el-submenu index="03-25">
                  <template slot="title">0325</template>
 
