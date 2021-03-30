@@ -12,11 +12,8 @@
           <el-menu-item-group>
             <template slot="title">作业</template>
             <!-- 选项 -->
-<<<<<<< HEAD
             <el-menu-item index="/homework/2021/0329">0329</el-menu-item>
             <el-menu-item index="/homework/2021/0328">0328</el-menu-item>
-=======
->>>>>>> b74565e4f4babc26027a4d11e8d1ebbf257d7ded
             <el-menu-item index="/homework/2021/0325">0325</el-menu-item>
             <el-menu-item index="/homework/2021/0324">0324</el-menu-item>
             <el-menu-item index="/homework/2021/0323">0323</el-menu-item>
@@ -28,7 +25,6 @@
           <!-- 分组 -->
           <el-menu-item-group>
             <template slot="title">学习</template>
-<<<<<<< HEAD
              <el-submenu index="03-29">
                 <template slot="title">0329</template>
                 <el-menu-item index="/study/2021/0329/s02">计数02</el-menu-item>
@@ -38,8 +34,6 @@
                 <template slot="title">0326</template>
                 <el-menu-item index="/study/2021/0326/s01">组件内前置守卫</el-menu-item>
               </el-submenu>
-=======
->>>>>>> b74565e4f4babc26027a4d11e8d1ebbf257d7ded
             <el-submenu index="03-25">
               <template slot="title">0325</template>
                <el-menu-item index="/study/2021/0325/s03?id=456">路由query传参</el-menu-item>
