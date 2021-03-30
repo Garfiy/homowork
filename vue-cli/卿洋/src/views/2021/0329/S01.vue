@@ -7,24 +7,21 @@
     label="描述文字"
   ></el-input-number>
 </template>
-
 <script>
-// 引用仓库对象
-import store from "../../../store/store";
+//引用仓库对象
+import store from '../../../store/store';
 
 export default {
   data() {
     return {
-      // 初始化的时候获取仓库中的数据
+        // 初始化的时候获取仓库中的数据
       num: store.num,
     };
   },
   methods: {
     handleChange(value) {
-      // 数据改变时，同步调整仓库中的数据
-      store.changeNum(value);
-        console.log(value);
-        console.log(store);
+        //数据改变时,同步调整仓库中的数据
+        store.changeNum(value);
     },
   },
 };

@@ -1,29 +1,26 @@
 <template>
   <div>
-    <div style="margin-bottom: 20px">
-      <el-button size="small" @click="addTab(editableTabsValue)">
-        add tab
-      </el-button>
-    </div>
-    <el-tabs
-      v-model="editableTabsValue"
-      type="card"
-      closable
-      @tab-remove="removeTab"
-    >
-      <el-tab-pane
-        v-for="item in editableTabs"
-        :key="item.name"
-        :label="item.title"
-        :name="item.name"
-      >
-        {{ item.content }}
-        <i :class="item.icoName"></i>
-      </el-tab-pane>
-    </el-tabs>
+    <el-row>
+      <el-col :span="10">
+        <el-tabs
+          v-model="editableTabsValue"
+          type="card"
+          editable
+          @edit="handleTabsEdit"
+        >
+          <el-tab-pane
+            :key="item.name"
+            v-for="item in editableTabs"
+            :label="item.title"
+            :name="item.name"
+          >
+            icon:   <i :class="item.content"></i>
+          </el-tab-pane>
+        </el-tabs>
+      </el-col>
+    </el-row>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -34,59 +31,65 @@ export default {
         {
           title: "Tab 1",
           name: "1",
-          content: "Tab 1 content",
+          content: "el-icon-platform-eleme",
         },
         {
           title: "Tab 2",
           name: "2",
-          content: "Tab 2 content",
+          content: "el-icon-eleme",
         },
       ],
       tabIndex: 2,
+      list: [
+        "el-icon-platform-eleme",
+        "el-icon-eleme",
+        "el-icon-user-solid",
+        "el-icon-phone",
+        "el-icon-star-off",
+        "el-icon-s-goods"
+      ],
     };
   },
   methods: {
-    addTab() {
-      let newTabName = ++this.tabIndex + "";
-      this.editableTabs.push({
-        title: "New Tab",
-        name: newTabName,
-        content: `New Tab content`,
-        icoName: this.getRandomIconClass(),
-      });
-      this.editableTabsValue = newTabName;
-    },
-    removeTab(targetName) {
-      let tabs = this.editableTabs;
-      let activeName = this.editableTabsValue;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.name;
-            }
-          }
+    handleTabsEdit(targetName, action) {
+      if (action === "add") {
+        let newTabName = ++this.tabIndex + "";
+        this.editableTabs.push({
+          title: "New Tab",
+          name: newTabName,
+          content: this.list[Math.floor(Math.random() * this.list.length)],
         });
+        this.editableTabsValue = newTabName;
       }
+      if (action === "remove") {
+        let tabs = this.editableTabs;
+        let activeName = this.editableTabsValue;
+        if (activeName === targetName) {
+          tabs.forEach((tab, index) => {
+            if (tab.name === targetName) {
+              let nextTab = tabs[index + 1] || tabs[index - 1];
+              if (nextTab) {
+                activeName = nextTab.name;
+              }
+            }
+          });
+        }
 
-      this.editableTabsValue = activeName;
-      this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
-    },
-    // 获取图标类名
-    getRandomIconClass() {
-      let arr = [
-        "warning",
-        "warning-outline",
-        "question",
-        "info",
-        "remove",
-        "circle-plus",
-        "success",
-        "error",
-      ];
-      return "el-icon-" + arr[Math.floor(Math.random() * arr.length)];
+        this.editableTabsValue = activeName;
+        this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+      }
     },
   },
 };
 </script>
+<style lang="less">
+.el-tab-pane i {
+  font-size: 30px;
+}
+.el-tabs__new-tab {
+  border: 1px solid #666;
+}
+.el-tabs__new-tab i{
+    color: #666;
+}
+</style>

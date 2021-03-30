@@ -1,15 +1,18 @@
+
 <template>
+  <!-- 保持template这个标签内容只有一个标签 -->
   <div>
-    <el-row>
-      <el-col :span="6">
+    <el-row :gutter="10">
+      <el-col :span="3">
         <el-input
-          v-model="value1"
-          placeholder="请输入内容"
-          @change="onKeyupEnter"
+          v-model="input1"
+          placeholder="请输入数字"
+          type="number"
+          @change="onKeyupEnter1"
         ></el-input>
       </el-col>
-      <el-col :span="4">
-        <el-select v-model="value2" placeholder="请选择" @change="sum">
+      <el-col :span="1">
+        <el-select v-model="value" @change="onClickResult">
           <el-option
             v-for="item in options"
             :key="item"
@@ -18,57 +21,69 @@
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="3">
         <el-input
-          v-model="value3"
-          placeholder="请输入内容"
-          ref="input2"
+          v-model="input2"
+          placeholder="请输入数字"
+          type="number"
           @change="onKeyupEnter2"
+          ref="input2"
         ></el-input>
       </el-col>
       <el-col :span="1">
-        <el-button @click="sum">=</el-button>
+        <el-button @click="onClickResult">=</el-button>
       </el-col>
-      <el-col :span="7"
-        ><span class="result">{{ result }}</span></el-col
-      >
+      <el-col :span="3">
+        <el-tag v-text="text"></el-tag>
+      </el-col>
     </el-row>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
-      value1: "",
-      value2: "+",
-      value3: "",
+      input1: "",
+      input2: "",
       options: ["+", "-", "*", "/"],
-      result: "",
+      value: "+",
+      text: " ",
     };
   },
   methods: {
-    sum() {
-      if (this.value1 && this.value2 && this.value3) {
-        // eval 将字符串当做脚本执行
-        this.result = eval(this.value1 + this.value2 + this.value3);
+    onClickResult: function () {
+      if (this.input1 && this.input2) {
+        //eval 将字符串当做脚本执行
+        this.text = eval(this.input1 + this.value + this.input2);
       }
     },
-    onKeyupEnter() {
-      console.log(this.value1);
-      // $refs 可以绑定标签元素
+    onKeyupEnter1: function () {
+      //$refs 可以绑定标签元素
       this.$refs.input2.focus();
     },
-    onKeyupEnter2() {
-      this.sum();
+    onKeyupEnter2: function () {
+      this.onClickResult();
+      //$refs 可以绑定标签元素
+      this.$refs.input2.blur();
     },
   },
 };
 </script>
 
 <style lang="less">
-.result {
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.el-tag {
   height: 40px;
   line-height: 40px;
+  padding: 0 20px;
 }
 </style>

@@ -7,10 +7,8 @@
     label="描述文字"
   ></el-input-number>
 </template>
-
 <script>
-// 引用仓库对象
-import store from "../../../store/store";
+import store from '../../../store/store';
 
 export default {
   data() {
@@ -21,7 +19,6 @@ export default {
   methods: {
     handleChange(value) {
       store.changeNum(value);
-      console.log(value);
     },
   },
 };
