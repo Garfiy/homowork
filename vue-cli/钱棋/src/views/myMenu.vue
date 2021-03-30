@@ -9,11 +9,11 @@
         <el-submenu index="1">
           <template slot="title">homework</template>
           <el-menu-item-group>
-            <el-menu-item index="/homework/2021/0323">0323</el-menu-item>
-            <el-menu-item index="/homework/2021/0324">0324</el-menu-item>
-            <el-menu-item index="/homework/2021/0325">0325</el-menu-item>
-            <el-menu-item index="/homework/2021/0326">0326</el-menu-item>
             <el-menu-item index="/homework/2021/0329">0329</el-menu-item>
+            <el-menu-item index="/homework/2021/0326">0326</el-menu-item>
+            <el-menu-item index="/homework/2021/0325">0325</el-menu-item>
+            <el-menu-item index="/homework/2021/0324">0324</el-menu-item>
+            <el-menu-item index="/homework/2021/0323">0323</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <!-- 再来一个一级标签 -->
