@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- :rules="rules" -->
     <el-form
       :model="ruleForm"
+      :rules="rules"
       ref="ruleForm"
       label-width="100px"
       class="demo-ruleForm"
@@ -90,7 +90,6 @@
 </template>
 
 <script>
-import store from "../../../store/store";
 export default {
   data() {
     return {
@@ -156,30 +155,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         this.isShow = valid;
         if (valid) {
-          // alert("submit!");
-          let data = this.ruleForm;
-          // store.tableData.push({
-          //   active_name: data.name,
-          //   active_city: data.region,
-          //   active_time: data.date1 + " " + data.date2,
-          //   just_time: data.delivery,
-          //   active_nature: data.type.join(' , '),
-          //   special_res: data.resource,
-          //   active_form: data.desc,
-          // });
-
-          store.tableData.push({
-            active_name: data.name,
-            active_city: data.region,
-            active_time: data.date1 + data.date2,
-            just_time: data.delivery,
-            active_nature: data.type,
-            special_res: data.resource,
-            active_form: data.desc,
-          });
-
-          // 路由跳转
-          this.$router.push("/homework/2021/0329");
+          alert("submit!");
         } else {
           console.log("error submit!!");
           return false;

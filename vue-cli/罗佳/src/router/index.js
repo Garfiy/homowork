@@ -29,7 +29,10 @@ const routes = [{
         component: H0323
     }, {
         path: '2021/0325',
-        component:()=>import('../views/2021-03-25/Tab.vue')
+        component: () => import('../views/2021-03-25/Tab.vue')
+    }, {
+        path: '2021/0326',
+        component: () => import('../views/2021-03-26/index.vue')
     }]
 }, {
     // 学习的内容
@@ -67,8 +70,26 @@ const routes = [{
     }]
 }];
 
+
 const router = new VueRouter({
+    // mode: 'hush',
     routes,
+
 });
+const flag = true;
+router.beforeEach((to, from, next) => {
+    if (flag) {
+        next();
+    } else {
+        // console.log(to.path);
+        // console.log(from.path);
+        if (to.path == '/homework') {
+            next();
+        } else {
+            next(from.path);
+        }
+    }
+})
+
 
 export default router;
