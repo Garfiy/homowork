@@ -14,7 +14,7 @@ import store from '../../../store/store';
     methods: {
       handleChange(value) {
         //   数据改变时，同步调整仓库的数据
-          store.changeNums(value);
+          store.changeNum(value);
         // console.log(value);
         // console.log(store);
       }

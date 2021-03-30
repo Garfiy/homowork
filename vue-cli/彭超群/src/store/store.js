@@ -1,4 +1,4 @@
-export default { //28号课堂练习
+export default {
     num: 1,
     changeNum(num) {
         this.num = num;

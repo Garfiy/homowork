@@ -7,12 +7,12 @@
         <el-submenu index="1">
           <template slot="title">homework</template>
           <el-menu-item-group>
+<<<<<<< HEAD
             <el-menu-item index="/homework/2021/0323">0323</el-menu-item>
             <el-menu-item index="/homework/2021/0324">0324</el-menu-item>
             <el-menu-item index="/homework/2021/0325">0325</el-menu-item>
             <el-menu-item index="/homework/2021/0326">0326</el-menu-item>
             <el-menu-item index="/homework/2021/0329">0329</el-menu-item>
-<<<<<<< HEAD
 =======
             <el-menu-item index="/homework/2021/0323">20210323</el-menu-item>
             <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
@@ -22,8 +22,6 @@
             <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
             <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
 >>>>>>> parent of b32d113 (彭超群)
-=======
->>>>>>> 94f09738bb71e4323f6c4049994c1e53529626bf
           </el-menu-item-group>
         </el-submenu>
         <!-- 再来一个一级标签 -->
@@ -31,9 +29,6 @@
           <template slot="title">study</template>
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 94f09738bb71e4323f6c4049994c1e53529626bf
 
           <el-submenu index="03-29">
             <template slot="title">0329</template>
@@ -149,7 +144,6 @@
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-<<<<<<< HEAD
 =======
           <el-menu-item-group>
               <el-menu-item index="/study/2021/0324class">命名路由</el-menu-item>
@@ -165,8 +159,6 @@
             </el-menu-item-group>
           </el-submenu>
 >>>>>>> parent of b32d113 (彭超群)
-=======
->>>>>>> 94f09738bb71e4323f6c4049994c1e53529626bf
         </el-submenu>
       </el-menu>
     </el-col>
