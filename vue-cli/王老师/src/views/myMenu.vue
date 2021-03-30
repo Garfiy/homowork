@@ -2,13 +2,14 @@
   <!-- 一行 -->
   <el-row>
     <!-- 一列 -->
-    <el-col :span="3">
+    <el-col :span="4">
       <!-- 菜单标签 -->
       <el-menu :router="true">
         <!-- 一级标签 -->
         <el-submenu index="1">
           <template slot="title">homework</template>
           <el-menu-item-group>
+            <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
             <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
             <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
             <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
@@ -101,7 +102,7 @@
     </el-col>
 
     <!-- 放视图 -->
-    <el-col :span="21">
+    <el-col :span="18" :offset="1">
       <router-view name="header"></router-view>
       <router-view></router-view>
       <router-view name="footer"></router-view>
