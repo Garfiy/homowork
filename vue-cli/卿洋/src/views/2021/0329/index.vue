@@ -8,7 +8,12 @@
     </el-table-column>
     <el-table-column prop="region" label="活动区域" width="120">
     </el-table-column>
-    <el-table-column prop="type" label="活动性质"   :formatter="formatter" width="500">
+    <el-table-column
+      prop="type"
+      label="活动性质"
+      :formatter="formatter"
+      width="500"
+    >
     </el-table-column>
     <el-table-column prop="resource" label="特殊资源" width="120">
     </el-table-column>
@@ -29,9 +34,8 @@
     </el-table-column>
   </el-table>
 </template>
-
   <script>
-// import store from "../../../store/store";
+import store from "../../../store/store";
 export default {
   data() {
     return {
@@ -44,7 +48,7 @@ export default {
     },
      formatter(row, column) {
        column;
-       return row.type.join(", ");
+       return row.type.join(" ");
       }
   },
 };
