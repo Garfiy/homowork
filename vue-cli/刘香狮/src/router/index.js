@@ -26,7 +26,14 @@ const routes = [
     path: '/homework',
     component: myMenu,
     children: [
-      
+      {
+        path:'2021/0329',
+        component:()=> import('../views/homework/March/No29')
+      },
+      {
+        path:'2021/0329/form',
+        component:()=> import('../views/homework/March/No29/form.vue')
+      },  
 
       {
         // 子路由
