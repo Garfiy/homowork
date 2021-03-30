@@ -4,7 +4,6 @@
         <transition name="el-fade-in-linear">
         <h1 v-show="$route.query.show || 1">组件内部前置守卫测试组件{{$route.meta.title}}</h1>
         </transition>
-        
     </div>
 =======
   <transition name="el-fade-in-linear">

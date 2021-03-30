@@ -7,8 +7,11 @@ Vue.use(VueRouter);
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> parent of b32d113 (彭超群)
+=======
+>>>>>>> 94f09738bb71e4323f6c4049994c1e53529626bf
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch((err) => err);
@@ -153,6 +156,7 @@ const routes = [
   },
 ];
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 const routes = [{
   // 根路由
@@ -209,6 +213,8 @@ const routes = [{
 >>>>>>> b32d1135c695c90dfb40e1c55cd47ecaa286ff68
 =======
 >>>>>>> parent of b32d113 (彭超群)
+=======
+>>>>>>> 94f09738bb71e4323f6c4049994c1e53529626bf
 
 const router = new VueRouter({
   // mode: 'history',

@@ -67,6 +67,10 @@ const routes = [
     component: myMenu,
     children: [
       {
+        path :'03/30yesterday',
+        component:()=> import('../views/study/March/No30/Homeworkyesterday.vue')
+      },
+      {
         path:'03/29/02',
         component:()=>import('../views/study/March/No29/s02.vue')
       },

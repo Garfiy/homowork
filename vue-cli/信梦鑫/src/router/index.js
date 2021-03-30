@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import H123 from "../views/2021-03-23";
 import MyMenu from '../views/2021/myMenu.vue'
 
 Vue.use(VueRouter);
@@ -22,6 +21,7 @@ const routes = [{
         }, {
             path: '2021/0325',
             component: function() { //普通函数
+<<<<<<< HEAD
                 return import ('../views/2021/0325/index.vue');
             }
         }, {
@@ -33,6 +33,15 @@ const routes = [{
             //子路由的路径可以写相对路径
             path: '2021/0324',
             //懒加载的模式,在需要显示的时候才加载
+=======
+                    return import ('../views/2021/0325/index.vue');
+                }
+                //箭头函数
+                // component:()=>import ('../views/2021/0324/index.vue'),
+
+        }, {
+            path: '2021/0324',
+>>>>>>> 94f09738bb71e4323f6c4049994c1e53529626bf
             component: function() { //普通函数
                     return import ('../views/2021/0324/index.vue');
                 }
@@ -119,9 +128,12 @@ const routes = [{
         }]
     }
 ];
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 94f09738bb71e4323f6c4049994c1e53529626bf
 
 const router = new VueRouter({
     // mode: 'history',
