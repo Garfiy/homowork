@@ -13,12 +13,21 @@
               <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
               <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
               <el-menu-item index="/homework/2021/0328">20210328</el-menu-item>
+<<<<<<< HEAD
               <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
+=======
+>>>>>>> parent of b32d113 (彭超群)
             </el-menu-item-group>
           </el-submenu>
           <!-- 再来一个一级标签 -->
-          <el-submenu index="2">
+          <el-submenu index="03-26">
             <template slot="title"> study </template>
+            <el-submenu index="3">
+              <template slot="title">0326</template>
+              <el-menu-item-group>
+              <el-menu-item index="/study/2021/0326/s01">20210326</el-menu-item>
+            </el-menu-item-group>
+            </el-submenu>
             <el-submenu index="03-25">
                 <template slot="title">0325</template>
                 <el-menu-item-group>

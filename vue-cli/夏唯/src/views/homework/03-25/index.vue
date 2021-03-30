@@ -12,7 +12,7 @@
         :label="item.title"
         :name="item.name"
       >
-        {{ item.content }} <i :class="item.src"></i>
+        {{ item.content }} <i :class="list[Math.floor(Math.random()*list.length)]"></i>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -37,17 +37,16 @@ export default {
         {
           title: "Tab 1",
           name: "1",
-          content: "Tab 1 content",
-          src:'el-icon-goods'
+          content: "Tab 1 content"
         },
         {
           title: "Tab 2",
           name: "2",
-          content: "Tab 2 content",
-          src:'el-icon-star-off'
+          content: "Tab 2 content"
         },
       ],
       tabIndex: 2,
+      list:['el-icon-goods','el-icon-star-off','el-icon-s-goods','el-icon-delete-solid','el-icon-zoom-out','el-icon-help','el-icon-bell']
     };
   },
   methods: {
@@ -57,8 +56,7 @@ export default {
         this.editableTabs.push({
           title: "Tab "+this.tabIndex,
           name: newTabName,
-          content: "Tab "+this.tabIndex+" content",
-          src:'el-icon-s-goods'
+          content: "Tab "+this.tabIndex+" content"
         });
         this.editableTabsValue = newTabName;
       }
