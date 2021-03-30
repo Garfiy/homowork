@@ -12,6 +12,7 @@ VueRouter.prototype.push = function push(location) {
 }
 
 const routes = [{
+<<<<<<< HEAD
         // 根路由
         path: '/',
         // 路由重定向
@@ -117,6 +118,37 @@ const routes = [{
             }
         }, {
             path: '2021/0324/:name',
+=======
+    path: '/',
+    redirect: '/homework',
+
+}, {
+    path: '/homework',
+    component: MyMenu,
+    children: [{
+        path: '2021/0324',
+        //懒加载,需要显示模式,在需要显示的时候才加载
+        component: () =>
+            import("../views/2021-03-24/index.vue")
+    }, {
+        //子路由路径可以写相对路径
+        path: '2021/0323',
+        component: H0323
+    }, {
+        path: '2021/0325',
+        component: () => import('../views/2021-03-25/Tab.vue')
+    }, {
+        path: '2021/0326',
+        component: () => import('../views/2021-03-26/index.vue')
+    }]
+}, {
+    // 学习的内容
+    path: '/study',
+    component: MyMenu,
+    children: [{
+        path: '2021/0325/01',
+        redirect: {
+>>>>>>> 180e2abd4e1020df057d0d23aeea9906f2352244
             name: '编程导航',
             component: () =>
                 import ('../views/2021/0324/Dynamic.vue'),
@@ -140,7 +172,9 @@ const routes = [{
     }
 ];
 
+
 const router = new VueRouter({
+<<<<<<< HEAD
     // mode: 'history',
     routes,
     scrollBehavior(to, from, savedPosition) {
@@ -178,7 +212,27 @@ router.beforeEach((to, from, next) => {
             next(from.path);
         }
     }
+=======
+    // mode: 'hush',
+    routes,
+
+>>>>>>> 180e2abd4e1020df057d0d23aeea9906f2352244
 });
+const flag = true;
+router.beforeEach((to, from, next) => {
+    if (flag) {
+        next();
+    } else {
+        // console.log(to.path);
+        // console.log(from.path);
+        if (to.path == '/homework') {
+            next();
+        } else {
+            next(from.path);
+        }
+    }
+})
+
 
 // 全局后置守卫
 // router.afterEach((to, from) => {

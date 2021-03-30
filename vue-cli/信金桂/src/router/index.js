@@ -41,25 +41,13 @@ const routes = [{
         path: '2021/0326',
         component: () =>
             import ('../views/2021/0326'),
-    }, {
-        path: '2021/0329',
-        component: () =>
-            import ('../views/2021/0329'),
-    }, ]
+    }]
 }, {
     // 学习路由
     // 学习的内容
     path: '/study',
     component: MyMenu,
     children: [{
-            path: '2021/0329/01',
-            component: () =>
-                import ('../views/2021/0329/S03.vue'),
-        }, {
-            path: '2021/0329/02',
-            component: () =>
-                import ('../views/2021/0329/S02.vue'),
-        }, {
             path: '2021/0326/01',
             // 组件内部前置路由守卫
             component: () =>
