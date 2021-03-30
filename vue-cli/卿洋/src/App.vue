@@ -1,6 +1,5 @@
 <template>
-  
-    <!-- <el-button>默认按钮</el-button> -->
+  <div>
     <router-view />
-  
+  </div>
 </template>

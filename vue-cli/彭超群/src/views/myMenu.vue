@@ -12,6 +12,7 @@
           <el-menu-item-group>
             <template slot="title">作业</template>
             <!-- 选项 -->
+            <el-menu-item index="/homework/2021/0329">0329</el-menu-item>
             <el-menu-item index="/homework/2021/0328">0328</el-menu-item>
             <el-menu-item index="/homework/2021/0325">0325</el-menu-item>
             <el-menu-item index="/homework/2021/0324">0324</el-menu-item>
@@ -24,6 +25,11 @@
           <!-- 分组 -->
           <el-menu-item-group>
             <template slot="title">学习</template>
+             <el-submenu index="03-29">
+                <template slot="title">0329</template>
+                <el-menu-item index="/study/2021/0329/s02">计数02</el-menu-item>
+                <el-menu-item index="/study/2021/0329/s01">计数01</el-menu-item>
+              </el-submenu>
               <el-submenu index="03-26">
                 <template slot="title">0326</template>
                 <el-menu-item index="/study/2021/0326/s01">组件内前置守卫</el-menu-item>
