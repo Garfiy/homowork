@@ -32,11 +32,45 @@ const routes = [{
         path: '2021/0325',
         component: () =>
             import ('../views/2021/0325/index.vue'),
+<<<<<<< HEAD
+    }, {
+        path: '2021/0326',
+        component: () =>
+            import ('../views/2021/0326/index.vue'),
+    }, {
+        path: '2021/0329',
+        component: () =>
+            import ('../views/2021/0329/index.vue'),
+=======
+>>>>>>> ac2d813c43782476bd55574a90c1054613e2cd50
     }]
 }, {
     path: '/study',
     component: MyMenu,
     children: [{
+<<<<<<< HEAD
+        path: '2021/0329/01',
+        component: () =>
+            import ('../views/2021/0329/s01.vue'),
+    }, {
+        path: '2021/0329/02',
+        component: () =>
+            import ('../views/2021/0329/s02.vue'),
+    }, {
+        path: '2021/0326/01',
+        component: () =>
+            import ('../views/2021/0326/s01.vue'),
+        // 组件内部前置路由守卫
+        beforeEnter(to, from, next) {
+            // console.log(to);
+            // console.log(from);
+            // console.log(next);
+            next();
+        },
+
+    }, {
+=======
+>>>>>>> ac2d813c43782476bd55574a90c1054613e2cd50
         path: '2021/0325/03',
         //蒋路由上的参数传到组件的props属性中
         props: route => {
