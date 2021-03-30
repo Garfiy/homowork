@@ -59,13 +59,12 @@
         <el-input type="textarea" v-model="ruleForm.desc"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
-          >立即创建</el-button
-        >
+        <el-button type="}" @click="submitForm('ruleForm')"
+          >立即创建</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
-    <span v-html="summed"></span>
+    <!-- <span v-html="summed"></span> -->
   </div>
 </template>
 
@@ -127,15 +126,11 @@ export default {
   },
   methods: {
     submitForm(formName) {
-     this.$router.push('/homework/2021/0329')
+    this.$router.push('/homework/2021/0329');
+    store.changeNum(this.ruleForm);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //   alert("submit!");
-          // console.log(this.ruleForm);
-          var str = "";
-          this.ruleForm.type.forEach((element) => {
-            str += element + "&nbsp";
-          });
           this.summed =
             "活动名称：" +
             this.ruleForm.name +
@@ -144,7 +139,7 @@ export default {
             "<br>活动时间：" +
             this.formatTime(this.ruleForm.date2) +
             "<br>活动性质：" +
-            str +
+            this.ruleForm.type[0] +
             "<br>特殊资源：" +
             this.ruleForm.resource +
             "<br>活动形式：" +
@@ -153,6 +148,7 @@ export default {
           console.log("error submit!!");
           return false;
         }
+      
       });
     },
     resetForm(formName) {
@@ -196,6 +192,6 @@ export default {
         millSconds
       );
     },
-  },
-};
-</script>
+
+    }
+   }
