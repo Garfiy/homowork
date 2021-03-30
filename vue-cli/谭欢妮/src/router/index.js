@@ -1,22 +1,25 @@
+// import { format } from "core-js/core/date";
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from '../views/2021/0323';
+import H0323 from '../views/2021/0323';
 import MyMenu from '../views/myMenu.vue';
 
 Vue.use(VueRouter);
+
 
 const routes = [{
     // 根路由
     path: '/',
     redirect: '/homework',
 }, {
+    // 作业路由
     // 路由地址
     path: '/homework',
     component: MyMenu,
     children: [{
         // 子路由的路径可以写相对路径
         path: '2021/0323',
-        component: Home,
+        component: H0323,
     }, {
         // 子路由的路径可以写相对路径
         path: '2021/0324',
@@ -34,12 +37,41 @@ const routes = [{
         path: '2021/0325',
         component: () =>
             import ('../views/2021/0325'),
-    }]
+    }, {
+        path: '2021/0326',
+        component: () =>
+            import ('../views/2021/0326'),
+    }, {
+        path: '2021/0329',
+        component: () =>
+            import ('../views/2021/0329'),
+    }, ]
 }, {
+    // 学习路由
     // 学习的内容
     path: '/study',
     component: MyMenu,
     children: [{
+            path: '2021/0329/01',
+            component: () =>
+                import ('../views/2021/0329/S01.vue'),
+        }, {
+            path: '2021/0329/02',
+            component: () =>
+                import ('../views/2021/0329/S02.vue'),
+        }, {
+            path: '2021/0326/01',
+            // 组件内部前置路由守卫
+            component: () =>
+                import ('../views/2021/0326/S01.vue'),
+            beforeEnter(to, from, next) {
+                // console.log(to, from, next);
+                next();
+            },
+            meta: {
+                title: 'msg',
+            },
+        }, {
             path: '2021/0325/03',
             props: route => {
                 return {
@@ -108,7 +140,48 @@ const routes = [{
 }];
 
 const router = new VueRouter({
+    // mode: 'history',
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        // 记录了当前浏览器的滚动位置
+        // savedPosition, 
+        // x 横向滚动
+        // y 竖向滚动
+        to,
+        from,
+        savedPosition;
+        return {
+            x: 0,
+            y: 0,
+        }
+    }
 });
+
+const flag = true;
+
+// 全局前置守卫
+// 使用守卫时，需要先实例化
+router.beforeEach((to, from, next) => {
+    // 这个方法是路由继续执行的方法 
+    // 如果不执行这个方法 路由定向就会停止 就不会显示页面
+    // next();
+
+    if (flag) {
+        next();
+    } else {
+        if (to.path == '/homework') {
+            // 去的路由和来的路由相同时
+            next();
+        } else {
+            next(from.path);
+        }
+
+    }
+});
+
+// router.afterEach((to, from) => {
+//     // console.log(to);
+//     // console.log(from);
+// })
 
 export default router;

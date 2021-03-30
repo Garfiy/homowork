@@ -12,8 +12,8 @@
       </el-form-item>
       <el-form-item label="活动区域" prop="region">
         <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-          <el-option value="上海">上海</el-option>
           <el-option value="北京">北京</el-option>
+          <el-option value="云南">云南</el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="活动时间" required>
@@ -84,7 +84,7 @@
   </div>
 </template>
 <script>
-// import store from "../../../store/store";
+import store from "../../../store/store";
 
 export default {
   data() {
