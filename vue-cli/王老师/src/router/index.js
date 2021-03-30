@@ -13,7 +13,7 @@ VueRouter.prototype.push = function push(location) {
 
 const routes = [{
         // 根路由
-        path: '/',
+        path: '/', 
         // 路由重定向
         redirect: '/homework',
     },
