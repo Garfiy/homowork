@@ -22,6 +22,13 @@
           <el-submenu index="2">
             <template slot="title">study</template>
             <template slot="title">学习</template>
+                 <el-submenu index="03/30">
+              <span slot="title">3-30号</span>
+              <el-menu-item-group>
+                <template slot="title">作业</template>
+                <el-menu-item index="/study/03/30yesterday">3-29号作业</el-menu-item>
+              </el-menu-item-group>
+                 </el-submenu>
                  <el-submenu index="03/29">
               <span slot="title">3-29号</span>
               <el-menu-item-group>

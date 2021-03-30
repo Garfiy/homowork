@@ -82,6 +82,7 @@
     </div>
 </template>
 <script>
+import store from '../../../../store/store'
 export default {
   data() {
     return {
@@ -137,9 +138,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-            this.isShow=true
+            this.isShow=true;
+            // console.log(store.data);
+            store.data.push(this.ruleForm)
+            this.$router.push({path:'/study/03/30yesterday'})
         } else {
-
           this.$message.error("请确保带*号都已填选");
           return false;
         }
