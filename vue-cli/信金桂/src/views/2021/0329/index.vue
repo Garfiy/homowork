@@ -49,7 +49,7 @@
       width="300">
       <template slot-scope="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.native.prevent="deleteRow(scope.$index, ruleForm)"
           type="text"
           size="small">
           移除
@@ -75,7 +75,6 @@ store;
         ruleForm:[store.ruleForm],
       }
     },
-    
   }
 
 //   this.$router.push('/homework/2021/0329');
