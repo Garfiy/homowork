@@ -1,2 +1,2 @@
 (window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-c89b337c"],{"07a4":function(n,e,u){"use strict";e["a"]={num:1,changeNum:function(n){this.num=n}}},2564:function(n,e,u){"use strict";u.r(e);var a=function(){var n=this,e=n.$createElement,u=n._self._c||e;return u("el-input-number",{attrs:{min:1,max:10,label:"描述文字"},on:{change:n.handleChange},model:{value:n.num,callback:function(e){n.num=e},expression:"num"}})},t=[],c=u("07a4"),l={data:function(){return{num:c["a"].num}},methods:{handleChange:function(n){c["a"].changeNum(n),console.log(n),console.log(c["a"])}}},o=l,s=u("2877"),i=Object(s["a"])(o,a,t,!1,null,null,null);e["default"]=i.exports}}]);
-//# sourceMappingURL=chunk-c89b337c.bce5c1a6.js.map
+//# sourceMappingURL=chunk-c89b337c.3b22d24c.js.map
