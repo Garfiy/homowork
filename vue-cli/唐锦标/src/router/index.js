@@ -40,11 +40,23 @@ const routes = [{
         path: '2021/0329',
         component: () =>
             import ('../views/2021/0329/index.vue'),
+    }, {
+        path: '2021/0331',
+        component: () =>
+            import ('../views/2021/0331/index.vue'),
     }]
 }, {
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0331/01',
+        component: () =>
+            import ('../views/2021/0331/s01.vue'),
+    }, {
+        path: '2021/0331/02',
+        component: () =>
+            import ('../views/2021/0331/s02.vue'),
+    }, {
         path: '2021/0329/01',
         component: () =>
             import ('../views/2021/0329/s01.vue'),

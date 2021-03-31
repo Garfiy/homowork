@@ -13,12 +13,20 @@
                 <el-menu-item index="/homework/2021/0325">2021-03-25</el-menu-item>
                 <el-menu-item index="/homework/2021/0326">2021-03-26</el-menu-item>
                 <el-menu-item index="/homework/2021/0329">2021-03-29</el-menu-item>
-                <el-menu-item index="/homework/2021/0330">2021-03-30</el-menu-item>
+                <el-menu-item index="/homework/2021/0331">2021-03-31</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <!-- 再来一个一级标签 -->
         <el-submenu index="2">
-           <el-submenu index="2-4">
+            <el-submenu index="2-4">
+              <span slot="title">2021-03-31笔记</span>
+              <el-menu-item-group>
+                <template slot="title">上课笔记</template>
+                <el-menu-item index="/study/2021/0331/01">vueX 计数器</el-menu-item>
+                <el-menu-item index="/study/2021/0331/02">vueX mapState</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <el-submenu index="2-4">
               <span slot="title">2021-03-29笔记</span>
               <el-menu-item-group>
                   <template slot="title">作业</template>
