@@ -15,43 +15,20 @@
         <div class="search_form">
             <div class="logo"><img src="img/logo.png" alt="logo" /></div>
             <div class="form_group">
-                <input type="text" class="input_txt" placeholder="请输入查询的天气" v-model="city" @keyup.enter="queryWeather" />
+                <input type="text" class="input_txt" placeholder="请输入查询的天气" v-model="city"
+                    @keyup.enter="queryWeather" />
                 <button class="input_sub" @click="queryWeather">
-          搜 索
-        </button>
+                    搜 索
+                </button>
             </div>
             <div class="hotkey">
-                <a href="javascript:;" @click="clickSearch('北京')">北京</a>
+                <!-- <a href="javascript:;" @click="clickSearch('北京')">北京</a>
                 <a href="javascript:;" @click="clickSearch('上海')">上海</a>
                 <a href="javascript:;" @click="clickSearch('广州')">广州</a>
-                <a href="javascript:;" @click="clickSearch('深圳')">深圳</a>
+                <a href="javascript:;" @click="clickSearch('深圳')">深圳</a> -->
                 <a href="javascript:;" v-for="city in hotCitys" @click="clickSearch(city)">{{ city }}</a>
             </div>
         </div>
-<<<<<<< HEAD
-        <div class="info_temp">
-          <b>{{ item.low}}</b>
-          ~
-          <b>{{ item.high}}</b>
-        </div>
-        <div class="info_date">
-          <span>{{ item.date }}</span>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <!-- 官网提供的 axios 在线地址 -->
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="./js/main.js"></script>
-  <script>
-  /*
-  请求地址:http://wthrcdn.etouch.cn/weather_mini
-  请求方法:get
-  请求参数:city(城市名)
-  响应内容:天气信息
-=======
         <ul class="weather_list">
             <li v-for="(item,index) in forecastList" :key="item.date" :style="{transitionDelay:index*100+'ms'}">
                 <div class="info_type">
@@ -79,7 +56,6 @@
           请求方法:get
           请求参数:city(城市名)
           响应内容:天气信息
->>>>>>> e26cbee7a6b58b31e1f241bbc4f40e4279cdc31f
 
           1. 点击回车
           2. 查询数据

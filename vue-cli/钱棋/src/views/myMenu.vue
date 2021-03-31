@@ -9,6 +9,7 @@
         <el-submenu index="1">
           <template slot="title">homework</template>
           <el-menu-item-group>
+            <el-menu-item index="/homework/2021/0331">0331</el-menu-item>
             <el-menu-item index="/homework/2021/0329">0329</el-menu-item>
             <el-menu-item index="/homework/2021/0326">0326</el-menu-item>
             <el-menu-item index="/homework/2021/0325">0325</el-menu-item>
@@ -19,6 +20,19 @@
         <!-- 再来一个一级标签 -->
         <el-submenu index="2">
           <template slot="title">study</template>
+          <!-- 学习内容 -->
+
+          <el-submenu index="03-31">
+            <template slot="title">0331</template>
+            <el-menu-item-group>
+              <el-menu-item index="/study/2021/0331/01">
+                vuex计数器
+              </el-menu-item>
+              <el-menu-item index="/study/2021/0331/02">
+                vuex mapState
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
 
           <el-submenu index="03-29">
             <template slot="title">0329</template>
