@@ -74,6 +74,14 @@ const routes = [
     component: myMenu,
     children: [
       {
+        path:'03/31/02',
+        component:()=>import('../views/study/March/No31/s02.vue')
+      },
+      {
+        path:'03/31/01',
+        component:()=>import('../views/study/March/No31/s01.vue')
+      },
+      {
         path:'03/29/02',
         component:()=>import('../views/study/March/No29/s02.vue')
       },

@@ -24,7 +24,17 @@
           <el-submenu index="2">
             <template slot="title">study</template>
             <template slot="title">学习</template>
-                 <el-submenu index="03/29">
+
+            <el-submenu index="03/31">
+              <span slot="title">3-31号</span>
+              <el-menu-item-group>
+                <template slot="title">上课</template>
+                <el-menu-item index="/study/03/31/01">Vuex</el-menu-item>
+                <el-menu-item index="/study/03/31/02">mapState</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            
+            <el-submenu index="03/29">
               <span slot="title">3-29号</span>
               <el-menu-item-group>
                 <template slot="title">作业</template>
@@ -32,10 +42,8 @@
               </el-menu-item-group>
               <el-menu-item-group>
                 <template slot="title">上课</template>
-                 <el-menu-item index="/study/03/29/01">计数器1
-                </el-menu-item>
-                 <el-menu-item index="/study/03/29/02">计数器2
-                </el-menu-item>
+                <el-menu-item index="/study/03/29/01">计数器1</el-menu-item>
+                <el-menu-item index="/study/03/29/02">计数器2</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="03/26">
@@ -46,8 +54,7 @@
               </el-menu-item-group>
               <el-menu-item-group>
                 <template slot="title">上课</template>
-                <el-menu-item index="/study/03/26/01">组件内前置守卫
-                </el-menu-item>
+                <el-menu-item index="/study/03/26/01">组件内前置守卫</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="03/25">
