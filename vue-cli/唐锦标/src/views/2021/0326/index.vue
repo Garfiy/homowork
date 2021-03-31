@@ -12,8 +12,8 @@
       </el-form-item>
       <el-form-item label="活动区域" prop="region">
         <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+          <el-option label="上海" value="上海"></el-option>
+          <el-option label="北京" value="北京"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="活动时间" required>
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import store from '../../../store/stores'
+
 export default {
   data() {
     return {
@@ -128,16 +130,18 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //   alert("submit!");
+          let data = this.formatTime(this.ruleForm.date1,this.ruleForm.date2);
+          this.ruleForm.date2 = data
           console.log(this.ruleForm);
           this.summed =
-            "活动名称：" +
+            "活动名称：" +     
             this.ruleForm.name +
             "<br>活动区域：" +
             this.ruleForm.region +
             "<br>活动时间：" +
-            this.formatTime(this.ruleForm.date2) +
+            data +
             "<br>活动性质：" +
-            this.ruleForm.type[0] +
+            this.ruleForm.type +
             "<br>特殊资源：" +
             this.ruleForm.resource +
             "<br>活动形式：" +
@@ -146,12 +150,15 @@ export default {
           console.log("error submit!!");
           return false;
         }
+        let from = this.ruleForm;
+        this.$router.push("/homework/2021/0329")
+        store.changeNum(from)
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    formatTime(date) {
+    formatTime(date,date2) {
       //  var date = new Date(time);
       var year = date.getFullYear();
       /* 在日期格式中，月份是从0开始的，因此要加0
@@ -163,15 +170,12 @@ export default {
           : date.getMonth() + 1;
       var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
       var hours =
-        date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        date2.getHours() < 10 ? "0" + date2.getHours() : date2.getHours();
       var minutes =
-        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        date2.getMinutes() < 10 ? "0" + date2.getMinutes() : date2.getMinutes();
       var seconds =
-        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-      var millSconds =
-        date.getMilliseconds() < 10
-          ? "0" + date.getMilliseconds()
-          : date.getMilliseconds();
+        date2.getSeconds() < 10 ? "0" + date2.getSeconds() : date2.getSeconds();
+    
       // 拼接
       return (
         year +
@@ -184,9 +188,7 @@ export default {
         ":" +
         minutes +
         ":" +
-        seconds +
-        ":" +
-        millSconds
+        seconds 
       );
     },
   },
