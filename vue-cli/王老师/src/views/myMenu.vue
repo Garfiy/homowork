@@ -18,6 +18,20 @@
         <el-submenu index="2">
           <template slot="title">study</template>
 
+          <el-submenu index="03-31">
+            <template slot="title">0331</template>
+            
+            <el-menu-item-group>
+              <el-menu-item index="/study/2021/0331/02">
+                vuex mapState
+              </el-menu-item>
+
+              <el-menu-item index="/study/2021/0331/01">
+                vuex 计数器
+              </el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
           <el-submenu index="03-26">
             <template slot="title">0326</template>
             
