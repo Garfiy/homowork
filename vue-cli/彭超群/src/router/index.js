@@ -9,6 +9,7 @@ const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err);
 };
+
 Vue.use(VueRouter);
 
 const routes = [{
@@ -20,6 +21,10 @@ const routes = [{
     path: '/homework',
     component: MyMenu,
     children: [{
+        path: '2021/0331',
+        component: () =>
+            import ('../views/2021/0331/index.vue')
+    }, {
         path: '2021/0329',
         component: () =>
             import ('../views/2021/0329/index.vue')
@@ -46,6 +51,18 @@ const routes = [{
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0331/s03',
+        component: () =>
+            import ('../views/2021/0331/s03.vue')
+    }, {
+        path: '2021/0331/s02',
+        component: () =>
+            import ('../views/2021/0331/s02.vue')
+    }, {
+        path: '2021/0331/s01',
+        component: () =>
+            import ('../views/2021/0331/s01.vue')
+    }, {
         path: '2021/0329/s02',
         component: () =>
             import ('../views/2021/0329/s02.vue')
