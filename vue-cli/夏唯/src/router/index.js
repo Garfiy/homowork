@@ -45,15 +45,23 @@ const routes = [{
         component: () =>
             import ('../views/homework/03-29'),
     }, {
-        path: "2021/0330",
+        path: "2021/0331",
         // 懒加载的模式 需要显示的时候才加载
         component: () =>
-            import ('../views/homework/03-30'),
+            import ('../views/homework/03-31'),
     }]
 }, {
     path: '/study',
     component: myMenu,
     children: [{
+            path: '2021/0331/02',
+            component: () =>
+                import ('../views/study/03-31/s02.vue')
+        }, {
+            path: '2021/0331/01',
+            component: () =>
+                import ('../views/study/03-31/s01.vue')
+        }, {
             path: '2021/0329/02',
             component: () =>
                 import ('../views/study/03-29/s03.vue')
