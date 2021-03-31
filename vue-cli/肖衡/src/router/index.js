@@ -59,10 +59,11 @@ const routes = [{
     },{
         path:"2021/0329/01",
         component:()=>import("../views/2021/0329/s01.vue"),
-    },{
-        path:"2021/0329/02",
-        component:()=>import("../views/2021/0329/s02.vue"),
     },
+    // {
+    //     path:"2021/0329/02",
+    //     component:()=>import("../views/2021/0329/s02.vue"),
+    // },
     // ,{
     //     path:"2021/0325/03",
     //     //将路由上参数传到组件的props属性中
@@ -123,11 +124,49 @@ const routes = [{
             footer: () =>
                 import ('../views/2021/0324/index.vue'),
         }
-    },]
+    }]
 }];
 
-const router = new VueRouter({
-    routes,
-});
 
+const router = new VueRouter({
+    // mode:"history",
+    routes,
+    scrollBehavior(to,from,savedPosition){
+        //记录当前浏览器的位置
+        // return savedPosition
+        // x 横向滚动   y 竖向滚动
+        to,from,savedPosition
+        return {
+            x:0,
+            y:0,
+        }
+    }
+});
+//全局前置守卫
+//实例化的方法
+let flag = true;
+router.beforeEach((to,from,next)=> {
+    // console.log(to);
+    // console.log(from);
+    // console.log(next);
+    //这个方法是路由继续执行的方法
+    //如果不执行这个方法路由定向就会停止
+    // next();
+    if(flag){
+        next();
+    }else {
+        //去的路由和来的路由相同时
+        if(to.path == "/homework"){
+            next();
+        }else{
+            next(from.path)    
+        }
+    }
+})
+
+//全局后置守卫
+// router.afterEach((to,from)=> {
+    // console.log(to);
+    // console.log(from);
+// })
 export default router;

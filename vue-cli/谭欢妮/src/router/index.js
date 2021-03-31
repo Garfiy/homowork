@@ -28,11 +28,6 @@ const routes = [{
         // component: function() {
         //     return import ('../views/2021/0324');
         // },
-
-        // 箭头函数
-        component: () =>
-            import ('../views/2021/0324'),
-
     }, {
         path: '2021/0325',
         component: () =>
@@ -78,21 +73,17 @@ const routes = [{
                     id: route.query.id,
                 }
             },
-
             component: () =>
                 import ('../views/2021/0325/S03.vue'),
-
         }, {
             path: '2021/0325/03/:id',
-            // 将路由上的参数传到组件的props属性中
+            // 将路由上参数传到组件的props属性中
             props: true,
             component: () =>
                 import ('../views/2021/0325/S03.vue'),
-
         }, {
             path: '2021/0325/02',
             alias: '/liebiao',
-            // component: MyMenu,
             redirect: () => {
                 let flag = true;
                 if (flag) {
@@ -105,39 +96,37 @@ const routes = [{
             path: '2021/0325/01',
             // 重定向可以传递对象值
             redirect: {
-                // name: '编程式导航',
-                //  / 开头 那么就从根路由开启导航
+                // name: '编程导航',
+                //   / 开头 那么就从根路由开启导航
                 path: '/homework/2021/0324',
                 params: {
                     name: '123',
                 }
             }
-        },
-        {
+        }, {
             path: '2021/0324/:name',
-            name: '编程式导航',
+            name: '编程导航',
             component: () =>
                 import ('../views/2021/0324/Dynamic.vue'),
-        },
-        {
+        }, {
             path: '2021/0324',
             component: () =>
                 import ('../views/2021/0324/Dynamic.vue'),
-        },
-        {
+        }, {
             path: '2021/0324class',
+            // 命名视图为多个时，
+            // components 要加 s
             components: {
-                // 命名视图为多个时 component + s 
                 default: () =>
                     import ('../views/2021/0324/index.vue'),
                 header: () =>
                     import ('../views/2021/0324/index.vue'),
                 footer: () =>
                     import ('../views/2021/0324/index.vue'),
-            },
-        }
-    ]
-}];
+            }
+        }]
+    }
+];
 
 const router = new VueRouter({
     // mode: 'history',
@@ -165,7 +154,6 @@ router.beforeEach((to, from, next) => {
     // 这个方法是路由继续执行的方法 
     // 如果不执行这个方法 路由定向就会停止 就不会显示页面
     // next();
-
     if (flag) {
         next();
     } else {
@@ -175,7 +163,6 @@ router.beforeEach((to, from, next) => {
         } else {
             next(from.path);
         }
-
     }
 });
 

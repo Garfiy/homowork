@@ -23,10 +23,6 @@ const routes = [{
         path: '/homework',
         component: MyMenu,
         children: [{
-            path: '2021/0326',
-            component: () =>
-                import ('../views/2021/0326/index.vue'),
-        }, {
             // 子路由的路径可以写相对路径
             path: '2021/0323',
             component: H0323,
@@ -53,13 +49,13 @@ const routes = [{
         path: '/study',
         component: MyMenu,
         children: [{
-            path: '2021/0329/01',
+            path: '2021/0331/02',
             component: () =>
-                import ('../views/2021/0329/S01.vue'),
+                import ('../views/2021/0331/S02'),
         }, {
-            path: '2021/0329/02',
+            path: '2021/0331/01',
             component: () =>
-                import ('../views/2021/0329/S02.vue'),
+                import ('../views/2021/0331/S01'),
         }, {
             path: '2021/0326/01',
             component: () =>

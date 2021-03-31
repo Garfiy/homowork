@@ -143,7 +143,7 @@ export default {
         if (valid) {
           this.isShow = true;
           store.form.push(this.ruleForm);
-          this.$router.push("/homework/2021/0329");
+          this.$router.push("/homework/2021/0330");
         } else {
           console.log("error submit!!");
           return false;

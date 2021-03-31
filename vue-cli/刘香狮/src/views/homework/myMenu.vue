@@ -14,6 +14,9 @@
               <el-menu-item index="/homework/2021/0323">2021-3月-23日</el-menu-item>
               <el-menu-item index="/homework/2021/0324">2021-3月-24日</el-menu-item>
               <el-menu-item index="/homework/2021/0325">2021-3月-25日</el-menu-item>
+              <el-menu-item index="/homework/2021/0327">2021-3月-27日</el-menu-item>
+              <el-menu-item index="/homework/2021/0329">2021-3月-29日</el-menu-item>
+              <el-menu-item index="/homework/2021/0329/form">2021-3月-29日表单</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
@@ -22,6 +25,27 @@
             <template slot="title">study</template>
             <template slot="title">学习</template>
 
+            <el-submenu index="03/31">
+              <span slot="title">3-31号</span>
+              <el-menu-item-group>
+                <template slot="title">上课</template>
+                <el-menu-item index="/study/03/31/01">Vuex</el-menu-item>
+                <el-menu-item index="/study/03/31/02">mapState</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            
+            <el-submenu index="03/29">
+              <span slot="title">3-29号</span>
+              <el-menu-item-group>
+                <template slot="title">作业</template>
+                <el-menu-item index="/study/03/29yesterday">3-25号作业</el-menu-item>
+              </el-menu-item-group>
+              <el-menu-item-group>
+                <template slot="title">上课</template>
+                <el-menu-item index="/study/03/29/01">计数器1</el-menu-item>
+                <el-menu-item index="/study/03/29/02">计数器2</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
             <el-submenu index="03/26">
               <span slot="title">3-26号</span>
               <el-menu-item-group>
@@ -30,9 +54,7 @@
               </el-menu-item-group>
               <el-menu-item-group>
                 <template slot="title">上课</template>
-                <el-menu-item index="/study/03/26/01">组件内前置守卫
-                
-                </el-menu-item>
+                <el-menu-item index="/study/03/26/01">组件内前置守卫</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="03/25">
