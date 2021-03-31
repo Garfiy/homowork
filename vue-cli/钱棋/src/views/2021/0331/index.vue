@@ -51,9 +51,11 @@ export default {
   },
   methods: {
     onClickSearch: function (city) {
+      this.city = city;
       axios
         .get("http://wthrcdn.etouch.cn/weather_mini?city=" + city)
         .then((res) => {
+          console.log(res);
           if (res.status == 200 && res.data.data) {
             this.dataArr = res.data.data.forecast;
           } else {
