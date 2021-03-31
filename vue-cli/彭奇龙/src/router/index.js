@@ -49,11 +49,23 @@ const routes = [{
         path: '2021/0329/12',
         component: () =>
             import ('../views/2021-03-29/table.vue')
+    }, {
+        path: '2021/0331',
+        component: () =>
+            import ('../views/2021-03-31/index.vue')
     }]
 }, {
     path: '/study',
     component: MyMenu,
     children: [{
+        path: '2021/0331/02',
+        component: () =>
+            import ('../views/2021-03-31/S02.vue')
+    }, {
+        path: '2021/0331/01',
+        component: () =>
+            import ('../views/2021-03-31/S01.vue')
+    }, {
         path: '2021/0329/01',
         component: () =>
             import ('../views/2021-03-29/S01.vue')
