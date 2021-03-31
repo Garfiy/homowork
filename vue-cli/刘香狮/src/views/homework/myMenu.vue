@@ -11,12 +11,13 @@
             <template slot="title">homework</template>
             <el-menu-item-group>
               <template slot="title">作业</template>
-              <el-menu-item index="/homework/2021/0323">2021-3月-23日</el-menu-item>
-              <el-menu-item index="/homework/2021/0324">2021-3月-24日</el-menu-item>
-              <el-menu-item index="/homework/2021/0325">2021-3月-25日</el-menu-item>
-              <el-menu-item index="/homework/2021/0327">2021-3月-27日</el-menu-item>
-              <el-menu-item index="/homework/2021/0329">2021-3月-29日</el-menu-item>
+              <el-menu-item index="/homework/2021/0331">2021-3月-31日</el-menu-item>
               <el-menu-item index="/homework/2021/0329/form">2021-3月-29日表单</el-menu-item>
+              <el-menu-item index="/homework/2021/0329">2021-3月-29日</el-menu-item>
+              <el-menu-item index="/homework/2021/0327">2021-3月-27日</el-menu-item>
+              <el-menu-item index="/homework/2021/0325">2021-3月-25日</el-menu-item>
+              <el-menu-item index="/homework/2021/0324">2021-3月-24日</el-menu-item>
+              <el-menu-item index="/homework/2021/0323">2021-3月-23日</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
