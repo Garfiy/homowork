@@ -10,17 +10,13 @@
                         <el-menu-item index="/homework/2021/0323">20210323</el-menu-item>
                         <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
                         <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
-<<<<<<< HEAD
                         <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
                         <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
-=======
->>>>>>> ac2d813c43782476bd55574a90c1054613e2cd50
                     </el-menu-item-group>
                 </el-submenu>
                 <!-- 再来一个一级标签 -->
                 <el-submenu index="2">
                     <template slot="title">study</template>
-<<<<<<< HEAD
                 <el-submenu index="03-29">
                     <template slot="title">0329</template>
                     <el-menu-item-group>
@@ -34,8 +30,6 @@
                         <el-menu-item index="/study/2021/0326/01">组件内前置守卫</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-=======
->>>>>>> ac2d813c43782476bd55574a90c1054613e2cd50
                 <el-submenu index="03-25">
                     <template slot="title">0325</template>
                     <el-menu-item-group>

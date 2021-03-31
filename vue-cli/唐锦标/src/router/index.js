@@ -32,7 +32,6 @@ const routes = [{
         path: '2021/0325',
         component: () =>
             import ('../views/2021/0325/index.vue'),
-<<<<<<< HEAD
     }, {
         path: '2021/0326',
         component: () =>
@@ -41,14 +40,11 @@ const routes = [{
         path: '2021/0329',
         component: () =>
             import ('../views/2021/0329/index.vue'),
-=======
->>>>>>> ac2d813c43782476bd55574a90c1054613e2cd50
     }]
 }, {
     path: '/study',
     component: MyMenu,
     children: [{
-<<<<<<< HEAD
         path: '2021/0329/01',
         component: () =>
             import ('../views/2021/0329/s01.vue'),
@@ -69,8 +65,6 @@ const routes = [{
         },
 
     }, {
-=======
->>>>>>> ac2d813c43782476bd55574a90c1054613e2cd50
         path: '2021/0325/03',
         //蒋路由上的参数传到组件的props属性中
         props: route => {
