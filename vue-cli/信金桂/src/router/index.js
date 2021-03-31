@@ -41,6 +41,10 @@ const routes = [{
         path: '2021/0326',
         component: () =>
             import ('../views/2021/0326'),
+    }, {
+        path: '2021/0331',
+        component: () =>
+            import ('../views/2021/0331'),
     }]
 }, {
     // 学习路由
@@ -48,6 +52,50 @@ const routes = [{
     path: '/study',
     component: MyMenu,
     children: [{
+            path: '2021/0331/02',
+            // 组件内部前置路由守卫
+            component: () =>
+                import ('../views/2021/0331/S02.vue'),
+        }, {
+            path: '2021/0331/01',
+            // 组件内部前置路由守卫
+            component: () =>
+                import ('../views/2021/0331/S01.vue'),
+        }, {
+            path: '2021/0329/01',
+            // 组件内部前置路由守卫
+            component: () =>
+                import ('../views/2021/0329/S02.vue'),
+        }, {
+            path: '2021/0329/02',
+            // 组件内部前置路由守卫
+            component: () =>
+                import ('../views/2021/0329/S03.vue'),
+        }, {
+            path: '2021/0326/01',
+            // 组件内部前置路由守卫
+            component: () =>
+                import ('../views/2021/0329/S03.vue'),
+            beforeEnter(to, from, next) {
+                // console.log(to, from, next);
+                next();
+            },
+            meta: {
+                title: 'msg',
+            },
+        }, {
+            path: '2021/0326/01',
+            // 组件内部前置路由守卫
+            component: () =>
+                import ('../views/2021/0329/S02.vue'),
+            beforeEnter(to, from, next) {
+                // console.log(to, from, next);
+                next();
+            },
+            meta: {
+                title: 'msg',
+            },
+        }, {
             path: '2021/0326/01',
             // 组件内部前置路由守卫
             component: () =>
