@@ -37,34 +37,45 @@ const routes = [{
         path:'2021/0326',
         component: () =>
             import ('../views/2021/0326/index.vue'),
+    },{
+        path:'2021/0329',
+        component: () =>
+            import ('../views/2021/0329/index.vue'),
+    },{
+        path:'2021/0331',
+        component: () =>
+            import ('../views/2021/0331/index.vue'),
     }]
 }, {
     // 学习的内容
     path: '/study',
     component: MyMenu,
     children: [{
-        path:"2021/0326/01",
-        component:()=>import("../views/2021/0326/s01.vue"),
-        beforeEnter:(to,from,next)=> {
-            // console.log(to);
-            // console.log(from);
-            // console.log(next);
-            next();
-        },
-        meta:{
-            title:"msg",
-        }
+        path:"2021/0331/01",
+        component:()=>import("../views/2021/0331/s01.vue"),
     },{
-        path:"2021/0325/03",
-        //将路由上参数传到组件的props属性中
-        props: route => {
-            return {
-                id:route.query.id,
-            }
-        },
-        component:() => 
-        import("../views/2021/0325/X03.vue"),
+        path:"2021/0331/02",
+        component:()=>import("../views/2021/0331/s02.vue"),
     },{
+        path:"2021/0329/01",
+        component:()=>import("../views/2021/0329/s01.vue"),
+    },
+    // {
+    //     path:"2021/0329/02",
+    //     component:()=>import("../views/2021/0329/s02.vue"),
+    // },
+    // ,{
+    //     path:"2021/0325/03",
+    //     //将路由上参数传到组件的props属性中
+    //     props: route => {
+    //         return {
+    //             id:route.query.id,
+    //         }
+    //     },
+    //     component:() => 
+    //     import("../views/2021/0325/X03.vue"),
+    // },
+    {
         path:"2021/0325/03/:id",
         //将路由上参数传到组件的props属性中
         props:true,

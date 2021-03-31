@@ -3,8 +3,6 @@ export default {
     changeNum(num) {
         this.num = num;
     },
-    form: [],
-    changeData(form) {
-        this.form = form;
-    }
+    tableData: [],
+
 }
