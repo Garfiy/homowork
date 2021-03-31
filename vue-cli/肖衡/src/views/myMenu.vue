@@ -12,18 +12,21 @@
             <el-menu-item index="/homework/2021/0323">20210323</el-menu-item>
             <el-menu-item index="/homework/2021/0324">20210324</el-menu-item>
             <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
-<<<<<<< HEAD
-=======
             <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
             <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
->>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
+            <el-menu-item index="/homework/2021/0331">20210331</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <!-- 再来一个一级标签 -->
         <el-submenu index="2">
           <template slot="title">study</template>
-<<<<<<< HEAD
-=======
+          <el-submenu index="03-31">
+            <template slot="title">0331</template>
+            <el-menu-item-group>
+              <el-menu-item index="/study/2021/0331/01">vuex计数器</el-menu-item>
+              <el-menu-item index="/study/2021/0331/02">vuex mapState</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
           <el-submenu index="03-29">
             <template slot="title">0329</template>
             <el-menu-item-group>
@@ -37,7 +40,6 @@
               <el-menu-item index="/study/2021/0326/01">组件内置前置守卫</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
->>>>>>> f4ac7c1ad6c6d22a64d95c3468a17e7ec2b9a858
           <el-submenu index="03-25">
             <template slot="title">0325</template>
             <el-menu-item-group>
