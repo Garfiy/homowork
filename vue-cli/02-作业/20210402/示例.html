@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <!-- 样式 -->
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <script>
+    document.write(unescape("%3Cdiv%20class%3D%22wrap%22%3E%0A%20%20%20%20%3Cdiv%20class%3D%22play_wrap%22%20id%3D%22player%22%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22search_bar%22%3E%0A%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22images/player_title.png%22%20alt%3D%22%22%20/%3E%0A%20%20%20%20%20%20%20%20%3C%21--%20%u641C%u7D22%u6B4C%u66F2%20--%3E%0A%20%20%20%20%20%20%20%20%3Cinput%20type%3D%22text%22%20autocomplete%3D%22off%22%20v-model%3D%27query%27%20@keyup.enter%3D%22searchMusic%28%29%3B%22%20/%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22center_con%22%3E%0A%20%20%20%20%20%20%20%20%3C%21--%20%u641C%u7D22%u6B4C%u66F2%u5217%u8868%20--%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%27song_wrapper%27%20ref%3D%27song_wrapper%27%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cul%20class%3D%22song_list%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cli%20v-for%3D%22item%20in%20musicList%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%21--%20%u70B9%u51FB%u653E%u6B4C%20--%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ca%20href%3D%22javascript%3A%3B%22%20@click%3D%27playMusic%28item.id%29%27%3E%3C/a%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cb%3E%7B%7Bitem.name%7D%7D%3C/b%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cspan%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Ci%20@click%3D%22playMv%28item.mvid%29%22%20v-if%3D%22item.mvid%21%3D0%22%3E%3C/i%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/span%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/li%3E%0A%0A%20%20%20%20%20%20%20%20%20%20%3C/ul%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22images/line.png%22%20class%3D%22switch_btn%22%20alt%3D%22%22%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%3C%21--%20%u6B4C%u66F2%u4FE1%u606F%u5BB9%u5668%20--%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22player_con%22%20%3Aclass%3D%22%7Bplaying%3AisPlay%7D%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22images/player_bar.png%22%20class%3D%22play_bar%22%20/%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%21--%20%u9ED1%u80F6%u789F%u7247%20--%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22images/disc.png%22%20class%3D%22disc%20autoRotate%22%20/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cimg%20%3Asrc%3D%22coverUrl%3D%3D%27%27%3F%27./images/cover.png%27%3AcoverUrl%22%20class%3D%22cover%20autoRotate%22%20/%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%3C%21--%20%u8BC4%u8BBA%u5BB9%u5668%20--%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22comment_wrapper%22%20ref%3D%27comment_wrapper%27%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ch5%20class%3D%27title%27%3E%u70ED%u95E8%u7559%u8A00%3C/h5%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%27comment_list%27%3E%0A%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdl%20v-for%3D%22item%20in%20hotComments%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdt%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cimg%20%3Asrc%3D%22item.user.avatarUrl%22%20alt%3D%22%22%20/%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/dt%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdd%20class%3D%22name%22%3E%7B%7Bitem.user.nickname%7D%7D%3C/dd%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cdd%20class%3D%22detail%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7B%7Bitem.content%7D%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C/dd%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C/dl%3E%0A%20%20%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cimg%20src%3D%22images/line.png%22%20class%3D%22right_line%22%3E%0A%20%20%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22audio_con%22%3E%0A%20%20%20%20%20%20%20%20%3Caudio%20ref%3D%27audio%27%20@play%3D%22play%22%20@pause%3D%22pause%22%20%3Asrc%3D%22musicUrl%22%20controls%20autoplay%20loop%20class%3D%22myaudio%22%3E%3C/audio%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%20%20%3Cdiv%20class%3D%22video_con%22%20v-show%3D%22showVideo%22%3E%0A%20%20%20%20%20%20%20%20%3Cvideo%20ref%3D%27video%27%20%3Asrc%3D%22mvUrl%22%20controls%3D%22controls%22%3E%3C/video%3E%0A%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22mask%22%20@click%3D%22closeMv%22%3E%3C/div%3E%0A%20%20%20%20%20%20%3C/div%3E%0A%20%20%20%20%3C/div%3E%0A%20%20%3C/div%3E%0A%20%20%3C%21--%20%u5F00%u53D1%u73AF%u5883%u7248%u672C%uFF0C%u5305%u542B%u4E86%u6709%u5E2E%u52A9%u7684%u547D%u4EE4%u884C%u8B66%u544A%20--%3E%0A%20%20%3Cscript%20src%3D%22https%3A//cdn.jsdelivr.net/npm/vue/dist/vue.js%22%3E%3C/script%3E%0A%20%20%3C%21--%20%u5B98%u7F51%u63D0%u4F9B%u7684%20axios%20%u5728%u7EBF%u5730%u5740%20--%3E%0A%20%20%3Cscript%20src%3D%22https%3A//unpkg.com/axios/dist/axios.min.js%22%3E%3C/script%3E%0A%20%20%3Cscript%3E%0A%20%20%20%20axios.defaults.baseURL%3D%22https%3A//autumnfish.cn%22%3Bvar%20app%3Dnew%20Vue%28%7Bel%3A%22%23player%22%2Cdata%3A%7Bquery%3A%22%22%2CmusicList%3A%5B%5D%2CmusicUrl%3A%22%22%2CisPlay%3A%211%2ChotComments%3A%5B%5D%2CcoverUrl%3A%22%22%2CshowVideo%3A%211%2CmvUrl%3A%22%22%7D%2Cmethods%3A%7BsearchMusic%3Afunction%28%29%7Bvar%20a%3Dthis%3B0%21%3Dthis.query%26%26%28axios.get%28%22/search%3Fkeywords%3D%22+this.query%29.then%28function%28b%29%7Ba.musicList%3Db.data.result.songs%7D%29%2Cthis.query%3D%22%22%29%7D%2CplayMusic%3Afunction%28a%29%7Bvar%20b%3Dthis%3Baxios.get%28%22/song/url%3Fid%3D%22+a%29.then%28function%28c%29%7Bb.musicUrl%3Dc.data.data%5B0%5D.url%7D%29%3Baxios.get%28%22/comment/hot%3Ftype%3D0%26id%3D%22+a%29.then%28function%28c%29%7Bb.hotComments%3Dc.data.hotComments%7D%29%3Baxios.get%28%22/song/detail%3Fids%3D%22+%0Aa%29.then%28function%28c%29%7Bb.coverUrl%3Dc.data.songs%5B0%5D.al.picUrl%7D%29%7D%2Cplay%3Afunction%28%29%7Bthis.isPlay%3D%210%3Bthis.mvUrl%3D%22%22%7D%2Cpause%3Afunction%28%29%7Bthis.isPlay%3D%211%7D%2CplayMv%3Afunction%28a%29%7Bvar%20b%3Dthis%3Ba%26%26%28this.showVideo%3D%210%2Caxios.get%28%22/mv/url%3Fid%3D%22+a%29.then%28function%28c%29%7Bb.%24refs.audio.pause%28%29%3Bb.mvUrl%3Dc.data.data.url%7D%29%29%7D%2CcloseMv%3Afunction%28%29%7Bthis.showVideo%3D%211%3Bthis.%24refs.video.pause%28%29%7D%2ChistorySearch%3Afunction%28a%29%7Bthis.query%3Da%3Bthis.searchMusic%28%29%3Bthis.showHistory%3D%211%7D%7D%7D%29%3B%0A%20%20%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    /*
+    输入歌名后按回车键即可搜索
+
+    1:歌曲搜索接口
+      请求地址:https://autumnfish.cn/search
+      请求方法:get
+      请求参数:keywords(查询关键字)
+      响应内容:歌曲搜索结果
+      
+    2:歌曲url获取接口
+      请求地址:https://autumnfish.cn/song/url
+      请求方法:get
+      请求参数:id(歌曲id)
+      响应内容:歌曲url地址
+
+    3.歌曲详情获取
+      请求地址:https://autumnfish.cn/song/detail
+      请求方法:get
+      请求参数:ids(歌曲id)
+      响应内容:歌曲详情(包括封面信息)
+
+    4.热门评论获取
+      请求地址:https://autumnfish.cn/comment/hot?type=0
+      请求方法:get
+      请求参数:id(歌曲id,地址中的type固定为0)
+      响应内容:歌曲的热门评论
+
+    5.mv地址获取
+      请求地址:https://autumnfish.cn/mv/url
+      请求方法:get
+      请求参数:id(mvid,为0表示没有mv)
+      响应内容:mv的地址
+  */
+  </script>
+</body>
+
+</html>
