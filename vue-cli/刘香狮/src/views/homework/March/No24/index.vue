@@ -98,7 +98,7 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .calculate {
   width: 200px;
 }

@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+
 export default {
   data() {
     return {
@@ -61,9 +61,9 @@ export default {
   methods: {
     getData() {
       var ulr = "http://wthrcdn.etouch.cn/weather_mini?city=";
-      axios.get(ulr + this.value).then((val) => {
-        this.List = val.data.data.forecast;
-        this.ganmao = val.data.data.ganmao;
+     this.axios.get(ulr + this.value).then((val) => {
+        this.List = val.data.forecast;
+        this.ganmao = val.data.ganmao;
       });
     },
     onClickGetData() {
@@ -98,7 +98,7 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .wrap {
   width: 640px;
   margin: 30px auto 0;
