@@ -71,6 +71,7 @@
             controls="controls"
             autoplay="autoplay"
             :src="msgUrl"
+            ref="audio"
             @pause="stop"
             @play="play"
           ></audio>
