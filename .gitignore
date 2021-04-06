@@ -1,11 +1,10 @@
 .DS_Store
 node_modules
+.history
 ~*
 #忽略压缩文件
 *.zip
 *.7z
-
-
 
 # local env files
 .env.local
