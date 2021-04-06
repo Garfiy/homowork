@@ -77,7 +77,7 @@
           ></audio>
         </div>
         <div class="video-con" v-show="flag">
-          <video class="video-control" controls="controls" :src="mvSrc"></video>
+          <video class="video-control" controls="controls" ref="video" :src="mvSrc"></video>
           <div class="coverage" @click="onEsc"></div>
         </div>
       </div>
