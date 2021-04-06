@@ -40,7 +40,7 @@ export default {
     },
     formatter(row, column) {
       column;
-       return row.type.join(",");
+       return row.type.join(" , ");
       }
   },
   data() {

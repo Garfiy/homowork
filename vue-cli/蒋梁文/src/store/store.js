@@ -4,7 +4,7 @@ export default {
         this.num = num;
     },
     form: [],
-    changeNum(form) {
-        this.form.push(form);
-    }
+    // changeNum(form) {
+    //     this.form.push(form);
+    // }
 }
