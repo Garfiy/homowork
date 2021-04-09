@@ -9,6 +9,7 @@
         <el-submenu index="1">
           <template slot="title">homework</template>
           <el-menu-item-group>
+            <el-menu-item index="/homework/2021/0402">0402</el-menu-item>
             <el-menu-item index="/homework/2021/0331">0331</el-menu-item>
             <el-menu-item index="/homework/2021/0329">0329</el-menu-item>
             <el-menu-item index="/homework/2021/0326">0326</el-menu-item>

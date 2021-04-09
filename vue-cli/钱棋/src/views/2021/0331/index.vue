@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row class="logo">
-      <img src="../../../img/logo.png" alt="" />
+      <img src="@/assets/img/logo.png" alt="" />
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="8">
@@ -51,17 +51,19 @@ export default {
   },
   methods: {
     onClickSearch: function (city) {
-      this.city = city;
-      axios
-        .get("http://wthrcdn.etouch.cn/weather_mini?city=" + city)
-        .then((res) => {
-          console.log(res);
-          if (res.status == 200 && res.data.data) {
-            this.dataArr = res.data.data.forecast;
-          } else {
-            this.dataArr = [];
-          }
-        });
+      if (city != "") {
+        this.city = city;
+        axios
+          .get("http://wthrcdn.etouch.cn/weather_mini?city=" + city)
+          .then((res) => {
+            console.log(res);
+            if (res.status == 200 && res.data.data) {
+              this.dataArr = res.data.data.forecast;
+            } else {
+              this.dataArr = [];
+            }
+          });
+      }
     },
   },
 };
