@@ -11,9 +11,7 @@
           class="input_txt"
           placeholder="请输入查询的天气"
         />
-        <button class="input_sub">
-          搜 索
-        </button>
+        <button class="input_sub">搜 索</button>
       </div>
       <div class="hotkey">
         <a v-for="item in cityList" :key="item" @click="searchWeather(item)">{{
@@ -76,6 +74,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~@/assets/css/index.css";
-@import "~@/assets/css/reset.css";
 </style>
+
+<style scoped src="@/assets/css/index.css"></style>
