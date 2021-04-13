@@ -13,6 +13,7 @@
                         <el-menu-item index="/homework/2021/0326">20210326</el-menu-item>
                         <el-menu-item index="/homework/2021/0329">20210329</el-menu-item>
                         <el-menu-item index="/homework/2021/0331">20210331</el-menu-item>
+                        <el-menu-item index="/homework/2021/0402">20210402</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
                 <!-- 再来一个一级标签 -->
@@ -69,13 +70,3 @@
         </el-col>
     </el-row>
 </template>
-
-<style lang="less">
-    
-</style>
-
-<script>
-export default {
-    
-}
-</script>
