@@ -9,7 +9,7 @@
 </template>
 <script>
 import store from '../../../store/store';
-
+console.log(store);
 export default {
   data() {
     return {

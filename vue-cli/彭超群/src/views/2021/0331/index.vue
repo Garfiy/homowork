@@ -2,12 +2,12 @@
   <div>
     <el-row class="logo">
       <el-col>
-        <img src="../../../img/logo.png" alt="" />
+        <img src="../../../assets/img/logo.png" alt="" />
       </el-col>
     </el-row>
     <el-row type="flex" justify="center">
       <el-col :span="8">
-        <el-input @change="onClickSearch(city)" v-model="city"></el-input>
+        <el-input @change="onClickSearch(city)" v-model="city" placeholder="请输入查询城市"></el-input>
         <div>
           <el-link
             v-for="(k, i) in cityList"
@@ -24,7 +24,7 @@
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="weather">
-      <el-col :span="3" v-for="(k, i) in dataList" :key="i" class="cols">
+      <el-col :span="5" v-for="(k, i) in dataList" :key="i" class="cols">
         <h2>{{ k.type }}</h2>
         <p>{{ k.high }}~{{ k.low }}</p>
         <p class="date">{{ k.date }}</p>
@@ -58,7 +58,9 @@ export default {
         .get("http://wthrcdn.etouch.cn/weather_mini?city=" + city)
         .then((res) => {
           if (res.status == 200 && res.data.data) {
+            console.log(res);
             this.dataList = res.data.data.forecast;
+            this.city=city;
           }else{
             this.dataList = [];
           }

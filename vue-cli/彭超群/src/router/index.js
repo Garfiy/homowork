@@ -21,6 +21,10 @@ const routes = [{
     path: '/homework',
     component: MyMenu,
     children: [{
+        path: '2021/0406',
+        component: () =>
+            import ('../views/2021/0406/index.vue')
+    }, {
         path: '2021/0331',
         component: () =>
             import ('../views/2021/0331/index.vue')
