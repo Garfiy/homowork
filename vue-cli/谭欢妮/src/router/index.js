@@ -44,6 +44,10 @@ const routes = [{
         path: '2021/0331',
         component: () =>
             import('../views/2021/0331'),
+    },, {
+        path: '2021/0413',
+        component: () =>
+            import('../views/2021/0413'),
     },]
 }, {
     // 学习路由
