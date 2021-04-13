@@ -14,8 +14,7 @@
         v-for="value in list"
         :key="value.id"
         @click="clickSearch(value.name)"
-        >{{ value.name }}</el-link
-      >
+        >{{ value.name }}</el-link>
     </el-main>
     <ul class="weather_list">
       <li
@@ -75,7 +74,7 @@
   padding: 0 10px;
   overflow: hidden;
   position: relative;
-  background: url("../../../assets/line.png") right center no-repeat;
+  // background: url("@/assets/line.png") right center no-repeat;
   background-size: 1px 130px;
 }
 
@@ -152,7 +151,7 @@ export default {
         .get("http://wthrcdn.etouch.cn/weather_mini?city=" + a.city)
         .then(function (b) {
           a.forecastList = b.data.data.forecast;
-        })
+        }) 
         .catch(function (b) {
           console.log(b);
         })
@@ -164,4 +163,4 @@ export default {
     },
   },
 };
-</script>
+</script>                                                             

@@ -15,6 +15,11 @@ const routes = [{
         path: '/homework',
         component: MyMenu,
         children: [{
+            path: '2021/0413',
+            component: function() { //普通函数
+                return import ('../views/2021/0413/index.vue');
+            }
+        }, {
             path: '2021/0331',
             component: function() { //普通函数
                 return import ('../views/2021/0331/index.vue');
