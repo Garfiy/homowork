@@ -132,6 +132,11 @@ export default {
   created() {
     this.baseUrl = this.$axios.defaults.baseURL;
     this.$axios.defaults.baseURL = "https://autumnfish.cn/";
+    window.addEventListener('keyup',(e)=>{
+      if (e.code == 'Escape') {
+        this.playVideo=false;
+      }
+    });
   },
   destroyed() {
     this.$axios.defaults.baseURL = this.baseUrl;
