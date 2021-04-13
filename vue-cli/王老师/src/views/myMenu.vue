@@ -8,6 +8,7 @@
         <el-submenu index="1">
           <template slot="title">homework</template>
           <el-menu-item-group>
+            <el-menu-item index="/homework/2021/0402">20210402</el-menu-item>
             <el-menu-item index="/homework/2021/0331">20210331</el-menu-item>
             <el-menu-item index="/homework/2021/0325">20210325</el-menu-item>
             <el-menu-item index="/homework/2021/0323">20210323</el-menu-item>
@@ -111,15 +112,11 @@
 
     <!-- 放视图 -->
     <el-container>
-      <el-hearder>
-        <router-view name="header"></router-view>
-      </el-hearder>
+      <router-view name="header"></router-view>
       <el-main>
         <router-view></router-view>
       </el-main>
-      <el-footer>
-        <router-view name="footer"></router-view>
-      </el-footer>
+      <router-view name="footer"></router-view>
     </el-container>
   </el-container>
 </template>
