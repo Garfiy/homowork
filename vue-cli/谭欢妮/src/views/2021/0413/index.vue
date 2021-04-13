@@ -67,7 +67,6 @@ export default {
         return{
             // 保存一份其他项目的请求地址
             baseUrl:'',
-
             query:"",
             musicList:[],
             isPlaying:false,
