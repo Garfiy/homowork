@@ -1,52 +1,48 @@
 <template>
   <el-table
-    :data="ruleForm"
-    style="width: 100%"
+    :data="tableData"
+    style="width: 80%"
     max-height="250">
+    <el-table-column
+      fixed
+      prop="date2"
+      label="日期"
+      width="150">
+    </el-table-column>
     <el-table-column
       prop="name"
       label="活动名称"
-      width="100">
+      width="120">
     </el-table-column>
     <el-table-column
       prop="region"
-      label="活动地点"
-      width="100">
-    </el-table-column>
-    <!-- <el-table-column
-      prop="date1"
-      label="内容"
-      width="100">
+      label="活动区域"
+      width="120">
     </el-table-column>
     <el-table-column
-      prop="date2"
-      label="内容"
+      prop="type"
+      label="活动性质"
       width="120">
-    </el-table-column> -->
+    </el-table-column>
+    <el-table-column
+      prop="resource"
+      label="特殊资源"
+      width="300">
+    </el-table-column>
+    <el-table-column
+      prop="desc"
+      label="活动形式"
+      width="120">
+    </el-table-column>
     <el-table-column
       prop="delivery"
       label="及时配送"
       width="120">
     </el-table-column>
     <el-table-column
-      prop="type"
-      label="活动性质"
-      width="200">
-    </el-table-column>
-      <el-table-column
-      prop="resource"
-      label="特殊资源"
-      width="140">
-    </el-table-column>
-       <el-table-column
-      prop="desc"
-      label="活动形式"
-      width="120">
-    </el-table-column>
-    <el-table-column
       fixed="right"
       label="操作"
-      width="300">
+      width="120">
       <template slot-scope="scope">
         <el-button
           @click.native.prevent="deleteRow(scope.$index, tableData)"
@@ -60,25 +56,19 @@
 </template>
 
 <script>
-// 引用仓库对象
 import store from '../../../store/store';
-store;
-
+// import store from '../../store/store';
   export default {
+      data() {
+      return {
+        tableData: store.arr
+      }
+    },
     methods: {
       deleteRow(index, rows) {
         rows.splice(index, 1);
       }
     },
-    data() {
-      return {
-        ruleForm:[store.ruleForm],
-      }
-    },
-    
+  
   }
-
-//   this.$router.push('/homework/2021/0329');
-    // store.changeNum(this.ruleForm);
-
 </script>

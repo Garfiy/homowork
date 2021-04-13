@@ -123,7 +123,7 @@ $jscomp.createTemplateTagFirstArgWithRaw = function (a, b) {
 export default {
   data() {
     return {
-      city: "武汉",
+      city: "",
       list: [
         {
           id: 1,
@@ -160,8 +160,15 @@ export default {
         .finally(function () {});
     },
     clickSearch: function (val) {
-      this.city = val;
-      this.queryWeather();
+      if (val) {
+        this.city = val;
+        this.queryWeather();
+      }else{
+        this.open();
+      }
+    },
+    open() {
+      this.$alert("请输入内容");
     },
   },
 };
