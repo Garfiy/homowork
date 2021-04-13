@@ -49,6 +49,11 @@ const routes = [{
         // 懒加载的模式 需要显示的时候才加载
         component: () =>
             import ('../views/homework/03-31'),
+    }, {
+        path: "2021/0402",
+        // 懒加载的模式 需要显示的时候才加载
+        component: () =>
+            import ('../views/homework/04-02'),
     }]
 }, {
     path: '/study',
