@@ -57,6 +57,7 @@
             controls="controls"
             autoplay="autoplay"
             loop="loop"
+            ref="audio"
             @playing="playAudio = true"
             @pause="playAudio = false"
           ></audio>
@@ -112,18 +113,20 @@
 export default {
   data() {
     return {
-      search: "",
-      songs: [],
-      audioUrl: "",
-      musicCover: "",
-      playAudio: "",
-      hotComments: [],
-      videoUrl: "",
-      playVideo: "",
+      search: "", //搜索
+      songs: [], //音乐列表
+      audioUrl: "", //音频地址
+      musicCover: "", //音频图片
+      playAudio: "", //控制音频播放时的操作
+      hotComments: [], //留言
+      videoUrl: "", //视频地址
+      playVideo: "", //控制视频播放时的操作
+      playVideoNum: 0,//判断视频是否是第一次播放
     };
   },
   methods: {
-    onKeyupEnterSearch() {//搜索歌曲
+    onKeyupEnterSearch() {
+      //搜索歌曲
       if (this.search.trim() != "") {
         this.$axios
           .get("https://autumnfish.cn/search?keywords=" + this.search)
@@ -137,6 +140,7 @@ export default {
       }
     },
     onClickPlayAudio(id) {
+      //播放音乐
       this.$axios.get("https://autumnfish.cn/song/url?id=" + id).then((res) => {
         //获取url
         if (res.data.code == 200) {
@@ -165,6 +169,7 @@ export default {
         });
     },
     onClickMv(id) {
+      //播放视频
       this.$axios.get("https://autumnfish.cn/mv/url?id=" + id).then((res) => {
         if (res.data.code == 200) {
           //获取mv
@@ -177,16 +182,27 @@ export default {
   },
   watch: {
     playVideo: function () {
-      console.log(this.playVideo);
+      //监听视频播放的显示和隐藏
       if (this.playVideo == true) {
-        this.$refs.video.play();
+        if (this.playVideoNum != 0) {
+          this.$refs.video.play(); //显示,播放
+        }
+        this.$refs.audio.pause(); //音乐不播放
+        this.playVideoNum = 1;
       } else {
-        this.$refs.video.pause();
+        this.$refs.video.pause(); //不显示,不播放
+        // this.$refs.audio.play();//音乐播放
       }
     },
   },
 };
 </script>
-<style scoped lang="less">
-    @import '~@/assets/css/index0406.css';
+
+
+<style scoped>
+/* 这样引入的样式不能作为局部样式 */
+/* @import '~@/assets/css/index0406.css'; */
 </style>
+
+<!-- 这样引入的样式才能作为局部样式 -->
+<style scoped src="../../../assets/css/index0406.css"></style>
