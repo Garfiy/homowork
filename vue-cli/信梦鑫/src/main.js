@@ -8,6 +8,15 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
+import axios from 'axios';
+axios.interceptors.response.use(function(res) {
+    if (res.status === 200) {
+        return res.data;
+    } else {
+        alert('网络超时')
+    }
+})
+Vue.prototype.$axios = axios;
 
 Vue.use(ElementUI);
 
