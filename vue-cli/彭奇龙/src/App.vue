@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div> -->
-    <el-button>默认按钮</el-button>
+    <!-- <el-button>默认按钮</el-button> -->
     <router-view />
   </div>
 </template>
