@@ -44,6 +44,10 @@ const routes = [{
         path: '2021/0331',
         component: () =>
             import ('../views/2021/0331/index.vue'),
+    }, {
+        path: '2021/0402',
+        component: () =>
+            import ('../views/2021/0402/index.vue'),
     }]
 }, {
     path: '/study',

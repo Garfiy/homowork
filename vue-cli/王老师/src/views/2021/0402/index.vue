@@ -61,7 +61,13 @@
         ></audio>
       </div>
       <div class="video_con" v-show="isShow" style="display: none">
-        <video autoplay :src="mvUrl" controls="controls"></video>
+        <video
+          :src="mvUrl"
+          controls="controls"
+          @play="playVideo"
+          @pause="pauseVideo"
+          ref="video"
+        ></video>
         <div class="mask" @click="hide"></div>
       </div>
     </div>
@@ -163,23 +169,53 @@ export default {
     },
     playMV(id) {
       this.$axios.get("mv/url?id=" + id).then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.code === 200) {
           if (data.data && data.data.url) {
             this.mvUrl = data.data.url;
             this.isShow = true;
+
+            // 判断视频是否是暂停状态
+            if (this.$refs.video.readyState) {
+              this.$refs.video.play();
+            } else {
+              // 监听视频加载完成
+              this.$refs.video.oncanplay = () => {
+                // 由我们自己去播发视频
+                this.$refs.video.play();
+              };
+            }
           }
         }
       });
     },
+    // 当 audio 标签播放时触发
     play() {
       this.isPlaying = true;
     },
+    // 当 audio 标签暂停播发时触发
     pause() {
       this.isPlaying = false;
     },
+    // 当 video 标签播发时触发
+    playVideo() {
+      // 保存音频之前是否播发的状态
+      this.$refs.audio.w_old_play = !this.$refs.audio.paused;
+
+      // 调用原生方法,暂停标签的播发
+      this.$refs.audio.pause();
+    },
+    // 当 video 标签暂停播发时触发
+    pauseVideo() {},
+    // 隐藏视频播发页面是触发
     hide() {
       this.isShow = false;
+      this.$refs.video.pause();
+
+      // 如果音频之前是播发的  那么就据需播发
+      if (this.$refs.audio.w_old_play) {
+        this.$refs.audio.play();
+      }
     },
   },
 };

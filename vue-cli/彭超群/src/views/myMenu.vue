@@ -12,6 +12,7 @@
           <el-menu-item-group>
             <template slot="title">作业</template>
             <!-- 选项 -->
+            <el-menu-item index="/homework/2021/0416">0416</el-menu-item>
             <el-menu-item index="/homework/2021/0406">0406</el-menu-item>
             <el-menu-item index="/homework/2021/0331">0331</el-menu-item>
             <el-menu-item index="/homework/2021/0329">0329</el-menu-item>
