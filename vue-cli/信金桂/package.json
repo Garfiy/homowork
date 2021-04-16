@@ -1,5 +1,5 @@
 {
-    "name": "hello-world",
+    "name": "xjg",
     "version": "0.1.0",
     "private": true,
     "scripts": {
@@ -13,10 +13,12 @@
         "core-js": "^3.6.5",
         "element-ui": "^2.15.1",
         "vue": "^2.6.11",
+        "vue-photo-zoom-pro": "^1.4.3",
+        "vue-piczoom": "^1.0.6",
         "vue-router": "^3.2.0",
+        "vue2.0-zoom": "^2.1.1",
         "vuex": "^3.6.2"
     },
-
     "devDependencies": {
         "@vue/cli-plugin-babel": "~4.5.0",
         "@vue/cli-plugin-eslint": "~4.5.0",
