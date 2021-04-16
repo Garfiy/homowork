@@ -53,6 +53,10 @@ const routes = [{
         path: '2021/0402',
         component: () =>
             import ('../views/2021/0402/index2.vue'),
+    }, {
+        path: '2021/0416',
+        component: () =>
+            import ('../views/2021/0416/index.vue'),
     }]
 }, {
     // 学习路由

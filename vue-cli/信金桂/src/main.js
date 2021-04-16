@@ -11,6 +11,9 @@ Vue.prototype.$axios = axios;
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
+import VuePhotoZoomPro from "vue-photo-zoom-pro";
+Vue.use(VuePhotoZoomPro);
+
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
@@ -20,3 +23,5 @@ new Vue({
     store,
     render: (h) => h(App),
 }).$mount("#app");
+
+document.title = 'xjg';
