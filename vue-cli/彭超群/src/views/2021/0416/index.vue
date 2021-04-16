@@ -8,10 +8,10 @@
       ref="box"
     >
       <div class="x-box" v-show="show" ref="xbox"></div>
-      <img src="~@/assets/img/sj1.jpg" alt="" />
+      <img src="../../../assets/img/sj1.jpg" alt="" />
     </div>
     <div class="d-box" v-show="show">
-      <img src="~@/assets/img/sj2.png" alt="" class="d-img" ref="dimg" />
+      <img src="../../../assets/img/sj2.png" alt="" class="d-img" ref="dimg" />
     </div>
   </div>
 </template>
