@@ -42,9 +42,17 @@ const routes = [{
         component: () =>
             import ('../views/2021/0326'),
     }, {
+        path: '2021/0329',
+        component: () =>
+            import ('../views/2021/0329'),
+    }, {
         path: '2021/0331',
         component: () =>
             import ('../views/2021/0331'),
+    }, {
+        path: '2021/0402',
+        component: () =>
+            import ('../views/2021/0402/index2.vue'),
     }]
 }, {
     // 学习路由
@@ -211,7 +219,6 @@ router.beforeEach((to, from, next) => {
         } else {
             next(from.path);
         }
-
     }
 });
 
